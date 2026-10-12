@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Calendar,
   Users,
   Wallet,
-  Plus,
-  Bell,
   Download,
+  Smartphone,
+  X,
 } from 'lucide-react';
 import { ViewTab } from '../types';
 import { useApp } from '../context/AppContext';
@@ -17,113 +17,159 @@ import { usePWAInstall } from '../hooks/usePWAInstall';
 interface HeaderProps {
   currentTab: ViewTab;
   onSelectTab: (tab: ViewTab) => void;
-  onNewAppointment: () => void;
-  onOpenReminders: () => void;
+  onNewAppointment?: () => void;
+  onOpenReminders?: () => void;
 }
 
 export function Header({
   currentTab,
   onSelectTab,
-  onNewAppointment,
-  onOpenReminders,
 }: HeaderProps) {
-  const { business, unreadRemindersCount } = useApp();
-  const { isInstallable, isInstalled, install } = usePWAInstall();
+  const { business } = useApp();
+  const { isInstallable, install } = usePWAInstall();
+  const [showInstallHelp, setShowInstallHelp] = useState(false);
   const todayStr = getTodayDateString();
 
   const brandName = (business?.name && business.name !== '[Tu Nombre o Marca]') ? business.name : 'Tu Agenda Lista';
 
-  const getTabLabel = () => {
-    switch (currentTab) {
-      case 'agenda': return 'Agenda & Turnos';
-      case 'clientes': return 'Directorio de Clientes';
-      case 'servicios': return 'Catálogo de Servicios';
-      case 'profesionales': return 'Equipo Profesional';
-      case 'caja': return 'Caja Diaria & Finanzas';
-      case 'reportes': return 'Métricas & Estadísticas';
-      case 'exportar': return 'Imprimir & Exportar';
-      case 'configuracion': return 'Configuración de Marca';
-      default: return 'Agenda';
+  const handleInstallClick = async () => {
+    if (isInstallable) {
+      const outcome = await install();
+      if (!outcome) {
+        setShowInstallHelp(true);
+      }
+    } else {
+      setShowInstallHelp(true);
     }
   };
 
   return (
     <>
       {/* Top Clean SaaS Header Bar */}
-      <header className="no-print bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4 select-none shadow-xs">
-        {/* Brand & Section Overview */}
-        <div className="flex items-center gap-4 min-w-0">
-          {/* Logo & Main Title Area (Single clean instance, no duplicated subtitles, no truncation) */}
-          <div
-            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer shrink-0 group"
-            onClick={() => onSelectTab('agenda')}
+      <header
+        className="no-print bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-4 sm:px-6 lg:px-8 py-3 select-none shadow-xs"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          justifyContent: 'space-between',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Left: Logo a la izquierda & Título principal 'Tu Agenda Lista' */}
+        <div
+          onClick={() => onSelectTab('agenda')}
+          className="cursor-pointer group min-w-0 shrink"
+          title="Ir a Agenda"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            overflow: 'hidden',
+            minWidth: 0,
+          }}
+        >
+          <AppLogo size={36} className="shrink-0 group-hover:scale-105 transition-transform" />
+          <h1
+            className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-slate-900 leading-none m-0"
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
           >
-            {/* Modern SaaS Vector Logo combining Calendar + Checkmark */}
-            <AppLogo size={38} className="group-hover:scale-105 transition-transform shrink-0" />
-
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-slate-900 whitespace-nowrap leading-none">
-                {brandName}
-              </span>
-              <span className="inline-flex text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/70 uppercase tracking-wider shrink-0">
-                PRO
-              </span>
-            </div>
-          </div>
-
-          {/* Desktop Section Divider & Current View Pill */}
-          <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-slate-200">
-            <span className="text-xs font-bold text-slate-700 bg-slate-100/90 px-3 py-1.5 rounded-xl border border-slate-200/60 whitespace-nowrap">
-              {getTabLabel()}
-            </span>
-            <span className="text-xs font-semibold text-slate-600 capitalize flex items-center gap-1.5 bg-blue-50/60 px-3 py-1.5 rounded-xl border border-blue-100/80 text-blue-800 whitespace-nowrap">
-              <Calendar className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-              {formatDateSpanishLong(todayStr)}
-            </span>
-          </div>
+            {brandName}
+          </h1>
         </div>
 
-        {/* Right Actions: PWA Install (if available) + Reminders + Primary CTA */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          {/* PWA quick install button in header if installable */}
-          {isInstallable && !isInstalled && (
-            <button
-              type="button"
-              onClick={install}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 transition-colors"
-              title="Instalar App en el dispositivo"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Instalar App</span>
-            </button>
-          )}
+        {/* Center / Fecha Actual */}
+        <div
+          className="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-600 bg-blue-50/70 border border-blue-100/80 px-3.5 py-1.5 rounded-xl capitalize shrink-0"
+          style={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
+          <span>{formatDateSpanishLong(todayStr)}</span>
+        </div>
 
-          {/* Center of Reminders with counter */}
+        {/* Right: Botón 'Instalar App' */}
+        <div
+          className="shrink-0"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+          }}
+        >
           <button
             type="button"
-            onClick={onOpenReminders}
-            className="relative p-2.5 rounded-xl hover:bg-slate-100 text-slate-600 transition-colors"
-            title="Centro de Recordatorios"
+            onClick={handleInstallClick}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-xs hover:shadow transition-all whitespace-nowrap cursor-pointer shrink-0"
+            title="Instala nuestra App en tu celular para un acceso más rápido"
           >
-            <Bell className="w-5 h-5" />
-            {unreadRemindersCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 bg-rose-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center animate-pulse shadow-xs">
-                {unreadRemindersCount}
-              </span>
-            )}
-          </button>
-
-          {/* "+ Nuevo Turno" Premium Button */}
-          <button
-            type="button"
-            onClick={onNewAppointment}
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Nuevo Turno</span>
+            <Download className="w-4 h-4 shrink-0" />
+            <span>Instalar App</span>
           </button>
         </div>
       </header>
+
+      {/* Quick PWA Installation Help Modal */}
+      {showInstallHelp && (
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <Smartphone className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base text-slate-900">
+                    Instalar Tu Agenda Lista
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Acceso instantáneo desde tu pantalla de inicio
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowInstallHelp(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-2.5 text-xs text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+              <div className="flex items-start gap-2.5">
+                <span className="font-bold text-blue-600 shrink-0">📱 Android / Chrome:</span>
+                <span>Toca el menú de tres puntos (⋮) en tu navegador y selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a pantalla principal"</strong>.</span>
+              </div>
+              <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200/60">
+                <span className="font-bold text-indigo-600 shrink-0">🍎 iPhone / Safari:</span>
+                <span>Toca el botón <strong>Compartir</strong> (icono con flecha hacia arriba) y selecciona <strong>"Agregar al inicio"</strong>.</span>
+              </div>
+              <div className="flex items-start gap-2.5 pt-2 border-t border-slate-200/60">
+                <span className="font-bold text-slate-700 shrink-0">💻 Computadora:</span>
+                <span>Haz clic en el icono de instalación (pantalla o flecha) situado a la derecha de la barra de direcciones.</span>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setShowInstallHelp(false)}
+                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+              >
+                Entendido
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Bottom Navigation Bar (48px+ touch targets) */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 lg:hidden flex items-center justify-around h-16 px-2 shadow-lg no-print select-none">

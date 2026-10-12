@@ -65,17 +65,38 @@ export function Sidebar({
 
   return (
     <aside className="no-print hidden lg:flex flex-col w-72 bg-white border-r border-slate-200/80 shadow-xs h-screen sticky top-0 shrink-0 select-none z-30">
-      {/* Brand Header */}
+      {/* Brand Header: Logo + Tu Agenda Lista + PRO tag (sin créditos arriba) */}
       <div className="p-5 border-b border-slate-100">
         <div
-          className="flex items-center gap-3 cursor-pointer group"
+          className="cursor-pointer group"
           onClick={() => onSelectTab('agenda')}
+          title="Tu Agenda Lista"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          }}
         >
           {/* Modern SaaS Vector Logo */}
-          <AppLogo size={44} className="group-hover:scale-105 transition-transform shrink-0" />
+          <AppLogo size={40} className="group-hover:scale-105 transition-transform shrink-0" />
 
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="font-extrabold text-base tracking-tight text-slate-900 whitespace-nowrap leading-none">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              minWidth: 0,
+              overflow: 'hidden',
+            }}
+          >
+            <span
+              className="font-extrabold text-base tracking-tight text-slate-900 leading-none"
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {brandName}
             </span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider shrink-0">

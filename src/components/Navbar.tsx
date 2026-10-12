@@ -59,17 +59,12 @@ export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenRemind
               onClick={() => onSelectTab('agenda')}
             >
               <AppLogo size={40} className="group-hover:scale-105 transition-transform shrink-0" />
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
-                    {brandName}
-                  </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider">
-                    PRO
-                  </span>
-                </div>
-                <span className="text-[11px] text-slate-500 block truncate max-w-[170px] sm:max-w-xs font-medium">
-                  Desarrollado por <span className="text-slate-800 font-bold">{developerName}</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
+                  {brandName}
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider">
+                  PRO
                 </span>
               </div>
             </div>

@@ -58,7 +58,7 @@ export function UpcomingTodayWidget({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {upcomingTodayAppointments.slice(0, 6).map((apt) => {
             const status = getStatusBadge(apt.status);
             const avatarColor = apt.color || '#2563EB';
@@ -73,33 +73,33 @@ export function UpcomingTodayWidget({
               <div
                 key={apt.id}
                 onClick={() => onSelectAppointment(apt)}
-                className="p-3.5 rounded-xl border border-slate-100 hover:border-blue-300 bg-white hover:bg-blue-50/20 shadow-xs hover:shadow-sm cursor-pointer transition-all flex items-center justify-between gap-3 group"
+                className="p-4 rounded-xl border border-slate-200/80 hover:border-blue-400 bg-white hover:bg-blue-50/20 shadow-xs hover:shadow-sm cursor-pointer transition-all flex items-center justify-between gap-3 group min-w-0"
               >
                 {/* Client Avatar + Details */}
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-3.5 min-w-0 flex-1">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs text-white shrink-0 shadow-xs"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs text-white shrink-0 shadow-xs"
                     style={{ backgroundColor: avatarColor }}
                   >
                     {initials}
                   </div>
 
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-extrabold text-xs text-slate-900 group-hover:text-blue-700 transition-colors truncate">
+                      <span className="font-extrabold text-sm text-slate-900 group-hover:text-blue-700 transition-colors truncate block">
                         {apt.clientName}
                       </span>
                     </div>
 
-                    <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                    <div className="text-xs text-slate-500 truncate mt-0.5">
                       {apt.serviceName}
                     </div>
 
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="font-bold text-[10px] text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className="font-bold text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
                         {apt.time} hs
                       </span>
-                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-semibold border ${status.bg}`}>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold border ${status.bg}`}>
                         {status.label}
                       </span>
                     </div>
@@ -114,7 +114,7 @@ export function UpcomingTodayWidget({
                       e.stopPropagation();
                       onOpenWhatsApp(apt);
                     }}
-                    className="p-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors shrink-0"
+                    className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors shrink-0"
                     title="Enviar WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4" />
