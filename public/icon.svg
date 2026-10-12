@@ -1,41 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    {/* Background squircle gradient: Blue -> Indigo -> Violet */}
+    {/* Background squircle gradient: Dark Charcoal Onyx */}
     <linearGradient id="iconBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2563EB" />
-      <stop offset="50%" stop-color="#4F46E5" />
-      <stop offset="100%" stop-color="#7C3AED" />
+      <stop offset="0%" stop-color="#1A1E29" />
+      <stop offset="50%" stop-color="#121620" />
+      <stop offset="100%" stop-color="#0B0F17" />
     </linearGradient>
 
     {/* Top gloss sheen */}
     <linearGradient id="iconGloss" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.3" />
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0" />
     </linearGradient>
 
-    {/* Calendar Top Bar Gradient */}
+    {/* Calendar Top Bar Gradient: Rich Gold */}
     <linearGradient id="iconCalHeader" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" />
-      <stop offset="50%" stop-color="#4F46E5" />
-      <stop offset="100%" stop-color="#8B5CF6" />
+      <stop offset="0%" stop-color="#E5C378" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA822A" />
     </linearGradient>
 
-    {/* Checkmark Badge Gradient */}
+    {/* Checkmark Badge Gradient: Gold Foil */}
     <linearGradient id="iconCheckBadge" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1D4ED8" />
-      <stop offset="50%" stop-color="#4338CA" />
-      <stop offset="100%" stop-color="#6D28D9" />
+      <stop offset="0%" stop-color="#E5C378" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#99701E" />
     </linearGradient>
 
     {/* Card Soft Drop Shadow */}
     <filter id="iconCardShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#0F172A" flood-opacity="0.35" />
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#0B0F17" flood-opacity="0.55" />
     </filter>
   </defs>
 
-  {/* Squircle Base with smooth rounded corners */}
+  {/* Squircle Base with smooth rounded corners and subtle gold stroke */}
   <rect width="512" height="512" rx="136" fill="url(#iconBgGrad)" />
-  <rect x="6" y="6" width="500" height="500" rx="130" fill="none" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="12" />
+  <rect x="6" y="6" width="500" height="500" rx="130" fill="none" stroke="#D4AF37" stroke-opacity="0.35" stroke-width="12" />
 
   {/* Top Sheen */}
   <path d="M16 150 C16 75.7 75.7 16 150 16 L362 16 C436.3 16 496 75.7 496 150 L496 192 C356 256 156 256 16 192 Z" fill="url(#iconGloss)" />
@@ -45,29 +45,29 @@
     {/* White Calendar Sheet */}
     <rect x="96" y="128" width="320" height="296" rx="64" fill="#FFFFFF" />
 
-    {/* Calendar Header in Blue-Violet */}
+    {/* Calendar Header in Rich Gold */}
     <path d="M96 192 C96 156.65 124.65 128 160 128 L352 128 C387.35 128 416 156.65 416 192 L416 208 L96 208 Z" fill="url(#iconCalHeader)" />
 
     {/* Spiral Binder Loops */}
     <rect x="160" y="88" width="36" height="76" rx="18" fill="#FFFFFF" />
-    <rect x="160" y="88" width="36" height="76" rx="18" fill="none" stroke="#4F46E5" stroke-opacity="0.25" stroke-width="6" />
+    <rect x="160" y="88" width="36" height="76" rx="18" fill="none" stroke="#D4AF37" stroke-opacity="0.4" stroke-width="6" />
 
     <rect x="316" y="88" width="36" height="76" rx="18" fill="#FFFFFF" />
-    <rect x="316" y="88" width="36" height="76" rx="18" fill="none" stroke="#7C3AED" stroke-opacity="0.25" stroke-width="6" />
+    <rect x="316" y="88" width="36" height="76" rx="18" fill="none" stroke="#D4AF37" stroke-opacity="0.4" stroke-width="6" />
 
-    {/* Calendar Schedule Grid Slots */}
-    <rect x="144" y="244" width="52" height="36" rx="12" fill="#DBEAFE" />
-    <rect x="228" y="244" width="52" height="36" rx="12" fill="#E0E7FF" />
-    <rect x="312" y="244" width="52" height="36" rx="12" fill="#EDE9FE" />
+    {/* Calendar Schedule Grid Slots in Gold and Warm Tones */}
+    <rect x="144" y="244" width="52" height="36" rx="12" fill="#FAF6ED" stroke="#E2D1A6" stroke-width="1" />
+    <rect x="228" y="244" width="52" height="36" rx="12" fill="#FAF6ED" stroke="#E2D1A6" stroke-width="1" />
+    <rect x="312" y="244" width="52" height="36" rx="12" fill="#F4EAD2" stroke="#D8BD7E" stroke-width="1" />
 
-    <rect x="144" y="304" width="52" height="36" rx="12" fill="#E0E7FF" />
-    <rect x="228" y="304" width="52" height="36" rx="12" fill="#EDE9FE" />
+    <rect x="144" y="304" width="52" height="36" rx="12" fill="#FAF6ED" stroke="#E2D1A6" stroke-width="1" />
+    <rect x="228" y="304" width="52" height="36" rx="12" fill="#F4EAD2" stroke="#D8BD7E" stroke-width="1" />
 
-    {/* Prominent Checkmark Badge (Tilde de verificación) */}
+    {/* Prominent Checkmark Badge (Tilde de verificación en oro) */}
     <circle cx="340" cy="332" r="92" fill="url(#iconCheckBadge)" stroke="#FFFFFF" stroke-width="18" />
     <path d="M292 332 L324 364 L392 296" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" />
   </g>
 
   {/* Golden Sparkle Star */}
-  <path d="M392 76 L397 90 L411 95 L399 105 L402 119 L390 112 L378 119 L381 105 L369 95 L383 90 Z" fill="#FDE047" opacity="0.95" />
+  <path d="M392 76 L397 90 L411 95 L399 105 L402 119 L390 112 L378 119 L381 105 L369 95 L383 90 Z" fill="#D4AF37" opacity="0.95" />
 </svg>

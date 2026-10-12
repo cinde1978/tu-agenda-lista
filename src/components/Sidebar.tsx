@@ -99,7 +99,7 @@ export function Sidebar({
             >
               {brandName}
             </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider shrink-0">
+            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] uppercase tracking-wider shrink-0 shadow-2xs">
               PRO
             </span>
           </div>
@@ -109,9 +109,9 @@ export function Sidebar({
         <button
           type="button"
           onClick={onNewAppointment}
-          className="mt-4 w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+          className="mt-4 w-full py-2.5 px-4 bg-gradient-to-r from-[#D4AF37] via-[#C5A059] to-[#AA822A] hover:brightness-105 active:scale-98 text-slate-950 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 shadow-xs hover:shadow-md transition-all hover:scale-[1.02] ring-1 ring-[#D4AF37]/50 cursor-pointer"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>+ Nuevo Turno</span>
         </button>
       </div>
@@ -127,23 +127,23 @@ export function Sidebar({
               onClick={() => onSelectTab(item.id)}
               className={`w-full px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-all group ${
                 isActive
-                  ? 'bg-blue-50/80 text-blue-900 font-bold border border-blue-100 shadow-2xs'
+                  ? 'bg-amber-50/90 text-amber-950 font-extrabold border border-amber-200/80 shadow-2xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`transition-colors ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                <span className={`transition-colors ${isActive ? 'text-[#A2721C]' : 'text-slate-400 group-hover:text-slate-600'}`}>
                   {item.icon}
                 </span>
                 <span>{item.label}</span>
               </div>
 
               {item.badge ? (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F6EDD9] text-[#73431D]">
                   {item.badge}
                 </span>
               ) : isActive ? (
-                <ChevronRight className="w-3.5 h-3.5 text-blue-600" />
+                <ChevronRight className="w-3.5 h-3.5 text-[#A2721C]" />
               ) : null}
             </button>
           );
@@ -151,31 +151,31 @@ export function Sidebar({
       </nav>
 
       {/* Today Mini Summary Card */}
-      <div className="p-3.5 mx-3.5 mb-2.5 rounded-2xl bg-gradient-to-br from-blue-50/70 via-indigo-50/40 to-white border border-blue-100/70 space-y-2">
+      <div className="p-3.5 mx-3.5 mb-2.5 rounded-2xl bg-gradient-to-br from-[#FCF9F2] via-[#F8F2E2] to-white border border-[#EEDBBA] space-y-2">
         <div className="flex items-center justify-between text-xs font-bold text-slate-800">
-          <span className="flex items-center gap-1.5 text-blue-900">
-            <Clock className="w-3.5 h-3.5 text-blue-600" />
+          <span className="flex items-center gap-1.5 text-amber-950 font-bold">
+            <Clock className="w-3.5 h-3.5 text-[#A2721C]" />
             Hoy en el Salón
           </span>
           <button
             type="button"
             onClick={onOpenReminders}
-            className="text-[10px] font-bold text-blue-700 hover:underline flex items-center gap-0.5"
+            className="text-[10px] font-bold text-[#A2721C] hover:underline flex items-center gap-0.5"
           >
             Ver {upcomingTodayAppointments.length}
           </button>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-xs pt-0.5">
-          <div className="bg-white/90 p-2 rounded-xl border border-blue-100/50">
+          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
             <span className="text-[10px] text-slate-500 block font-medium">Turnos</span>
             <span className="font-extrabold text-slate-900 text-sm">
               {upcomingTodayAppointments.length}
             </span>
           </div>
-          <div className="bg-white/90 p-2 rounded-xl border border-blue-100/50">
+          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
             <span className="text-[10px] text-slate-500 block font-medium">Estimado</span>
-            <span className="font-extrabold text-blue-700 text-xs truncate block">
+            <span className="font-extrabold text-[#8C531D] text-xs truncate block">
               {formatCurrency(todayRevenue, business?.currency)}
             </span>
           </div>

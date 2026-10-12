@@ -63,7 +63,7 @@ export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenRemind
                 <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
                   {brandName}
                 </span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider">
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] uppercase tracking-wider shadow-2xs">
                   PRO
                 </span>
               </div>
@@ -80,11 +80,11 @@ export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenRemind
                     onClick={() => onSelectTab(item.id)}
                     className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
                       isActive
-                        ? 'bg-blue-50 text-blue-700 font-bold shadow-xs'
+                        ? 'bg-amber-50/90 text-amber-950 font-extrabold shadow-xs border border-amber-200/80'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                     }`}
                   >
-                    <span className={isActive ? 'text-blue-600' : 'text-slate-400'}>{item.icon}</span>
+                    <span className={isActive ? 'text-[#A2721C]' : 'text-slate-400'}>{item.icon}</span>
                     <span>{item.label}</span>
                   </button>
                 );
@@ -122,9 +122,9 @@ export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenRemind
               <button
                 type="button"
                 onClick={onNewAppointment}
-                className="hidden sm:flex px-4 py-2 bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700 text-white rounded-xl text-xs font-bold items-center gap-1.5 shadow-md shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="hidden sm:flex px-4 py-2 bg-gradient-to-r from-[#D4AF37] via-[#C5A059] to-[#AA822A] hover:brightness-105 active:scale-98 text-slate-950 rounded-xl text-xs font-extrabold items-center gap-1.5 shadow-xs hover:shadow-md ring-1 ring-[#D4AF37]/50 transition-all cursor-pointer"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 stroke-[2.5]" />
                 <span>Nuevo Turno</span>
               </button>
 

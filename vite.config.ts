@@ -11,14 +11,14 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['apple-touch-icon.png', 'icon.svg', 'pwa-192x192.png', 'pwa-512x512.png'],
+        includeAssets: ['apple-touch-icon.png', 'icon.svg', 'pwa-192x192.png', 'pwa-512x512.png', 'logo.png'],
         manifest: {
           id: '/',
           name: 'Tu Agenda Lista',
           short_name: 'TuAgenda',
           description: 'Software profesional de gestión de turnos, clientes y finanzas. Desarrollado por Iris Quiroz.',
-          theme_color: '#2563EB',
-          background_color: '#F8FAFC',
+          theme_color: '#0B0F17',
+          background_color: '#0B0F17',
           display: 'standalone',
           orientation: 'portrait',
           start_url: '/',

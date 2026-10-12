@@ -84,14 +84,14 @@ export function Header({
 
         {/* Center / Fecha Actual */}
         <div
-          className="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-600 bg-blue-50/70 border border-blue-100/80 px-3.5 py-1.5 rounded-xl capitalize shrink-0"
+          className="hidden md:flex items-center gap-2 text-xs font-bold text-amber-950 bg-amber-50/90 border border-amber-200/80 px-3.5 py-1.5 rounded-xl capitalize shrink-0 shadow-2xs"
           style={{
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
           }}
         >
-          <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
+          <Calendar className="w-4 h-4 text-[#A2721C] shrink-0" />
           <span>{formatDateSpanishLong(todayStr)}</span>
         </div>
 
@@ -107,10 +107,10 @@ export function Header({
           <button
             type="button"
             onClick={handleInstallClick}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-xs hover:shadow transition-all whitespace-nowrap cursor-pointer shrink-0"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-[#D4AF37] via-[#C5A059] to-[#AA822A] hover:brightness-105 active:scale-98 text-slate-950 shadow-xs hover:shadow-md ring-1 ring-[#D4AF37]/50 transition-all whitespace-nowrap cursor-pointer shrink-0"
             title="Instala nuestra App en tu celular para un acceso más rápido"
           >
-            <Download className="w-4 h-4 shrink-0" />
+            <Download className="w-4 h-4 shrink-0 stroke-[2.5]" />
             <span>Instalar App</span>
           </button>
         </div>
@@ -177,7 +177,7 @@ export function Header({
           type="button"
           onClick={() => onSelectTab('agenda')}
           className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'agenda' ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+            currentTab === 'agenda' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <Calendar className="w-5 h-5" />
@@ -188,7 +188,7 @@ export function Header({
           type="button"
           onClick={() => onSelectTab('clientes')}
           className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'clientes' ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+            currentTab === 'clientes' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <Users className="w-5 h-5" />
@@ -199,7 +199,7 @@ export function Header({
           type="button"
           onClick={() => onSelectTab('caja')}
           className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'caja' ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+            currentTab === 'caja' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <Wallet className="w-5 h-5" />
@@ -210,7 +210,7 @@ export function Header({
           type="button"
           onClick={() => onSelectTab('configuracion')}
           className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'configuracion' ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+            currentTab === 'configuracion' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-[10px] font-bold">

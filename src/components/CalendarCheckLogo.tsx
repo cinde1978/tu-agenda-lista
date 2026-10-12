@@ -31,31 +31,31 @@ export function CalendarCheckLogo({
         aria-label={title}
       >
         <defs>
-          {/* Main squircle background gradient: Blue -> Indigo -> Violet */}
+          {/* Main squircle background gradient: Dark Onyx to Charcoal */}
           <linearGradient id="calCheckBgGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#2563EB" />
-            <stop offset="48%" stopColor="#4F46E5" />
-            <stop offset="100%" stopColor="#7C3AED" />
+            <stop offset="0%" stopColor="#1E232E" />
+            <stop offset="50%" stopColor="#111620" />
+            <stop offset="100%" stopColor="#0B0E14" />
           </linearGradient>
 
           {/* Top gloss sheen reflection */}
           <linearGradient id="calCheckGloss" x1="32" y1="2" x2="32" y2="34" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.32" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.0" />
           </linearGradient>
 
-          {/* Calendar top header bar gradient */}
+          {/* Calendar top header bar gradient: Rich Gold */}
           <linearGradient id="calHeaderBarGrad" x1="12" y1="16" x2="52" y2="16" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#2563EB" />
-            <stop offset="50%" stopColor="#4F46E5" />
-            <stop offset="100%" stopColor="#8B5CF6" />
+            <stop offset="0%" stopColor="#E5C378" />
+            <stop offset="50%" stopColor="#D4AF37" />
+            <stop offset="100%" stopColor="#AA822A" />
           </linearGradient>
 
-          {/* Circular checkmark badge gradient: Blue to Violet */}
+          {/* Circular checkmark badge gradient: Gold Foil */}
           <linearGradient id="calCheckBadgeGrad" x1="28" y1="28" x2="54" y2="54" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#1D4ED8" />
-            <stop offset="45%" stopColor="#4338CA" />
-            <stop offset="100%" stopColor="#6D28D9" />
+            <stop offset="0%" stopColor="#E5C378" />
+            <stop offset="45%" stopColor="#D4AF37" />
+            <stop offset="100%" stopColor="#99701E" />
           </linearGradient>
 
           {/* Soft drop shadow for elevated calendar card */}

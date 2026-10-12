@@ -22,8 +22,8 @@ export function UpcomingTodayWidget({
       {/* Widget Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
-            <Clock className="w-4 h-4" />
+          <div className="w-8 h-8 rounded-xl bg-amber-50 text-[#946E19] flex items-center justify-center font-bold border border-amber-200/60 shadow-2xs">
+            <Clock className="w-4 h-4 text-[#A2721C]" />
           </div>
           <div>
             <h3 className="font-bold text-sm text-slate-900 leading-tight">
@@ -38,7 +38,7 @@ export function UpcomingTodayWidget({
         </div>
 
         {upcomingTodayAppointments.length > 0 && (
-          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/60">
+          <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] shadow-2xs">
             {upcomingTodayAppointments.length} activos
           </span>
         )}
