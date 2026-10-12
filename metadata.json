@@ -1,0 +1,6 @@
+{
+  "name": "Tu Agenda Lista",
+  "description": "Software profesional de gestión de turnos, agenda diaria/semanal/mensual, clientes, caja diaria y recordatorios de WhatsApp para centros de estética, peluquerías y profesionales.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
