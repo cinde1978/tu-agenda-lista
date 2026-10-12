@@ -8,7 +8,7 @@ export function getTodayDateString(): string {
   return `${year}-${month}-${day}`;
 }
 
-export function getDefaultBusiness(ownerId: string, businessName = '[Tu Nombre o Marca]'): Business {
+export function getDefaultBusiness(ownerId: string, businessName = 'Tu Agenda Lista'): Business {
   const today = getTodayDateString();
   return {
     id: `biz_${ownerId.slice(0, 10)}`,
@@ -20,8 +20,8 @@ export function getDefaultBusiness(ownerId: string, businessName = '[Tu Nombre o
     currency: '$',
     cbuAlias: 'agenda.turnos.mp',
     defaultSlotMinutes: 30,
-    developerName: '[Tu Nombre]',
-    tagline: 'Desarrollado por [Tu Nombre]',
+    developerName: 'Iris Quiroz',
+    tagline: 'Desarrollado por Iris Quiroz',
     createdAt: today,
     updatedAt: today,
   };

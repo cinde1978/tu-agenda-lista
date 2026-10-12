@@ -135,21 +135,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       if (stored) {
         const parsed: LocalStoredState = JSON.parse(stored);
         if (parsed.business) {
-          if (!parsed.business.developerName) {
-            parsed.business.developerName = '[Tu Nombre]';
+          if (!parsed.business.developerName || parsed.business.developerName === '[Tu Nombre]') {
+            parsed.business.developerName = 'Iris Quiroz';
           }
           if (
             parsed.business.name === 'TU AGENDA LISTA' ||
-            parsed.business.name === 'Tu Agenda Lista' ||
-            parsed.business.name === 'Tu Agenda Lista Pro'
+            parsed.business.name === 'Tu Agenda Lista Pro' ||
+            parsed.business.name === '[Tu Nombre o Marca]'
           ) {
-            parsed.business.name = '[Tu Nombre o Marca]';
+            parsed.business.name = 'Tu Agenda Lista';
           }
           if (
             !parsed.business.tagline ||
-            parsed.business.tagline === 'Gestión Profesional de Turnos'
+            parsed.business.tagline === 'Gestión Profesional de Turnos' ||
+            parsed.business.tagline === 'Desarrollado por [Tu Nombre]'
           ) {
-            parsed.business.tagline = 'Desarrollado por [Tu Nombre]';
+            parsed.business.tagline = 'Desarrollado por Iris Quiroz';
           }
         }
         setBusiness(parsed.business);
@@ -167,7 +168,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
 
     // Default initial seed if nothing stored
-    const defaultBiz = getDefaultBusiness('local_owner', '[Tu Nombre o Marca]');
+    const defaultBiz = getDefaultBusiness('local_owner', 'Tu Agenda Lista');
     defaultBiz.id = 'biz_local_active';
     setBusiness(defaultBiz);
     setServices(getDefaultServices('biz_local_active'));
@@ -213,7 +214,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           setBusiness(snap.data() as Business);
         } else {
           // Initialize business in Firestore using local state or defaults
-          const initialBiz = business || getDefaultBusiness(user.uid, user.displayName ? `Agenda de ${user.displayName}` : '[Tu Nombre o Marca]');
+          const initialBiz = business || getDefaultBusiness(user.uid, user.displayName ? `Agenda de ${user.displayName}` : 'Tu Agenda Lista');
           initialBiz.id = currentBusinessId;
           initialBiz.ownerId = user.uid;
           try {
@@ -727,7 +728,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   // Reset to default sample data
   const resetToSampleData = useCallback(async () => {
-    const demoBiz = getDefaultBusiness(user ? user.uid : 'local_owner', '[Tu Nombre o Marca]');
+    const demoBiz = getDefaultBusiness(user ? user.uid : 'local_owner', 'Tu Agenda Lista');
     demoBiz.id = currentBusinessId;
     const defaultSrvs = getDefaultServices(currentBusinessId);
     const defaultStf = getDefaultStaff(currentBusinessId);

@@ -13,11 +13,13 @@ import {
   LogOut,
   ChevronRight,
   Clock,
+  Download,
 } from 'lucide-react';
 import { ViewTab } from '../types';
 import { useApp } from '../context/AppContext';
 import { formatCurrency } from '../utils/formatters';
 import { AppLogo } from './AppLogo';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 
 interface SidebarProps {
   currentTab: ViewTab;
@@ -40,8 +42,10 @@ export function Sidebar({
     upcomingTodayAppointments,
   } = useApp();
 
-  const brandName = business?.name || '[Tu Nombre o Marca]';
-  const developerName = business?.developerName || '[Tu Nombre]';
+  const { isInstallable, isInstalled, install } = usePWAInstall();
+
+  const brandName = business?.name || 'Tu Agenda Lista';
+  const developerName = business?.developerName || 'Iris Quiroz';
 
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: 'agenda', label: 'Agenda', icon: <Calendar className="w-4 h-4" /> },
@@ -80,7 +84,7 @@ export function Sidebar({
               </span>
             </div>
             <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
-              Desarrollado por <span className="text-slate-700 font-semibold">{developerName}</span>
+              Desarrollado por <span className="text-slate-800 font-bold">{developerName}</span>
             </p>
           </div>
         </div>
@@ -164,6 +168,18 @@ export function Sidebar({
 
       {/* User / Account & Whitelabel Footer */}
       <div className="p-3.5 border-t border-slate-100 bg-slate-50/50 space-y-2">
+        {/* PWA quick install in sidebar */}
+        {isInstallable && !isInstalled && (
+          <button
+            type="button"
+            onClick={install}
+            className="w-full py-1.5 px-3 bg-blue-50 hover:bg-blue-100 border border-blue-200/80 text-blue-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Instalar App en el equipo</span>
+          </button>
+        )}
+
         {user ? (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-2.5 min-w-0">

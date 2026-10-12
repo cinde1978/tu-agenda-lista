@@ -13,16 +13,21 @@ import {
   Copy,
   Eye,
   Award,
+  Smartphone,
+  Download,
+  Share2,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { AppLogo } from '../AppLogo';
+import { usePWAInstall } from '../../hooks/usePWAInstall';
 
 export function SettingsAndGuideView() {
   const { business, updateBusiness, resetToSampleData, isDemoMode, loginWithGoogle } = useApp();
+  const { isInstallable, isInstalled, install, isIOS } = usePWAInstall();
 
-  const [name, setName] = useState(business?.name || '[Tu Nombre o Marca]');
-  const [developerName, setDeveloperName] = useState(business?.developerName || '[Tu Nombre]');
-  const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por [Tu Nombre]');
+  const [name, setName] = useState(business?.name || 'Tu Agenda Lista');
+  const [developerName, setDeveloperName] = useState(business?.developerName || 'Iris Quiroz');
+  const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por Iris Quiroz');
   const [category, setCategory] = useState(business?.category || 'Estética & Peluquería');
   const [phone, setPhone] = useState(business?.phone || '');
   const [address, setAddress] = useState(business?.address || '');
@@ -36,9 +41,9 @@ export function SettingsAndGuideView() {
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     await updateBusiness({
-      name: name.trim() || '[Tu Nombre o Marca]',
-      developerName: developerName.trim() || '[Tu Nombre]',
-      tagline: tagline.trim() || `Desarrollado por ${developerName.trim() || '[Tu Nombre]'}`,
+      name: name.trim() || 'Tu Agenda Lista',
+      developerName: developerName.trim() || 'Iris Quiroz',
+      tagline: tagline.trim() || `Desarrollado por ${developerName.trim() || 'Iris Quiroz'}`,
       category: category.trim(),
       phone: phone.trim(),
       address: address.trim(),
@@ -63,10 +68,10 @@ export function SettingsAndGuideView() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div className="flex items-center gap-2 text-sky-300 text-xs font-bold tracking-wide uppercase">
             <Eye className="w-4 h-4" />
-            <span>Vista Previa de tu Marca SaaS</span>
+            <span>Vista Previa de Marca & Identidad</span>
           </div>
           <span className="text-[11px] font-semibold bg-white/10 px-3 py-1 rounded-full text-indigo-200 border border-white/15 w-fit">
-            Listo para Comercializar
+            SaaS Pro · Lista para Comercializar
           </span>
         </div>
 
@@ -76,22 +81,58 @@ export function SettingsAndGuideView() {
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-extrabold text-lg text-white tracking-tight">
-                  {name || '[Tu Nombre o Marca]'}
+                  {name || 'Tu Agenda Lista'}
                 </h3>
                 <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-sky-300 border border-sky-400/30 uppercase">
                   PRO
                 </span>
               </div>
               <p className="text-xs text-slate-300">
-                Desarrollado por <strong className="text-sky-300">{developerName || '[Tu Nombre]'}</strong>
+                Desarrollado por <strong className="text-sky-300">{developerName || 'Iris Quiroz'}</strong>
               </p>
             </div>
           </div>
 
           <div className="text-xs text-slate-300 bg-white/10 px-3 py-2 rounded-lg border border-white/10 self-start sm:self-auto">
             <span className="text-slate-400 block text-[10px]">Pie de página visible:</span>
-            <span>{name || '[Tu Nombre o Marca]'} © 2026 — Desarrollado por {developerName || '[Tu Nombre]'}</span>
+            <span>{name || 'Tu Agenda Lista'} © 2026 — Desarrollado por {developerName || 'Iris Quiroz'}</span>
           </div>
+        </div>
+      </div>
+
+      {/* PWA Direct Access Box */}
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <Smartphone className="w-6 h-6" />
+          </div>
+          <div>
+            <h3 className="font-extrabold text-base text-slate-900">
+              Aplicación Web Móvil (PWA)
+            </h3>
+            <p className="text-xs text-slate-500 max-w-xl">
+              Permite a los profesionales y clientes instalar <strong>Tu Agenda Lista</strong> en la pantalla de inicio de su teléfono o computadora con un solo toque, funcionando como una app nativa veloz.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 shrink-0">
+          {isInstalled ? (
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+              <Check className="w-4 h-4" />
+              <span>App Instalada en este dispositivo</span>
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={install}
+              disabled={!isInstallable}
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-sm flex items-center gap-2 disabled:opacity-50"
+            >
+              <Download className="w-4 h-4" />
+              <span>{isInstallable ? 'Instalar Ahora en este Dispositivo' : 'Listo para Instalar en Navegadores'}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -137,13 +178,13 @@ export function SettingsAndGuideView() {
                 <input
                   type="text"
                   required
-                  placeholder="[Tu Nombre o Marca]"
+                  placeholder="Tu Agenda Lista"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900"
                 />
                 <span className="text-[11px] text-slate-500 mt-1 block">
-                  Aparece en el encabezado, menú lateral y reportes (ej. [Tu Nombre o Marca])
+                  Aparece en el encabezado, menú lateral y reportes (ej. Tu Agenda Lista)
                 </span>
               </div>
 
@@ -154,7 +195,7 @@ export function SettingsAndGuideView() {
                 <input
                   type="text"
                   required
-                  placeholder="[Tu Nombre]"
+                  placeholder="Iris Quiroz"
                   value={developerName}
                   onChange={(e) => {
                     setDeveloperName(e.target.value);
@@ -163,7 +204,7 @@ export function SettingsAndGuideView() {
                   className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900"
                 />
                 <span className="text-[11px] text-slate-500 mt-1 block">
-                  Aparece como "Desarrollado por {developerName || '[Tu Nombre]'}"
+                  Aparece como "Desarrollado por {developerName || 'Iris Quiroz'}"
                 </span>
               </div>
             </div>
@@ -281,7 +322,7 @@ export function SettingsAndGuideView() {
           <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
             Esta aplicación está desarrollada sobre estándares abiertos (React 19, TypeScript, Tailwind CSS y Firebase).
             No dependes de suscripciones obligatorias ni plataformas cerradas: eres libre de comercializarla,
-            alojarla en tu propio dominio y ofrecerla a salones y estilistas bajo tu propia marca.
+            alojarla en tu propio dominio y ofrecerla a salones y estilistas bajo tu propia marca <strong>Tu Agenda Lista</strong>.
           </p>
         </div>
 

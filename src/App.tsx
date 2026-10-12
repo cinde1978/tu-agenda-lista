@@ -19,6 +19,7 @@ import { AppointmentModal } from './components/AppointmentModal';
 import { AppointmentDetailModal } from './components/AppointmentDetailModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
 import { RemindersModal } from './components/reminders/RemindersModal';
+import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { getTodayDateString } from './utils/initialData';
 import { Sparkles, LogIn, Plus } from 'lucide-react';
 
@@ -63,6 +64,9 @@ function MainAppContent() {
 
       {/* Main Column */}
       <div className="flex-1 min-w-0 flex flex-col pb-20 lg:pb-0">
+        {/* PWA Install Suggestion Banner */}
+        <PWAInstallBanner />
+
         {/* Optional cloud sync banner */}
         {!user && (
           <div className="no-print bg-gradient-to-r from-blue-700 via-indigo-700 to-indigo-800 text-white text-xs py-2 px-4 shadow-xs">
@@ -175,7 +179,7 @@ function MainAppContent() {
         <footer className="no-print mt-auto border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-500">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>
-              <strong>{business?.name || '[Tu Nombre o Marca]'}</strong> © {new Date().getFullYear()} — Desarrollado por <strong className="text-slate-800">{business?.developerName || '[Tu Nombre]'}</strong>.
+              <strong>{business?.name || 'Tu Agenda Lista'}</strong> © {new Date().getFullYear()} — Desarrollado por <strong className="text-slate-800 font-bold">{business?.developerName || 'Iris Quiroz'}</strong>.
             </span>
             <span className="text-slate-400">
               Software SaaS profesional de agenda y gestión de clientes.

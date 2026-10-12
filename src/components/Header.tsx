@@ -6,12 +6,14 @@ import {
   Plus,
   Bell,
   Sparkles,
+  Download,
 } from 'lucide-react';
 import { ViewTab } from '../types';
 import { useApp } from '../context/AppContext';
 import { formatDateSpanishLong } from '../utils/formatters';
 import { getTodayDateString } from '../utils/initialData';
 import { AppLogo } from './AppLogo';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 
 interface HeaderProps {
   currentTab: ViewTab;
@@ -27,10 +29,11 @@ export function Header({
   onOpenReminders,
 }: HeaderProps) {
   const { business, unreadRemindersCount } = useApp();
+  const { isInstallable, isInstalled, install } = usePWAInstall();
   const todayStr = getTodayDateString();
 
-  const brandName = business?.name || '[Tu Nombre o Marca]';
-  const developerName = business?.developerName || '[Tu Nombre]';
+  const brandName = business?.name || 'Tu Agenda Lista';
+  const developerName = business?.developerName || 'Iris Quiroz';
 
   const getTabLabel = () => {
     switch (currentTab) {
@@ -50,14 +53,14 @@ export function Header({
     <>
       {/* Top SaaS Header Bar */}
       <header className="no-print bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 select-none shadow-xs">
-        {/* Brand & Section Overview (No text repetition) */}
+        {/* Brand & Section Overview */}
         <div className="flex items-center gap-3.5 min-w-0">
-          {/* Logo & Main Title Area (Visible on all viewports) */}
+          {/* Logo & Main Title Area */}
           <div
             className="flex items-center gap-3 cursor-pointer min-w-0 group"
             onClick={() => onSelectTab('agenda')}
           >
-            {/* Modern SaaS Icon */}
+            {/* Modern SaaS Vector Icon */}
             <AppLogo size={40} className="group-hover:scale-105 transition-transform shrink-0" />
 
             <div className="min-w-0">
@@ -70,7 +73,7 @@ export function Header({
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
-                Desarrollado por <span className="text-slate-700 font-semibold">{developerName}</span>
+                Desarrollado por <span className="text-slate-800 font-bold">{developerName}</span>
               </p>
             </div>
           </div>
@@ -87,8 +90,21 @@ export function Header({
           </div>
         </div>
 
-        {/* Right Actions: Reminders & Primary CTA */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        {/* Right Actions: PWA Install (if available) + Reminders + Primary CTA */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* PWA quick install button in header if installable */}
+          {isInstallable && !isInstalled && (
+            <button
+              type="button"
+              onClick={install}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 transition-colors"
+              title="Instalar App en el dispositivo"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Instalar App</span>
+            </button>
+          )}
+
           {/* Center of Reminders with counter */}
           <button
             type="button"
