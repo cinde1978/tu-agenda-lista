@@ -44,8 +44,8 @@ export function Sidebar({
 
   const { isInstallable, isInstalled, install } = usePWAInstall();
 
-  const brandName = business?.name || 'Tu Agenda Lista';
-  const developerName = business?.developerName || 'Iris Quiroz';
+  const brandName = (business?.name && business.name !== '[Tu Nombre o Marca]') ? business.name : 'Tu Agenda Lista';
+  const developerName = (business?.developerName && business.developerName !== '[Tu Nombre]') ? business.developerName : 'Iris Quiroz';
 
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: 'agenda', label: 'Agenda', icon: <Calendar className="w-4 h-4" /> },
@@ -74,18 +74,13 @@ export function Sidebar({
           {/* Modern SaaS Vector Logo */}
           <AppLogo size={44} className="group-hover:scale-105 transition-transform shrink-0" />
 
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-sm tracking-tight text-slate-900 truncate block leading-tight">
-                {brandName}
-              </span>
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider shrink-0">
-                PRO
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
-              Desarrollado por <span className="text-slate-800 font-bold">{developerName}</span>
-            </p>
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="font-extrabold text-base tracking-tight text-slate-900 whitespace-nowrap leading-none">
+              {brandName}
+            </span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider shrink-0">
+              PRO
+            </span>
           </div>
         </div>
 

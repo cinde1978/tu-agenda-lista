@@ -1,48 +1,73 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    {/* Background squircle gradient: Blue -> Indigo -> Violet */}
+    <linearGradient id="iconBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#2563EB" />
       <stop offset="50%" stop-color="#4F46E5" />
-      <stop offset="100%" stop-color="#4338CA" />
+      <stop offset="100%" stop-color="#7C3AED" />
     </linearGradient>
-    <linearGradient id="gloss" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.25" />
+
+    {/* Top gloss sheen */}
+    <linearGradient id="iconGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.3" />
       <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
     </linearGradient>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E1B4B" flood-opacity="0.3" />
+
+    {/* Calendar Top Bar Gradient */}
+    <linearGradient id="iconCalHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="50%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    {/* Checkmark Badge Gradient */}
+    <linearGradient id="iconCheckBadge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1D4ED8" />
+      <stop offset="50%" stop-color="#4338CA" />
+      <stop offset="100%" stop-color="#6D28D9" />
+    </linearGradient>
+
+    {/* Card Soft Drop Shadow */}
+    <filter id="iconCardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#0F172A" flood-opacity="0.35" />
     </filter>
   </defs>
 
-  <!-- Background Base -->
-  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
-  <rect width="512" height="256" rx="128" fill="url(#gloss)" />
+  {/* Squircle Base with smooth rounded corners */}
+  <rect width="512" height="512" rx="136" fill="url(#iconBgGrad)" />
+  <rect x="6" y="6" width="500" height="500" rx="130" fill="none" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="12" />
 
-  <!-- Calendar Container with Shadow -->
-  <g filter="url(#shadow)">
-    <!-- Calendar Body -->
-    <rect x="76" y="116" width="360" height="300" rx="36" fill="#FFFFFF" />
-    <rect x="76" y="116" width="360" height="96" rx="36" fill="#1D4ED8" />
-    <rect x="76" y="176" width="360" height="36" fill="#1D4ED8" />
+  {/* Top Sheen */}
+  <path d="M16 150 C16 75.7 75.7 16 150 16 L362 16 C436.3 16 496 75.7 496 150 L496 192 C356 256 156 256 16 192 Z" fill="url(#iconGloss)" />
 
-    <!-- Spiral Binder Rings -->
-    <rect x="136" y="76" width="24" height="72" rx="12" fill="#FFFFFF" />
-    <rect x="244" y="76" width="24" height="72" rx="12" fill="#FFFFFF" />
-    <rect x="352" y="76" width="24" height="72" rx="12" fill="#FFFFFF" />
+  {/* Elevated Calendar Group */}
+  <g filter="url(#iconCardShadow)">
+    {/* White Calendar Sheet */}
+    <rect x="96" y="128" width="320" height="296" rx="64" fill="#FFFFFF" />
 
-    <!-- Schedule Grid Dots -->
-    <circle cx="148" cy="260" r="18" fill="#DBEAFE" />
-    <circle cx="256" cy="260" r="18" fill="#DBEAFE" />
-    <circle cx="364" cy="260" r="18" fill="#DBEAFE" />
+    {/* Calendar Header in Blue-Violet */}
+    <path d="M96 192 C96 156.65 124.65 128 160 128 L352 128 C387.35 128 416 156.65 416 192 L416 208 L96 208 Z" fill="url(#iconCalHeader)" />
 
-    <circle cx="148" cy="336" r="18" fill="#DBEAFE" />
-    <circle cx="256" cy="336" r="18" fill="#DBEAFE" />
-    <circle cx="364" cy="336" r="18" fill="#DBEAFE" />
+    {/* Spiral Binder Loops */}
+    <rect x="160" y="88" width="36" height="76" rx="18" fill="#FFFFFF" />
+    <rect x="160" y="88" width="36" height="76" rx="18" fill="none" stroke="#4F46E5" stroke-opacity="0.25" stroke-width="6" />
 
-    <!-- Dynamic Checkmark in Blue -->
-    <path d="M196 332 L240 376 L348 244" fill="none" stroke="#2563EB" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="316" y="88" width="36" height="76" rx="18" fill="#FFFFFF" />
+    <rect x="316" y="88" width="36" height="76" rx="18" fill="none" stroke="#7C3AED" stroke-opacity="0.25" stroke-width="6" />
+
+    {/* Calendar Schedule Grid Slots */}
+    <rect x="144" y="244" width="52" height="36" rx="12" fill="#DBEAFE" />
+    <rect x="228" y="244" width="52" height="36" rx="12" fill="#E0E7FF" />
+    <rect x="312" y="244" width="52" height="36" rx="12" fill="#EDE9FE" />
+
+    <rect x="144" y="304" width="52" height="36" rx="12" fill="#E0E7FF" />
+    <rect x="228" y="304" width="52" height="36" rx="12" fill="#EDE9FE" />
+
+    {/* Prominent Checkmark Badge (Tilde de verificación) */}
+    <circle cx="340" cy="332" r="92" fill="url(#iconCheckBadge)" stroke="#FFFFFF" stroke-width="18" />
+    <path d="M292 332 L324 364 L392 296" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" />
   </g>
 
-  <!-- Sparkle Accent Star -->
-  <path d="M390 146 L396 162 L412 166 L400 178 L403 194 L390 185 L377 194 L380 178 L368 166 L384 162 Z" fill="#FDE047" />
+  {/* Golden Sparkle Star */}
+  <path d="M392 76 L397 90 L411 95 L399 105 L402 119 L390 112 L378 119 L381 105 L369 95 L383 90 Z" fill="#FDE047" opacity="0.95" />
 </svg>

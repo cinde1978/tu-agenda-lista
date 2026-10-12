@@ -20,6 +20,8 @@ import {
 import { ViewTab } from '../types';
 import { useApp } from '../context/AppContext';
 
+import { AppLogo } from './AppLogo';
+
 interface NavbarProps {
   currentTab: ViewTab;
   onSelectTab: (tab: ViewTab) => void;
@@ -30,6 +32,9 @@ interface NavbarProps {
 export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenReminders }: NavbarProps) {
   const { user, loginWithGoogle, logoutUser, business, unreadRemindersCount } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const brandName = (business?.name && business.name !== '[Tu Nombre o Marca]') ? business.name : 'Tu Agenda Lista';
+  const developerName = (business?.developerName && business.developerName !== '[Tu Nombre]') ? business.developerName : 'Iris Quiroz';
 
   const desktopNavItems: { id: ViewTab; label: string; icon: React.ReactNode }[] = [
     { id: 'agenda', label: 'Agenda', icon: <Calendar className="w-4 h-4" /> },
@@ -50,23 +55,21 @@ export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenRemind
           <div className="flex items-center justify-between h-16">
             {/* Brand Zone */}
             <div
-              className="flex items-center gap-3 cursor-pointer select-none"
+              className="flex items-center gap-3 cursor-pointer select-none group"
               onClick={() => onSelectTab('agenda')}
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-                <Calendar className="w-5 h-5" />
-              </div>
+              <AppLogo size={40} className="group-hover:scale-105 transition-transform shrink-0" />
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-lg text-slate-900 tracking-tight">
-                    TU AGENDA <span className="text-blue-600">LISTA</span>
+                  <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
+                    {brandName}
                   </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-sky-100 text-sky-800 uppercase tracking-wider">
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider">
                     PRO
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-500 block truncate max-w-[170px] sm:max-w-xs font-medium">
-                  {business?.name || 'Gestión de Turnos y Clientes'}
+                  Desarrollado por <span className="text-slate-800 font-bold">{developerName}</span>
                 </span>
               </div>
             </div>

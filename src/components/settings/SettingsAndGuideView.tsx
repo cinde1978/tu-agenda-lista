@@ -11,29 +11,36 @@ import {
   ShieldCheck,
   RefreshCw,
   Copy,
-  Eye,
   Award,
   Smartphone,
   Download,
-  Share2,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { AppLogo } from '../AppLogo';
 import { usePWAInstall } from '../../hooks/usePWAInstall';
 
 export function SettingsAndGuideView() {
-  const { business, updateBusiness, resetToSampleData, isDemoMode, loginWithGoogle } = useApp();
-  const { isInstallable, isInstalled, install, isIOS } = usePWAInstall();
+  const {
+    business,
+    updateBusiness,
+    resetToSampleData,
+    loginWithGoogle,
+    user,
+    isDemoMode,
+  } = useApp();
 
+  const { isInstallable, isInstalled, install } = usePWAInstall();
+
+  // Local form state
   const [name, setName] = useState(business?.name || 'Tu Agenda Lista');
   const [developerName, setDeveloperName] = useState(business?.developerName || 'Iris Quiroz');
-  const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por Iris Quiroz');
-  const [category, setCategory] = useState(business?.category || 'Estética & Peluquería');
-  const [phone, setPhone] = useState(business?.phone || '');
-  const [address, setAddress] = useState(business?.address || '');
+  const [category, setCategory] = useState(business?.category || 'Centro de Estética & Belleza');
+  const [phone, setPhone] = useState(business?.phone || '+54 9 11 4567-8901');
+  const [address, setAddress] = useState(business?.address || 'Av. Principal 1234');
   const [currency, setCurrency] = useState(business?.currency || '$');
-  const [cbuAlias, setCbuAlias] = useState(business?.cbuAlias || '');
+  const [cbuAlias, setCbuAlias] = useState(business?.cbuAlias || 'agenda.turnos.mp');
   const [defaultSlotMinutes, setDefaultSlotMinutes] = useState(business?.defaultSlotMinutes || 30);
+  const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por Iris Quiroz');
 
   const [isSaved, setIsSaved] = useState(false);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
@@ -63,62 +70,65 @@ export function SettingsAndGuideView() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
-      {/* SaaS White-label Brand Live Preview Card */}
-      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-6 shadow-md border border-indigo-700/40 space-y-4">
+      {/* 1. SaaS White-label Brand Live Preview Card (Clean, aligned, zero empty or awkward boxes) */}
+      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-6 sm:p-7 shadow-md border border-indigo-700/40 space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div className="flex items-center gap-2 text-sky-300 text-xs font-bold tracking-wide uppercase">
-            <Eye className="w-4 h-4" />
-            <span>Vista Previa de Marca & Identidad</span>
+          <div className="flex items-center gap-2.5 text-sky-300 text-xs font-bold tracking-wider uppercase">
+            <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />
+            <span>Identidad Oficial del Software</span>
           </div>
-          <span className="text-[11px] font-semibold bg-white/10 px-3 py-1 rounded-full text-indigo-200 border border-white/15 w-fit">
-            SaaS Pro · Lista para Comercializar
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-500/20 px-3.5 py-1 rounded-full text-emerald-300 border border-emerald-400/30 w-fit">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>SaaS Pro · Lista para Comercializar</span>
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10">
-          <div className="flex items-center gap-3">
-            <AppLogo size={46} />
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-lg text-white tracking-tight">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10">
+          <div className="flex items-center gap-4 min-w-0">
+            <AppLogo size={48} className="shrink-0" />
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-extrabold text-lg sm:text-xl text-white tracking-tight leading-tight">
                   {name || 'Tu Agenda Lista'}
                 </h3>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-sky-300 border border-sky-400/30 uppercase">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-500/20 text-sky-300 border border-sky-400/30 uppercase tracking-wider shrink-0">
                   PRO
                 </span>
               </div>
-              <p className="text-xs text-slate-300">
-                Desarrollado por <strong className="text-sky-300">{developerName || 'Iris Quiroz'}</strong>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
+                Desarrollado por <strong className="text-sky-300 font-bold">{developerName || 'Iris Quiroz'}</strong>
               </p>
             </div>
           </div>
 
-          <div className="text-xs text-slate-300 bg-white/10 px-3 py-2 rounded-lg border border-white/10 self-start sm:self-auto">
-            <span className="text-slate-400 block text-[10px]">Pie de página visible:</span>
-            <span>{name || 'Tu Agenda Lista'} © 2026 — Desarrollado por {developerName || 'Iris Quiroz'}</span>
+          <div className="shrink-0">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-medium text-slate-200">
+              <ShieldCheck className="w-4 h-4 text-sky-300" />
+              <span>100% Marca Propia</span>
+            </span>
           </div>
         </div>
       </div>
 
-      {/* PWA Direct Access Box */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+      {/* 2. PWA Direct Access Box (Generous padding, clean spacing, clear readable description) */}
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="flex items-start sm:items-center gap-4">
+          <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-indigo-700 text-white flex items-center justify-center shrink-0 shadow-sm">
             <Smartphone className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-extrabold text-base text-slate-900">
+            <h3 className="font-extrabold text-base sm:text-lg text-slate-900 leading-tight">
               Aplicación Web Móvil (PWA)
             </h3>
-            <p className="text-xs text-slate-500 max-w-xl">
-              Permite a los profesionales y clientes instalar <strong>Tu Agenda Lista</strong> en la pantalla de inicio de su teléfono o computadora con un solo toque, funcionando como una app nativa veloz.
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl mt-1.5">
+              Permite a los profesionales y clientes guardar <strong>Tu Agenda Lista</strong> directamente en la pantalla de inicio de su teléfono o computadora con un solo toque, funcionando como una app nativa veloz y sin pasar por tiendas de aplicaciones.
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 pt-2 md:pt-0">
           {isInstalled ? (
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+            <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs sm:text-sm font-bold shadow-2xs">
               <Check className="w-4 h-4" />
               <span>App Instalada en este dispositivo</span>
             </span>
@@ -127,26 +137,26 @@ export function SettingsAndGuideView() {
               type="button"
               onClick={install}
               disabled={!isInstallable}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-sm flex items-center gap-2 disabled:opacity-50"
+              className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2 disabled:opacity-60 active:scale-95"
             >
               <Download className="w-4 h-4" />
-              <span>{isInstallable ? 'Instalar Ahora en este Dispositivo' : 'Listo para Instalar en Navegadores'}</span>
+              <span>{isInstallable ? 'Instalar Ahora en este Dispositivo' : 'Listo para Instalar en Navegador'}</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* Business Profile Configuration */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-xs">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+      {/* 3. Personalización de Marca & Software (Adequate padding, clear input labels, spacious buttons) */}
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-7">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl shrink-0">
               <Building2 className="w-6 h-6" />
             </div>
             <div>
               <h2 className="text-xl font-extrabold text-slate-900">Personalización de Marca & Software</h2>
-              <p className="text-xs text-slate-500">
-                Configura el nombre principal, autor/desarrollador, moneda y datos del negocio
+              <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
+                Configura el nombre principal de la aplicación, firma de autor/desarrollador, moneda y datos del negocio.
               </p>
             </div>
           </div>
@@ -155,24 +165,24 @@ export function SettingsAndGuideView() {
             <button
               type="button"
               onClick={loginWithGoogle}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors self-start sm:self-auto"
             >
               Conectar Cuenta de Google
             </button>
           )}
         </div>
 
-        <form onSubmit={handleSaveSettings} className="space-y-5">
-          {/* Whitelabel Row */}
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-4">
-            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+        <form onSubmit={handleSaveSettings} className="space-y-6">
+          {/* Whitelabel Identity Container */}
+          <div className="p-5 sm:p-7 rounded-2xl bg-slate-50/90 border border-slate-200/80 space-y-5">
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
               <Award className="w-4 h-4 text-blue-600" />
               Identidad de Marca (White-Label)
             </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-1">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
                   Título Principal de la Aplicación *
                 </label>
                 <input
@@ -181,16 +191,16 @@ export function SettingsAndGuideView() {
                   placeholder="Tu Agenda Lista"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900"
+                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900 shadow-2xs transition-all"
                 />
-                <span className="text-[11px] text-slate-500 mt-1 block">
-                  Aparece en el encabezado, menú lateral y reportes (ej. Tu Agenda Lista)
+                <span className="text-xs text-slate-500 mt-2 block leading-relaxed">
+                  Aparece en el encabezado principal, barra lateral y reportes (ej. Tu Agenda Lista)
                 </span>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-1">
-                  Desarrollado por (Pie de página y Subtítulo) *
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
+                  Desarrollado por (Pie de página y Crédito) *
                 </label>
                 <input
                   type="text"
@@ -201,90 +211,91 @@ export function SettingsAndGuideView() {
                     setDeveloperName(e.target.value);
                     setTagline(`Desarrollado por ${e.target.value}`);
                   }}
-                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900"
+                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900 shadow-2xs transition-all"
                 />
-                <span className="text-[11px] text-slate-500 mt-1 block">
-                  Aparece como "Desarrollado por {developerName || 'Iris Quiroz'}"
+                <span className="text-xs text-slate-500 mt-2 block leading-relaxed">
+                  Aparece al pie del menú lateral y pie de página como "Desarrollado por {developerName || 'Iris Quiroz'}"
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Business Details */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Business Details Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Rubro / Categoría</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Rubro / Categoría del Salón</label>
               <input
                 type="text"
                 placeholder="Ej. Peluquería, Estética, Barbería, Spa..."
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Teléfono / WhatsApp del Local</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Teléfono / WhatsApp de Contacto</label>
               <div className="relative">
-                <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 <input
                   type="tel"
                   placeholder="+54 9 11 4567-8901"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
                 />
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div className="sm:col-span-2">
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Dirección del Salón / Local</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Dirección del Salón / Local</label>
               <div className="relative">
-                <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 <input
                   type="text"
                   placeholder="Ej. Av. Santa Fe 2340, CABA"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Símbolo de Moneda</label>
+              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Símbolo de Moneda</label>
               <div className="relative">
-                <DollarSign className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <DollarSign className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 <input
                   type="text"
                   placeholder="$, ARS, USD, EUR, MXN..."
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none font-bold"
+                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-bold text-slate-800"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className="text-xs font-semibold text-slate-700 block mb-1.5">
               Alias / CBU para recibir señas bancarias
             </label>
             <div className="relative">
-              <CreditCard className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <CreditCard className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input
                 type="text"
                 placeholder="agenda.salon.mp / 00000031000..."
                 value={cbuAlias}
                 onChange={(e) => setCbuAlias(e.target.value)}
-                className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+          {/* Form Actions with Generous Spacing */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-100">
             <button
               type="button"
               onClick={async () => {
@@ -292,15 +303,15 @@ export function SettingsAndGuideView() {
                   await resetToSampleData();
                 }
               }}
-              className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1.5 font-medium"
+              className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-2 font-medium px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>Cargar / restaurar datos de muestra</span>
+              <RefreshCw className="w-4 h-4" />
+              <span>Restaurar datos de muestra</span>
             </button>
 
             <button
               type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2"
+              className="w-full sm:w-auto px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2.5 active:scale-98"
             >
               {isSaved ? <Check className="w-4 h-4" /> : <Settings className="w-4 h-4" />}
               <span>{isSaved ? '¡Guardado correctamente!' : 'Guardar Cambios de Marca'}</span>
@@ -309,10 +320,10 @@ export function SettingsAndGuideView() {
         </form>
       </div>
 
-      {/* Guide: Ownership, Export and Deployment */}
+      {/* 4. Guide: Ownership, Export and Deployment */}
       <div className="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl space-y-8">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-sky-300 text-xs font-bold border border-blue-400/30">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/20 text-sky-300 text-xs font-bold border border-blue-400/30">
             <ShieldCheck className="w-4 h-4" />
             100% Control y Propiedad del Código
           </div>
