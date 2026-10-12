@@ -29,19 +29,67 @@ export function formatDateSpanishLong(dateStr: string): string {
   }).format(date);
 }
 
-export function cleanPhoneForWhatsApp(phone: string): string {
+export function cleanPhoneForWhatsApp(phone: string, countryPrefix = '+54'): string {
   if (!phone) return '';
-  // Remove non-digit characters
+  // Clean prefix: remove +, spaces, dashes
+  const cleanPrefix = (countryPrefix || '+54').replace(/\D/g, '') || '54';
   let cleaned = phone.replace(/\D/g, '');
-  // If Argentine number starting with 0, replace with 54
+
+  if (!cleaned) return '';
+
+  // If already starts with prefix
+  if (cleaned.startsWith(cleanPrefix)) {
+    // For Argentina (54), ensure mobile 9 is present
+    if (cleanPrefix === '54' && !cleaned.startsWith('549')) {
+      const rest = cleaned.substring(2);
+      if (rest.length === 10) return '549' + rest;
+    }
+    return cleaned;
+  }
+
+  // If national prefix starts with 0 (e.g., 011...)
   if (cleaned.startsWith('0')) {
-    cleaned = '54' + cleaned.substring(1);
+    cleaned = cleaned.substring(1);
   }
-  // If no country code (e.g. 11 1234 5678 -> 10 digits), assume Argentina (549)
-  if (cleaned.length === 10) {
-    cleaned = '549' + cleaned;
+
+  // Argentina special mobile format (needs 549 before 10-digit number)
+  if (cleanPrefix === '54') {
+    if (cleaned.length === 10) {
+      return '549' + cleaned;
+    }
+    return '54' + cleaned;
   }
-  return cleaned;
+
+  return cleanPrefix + cleaned;
+}
+
+export function buildWhatsAppTurnoMessage(
+  appointment: { clientName: string; serviceName: string; date: string; time: string },
+  _businessName?: string
+): string {
+  const formattedDate = formatDateSpanish(appointment.date);
+  return `Hola ${appointment.clientName}, te confirmamos tu turno para ${appointment.serviceName} el día ${formattedDate} a las ${appointment.time} hs.`;
+}
+
+export function openWhatsAppTurno(
+  appointment: { clientName: string; clientPhone: string; serviceName: string; date: string; time: string },
+  countryPrefix = '+54',
+  customMessage?: string
+): { success: boolean; url: string; phone: string } {
+  const cleanPhone = cleanPhoneForWhatsApp(appointment.clientPhone, countryPrefix);
+  if (!cleanPhone) {
+    return { success: false, url: '', phone: '' };
+  }
+  const message = customMessage || buildWhatsAppTurnoMessage(appointment);
+  const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+  
+  try {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } catch (e) {
+    console.error('Error opening WhatsApp URL:', e);
+  }
+
+  return { success: true, url, phone: cleanPhone };
 }
 
 export function getStatusBadge(status: string) {

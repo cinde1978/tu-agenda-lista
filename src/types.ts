@@ -12,10 +12,16 @@ export interface Business {
   address: string;
   currency: string;
   cbuAlias?: string;
+  phoneCountryPrefix?: string; // e.g. "+54" (Argentina), "+34" (España), etc.
+  mercadoPagoAccessToken?: string; // Production or Test Access Token (APP_USR-...)
+  mercadoPagoPublicKey?: string; // Public Key (APP_USR-...)
+  mercadoPagoAlias?: string; // e.g. "agenda.turnos.mp"
+  mercadoPagoCvu?: string; // 22-digit CVU
+  defaultDepositPercentage?: number; // e.g. 30 or 50%
   defaultSlotMinutes: number;
   openingHour?: string; // e.g. "08:00"
   closingHour?: string; // e.g. "20:00"
-  developerName?: string; // e.g. "[Tu Nombre]"
+  developerName?: string; // e.g. "Iris Quiroz"
   tagline?: string;
   createdAt: string;
   updatedAt: string;

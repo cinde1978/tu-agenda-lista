@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { Appointment, Business } from '../../types';
 import { useApp } from '../../context/AppContext';
-import { formatCurrency, formatDateSpanishLong } from '../../utils/formatters';
+import { formatCurrency, formatDateSpanishLong, openWhatsAppTurno } from '../../utils/formatters';
 
 interface RemindersModalProps {
   onClose: () => void;
@@ -125,10 +125,12 @@ export function RemindersModal({
                   <button
                     type="button"
                     onClick={() => {
+                      openWhatsAppTurno(apt, business?.phoneCountryPrefix || '+54');
                       onClose();
                       onOpenWhatsApp(apt);
                     }}
                     className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs shrink-0 transition-all hover:scale-105 active:scale-95"
+                    title={`Enviar WhatsApp a ${apt.clientName}`}
                   >
                     <MessageCircle className="w-3.5 h-3.5" />
                     <span>Avisar</span>

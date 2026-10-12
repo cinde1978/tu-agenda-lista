@@ -14,6 +14,11 @@ import {
   Award,
   Smartphone,
   Download,
+  Key,
+  Eye,
+  EyeOff,
+  MessageCircle,
+  QrCode,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { AppLogo } from '../AppLogo';
@@ -36,9 +41,15 @@ export function SettingsAndGuideView() {
   const [developerName, setDeveloperName] = useState(business?.developerName || 'Iris Quiroz');
   const [category, setCategory] = useState(business?.category || 'Centro de Estética & Belleza');
   const [phone, setPhone] = useState(business?.phone || '+54 9 11 4567-8901');
+  const [phoneCountryPrefix, setPhoneCountryPrefix] = useState(business?.phoneCountryPrefix || '+54');
   const [address, setAddress] = useState(business?.address || 'Av. Principal 1234');
   const [currency, setCurrency] = useState(business?.currency || '$');
   const [cbuAlias, setCbuAlias] = useState(business?.cbuAlias || 'agenda.turnos.mp');
+  const [mercadoPagoAccessToken, setMercadoPagoAccessToken] = useState(business?.mercadoPagoAccessToken || '');
+  const [mercadoPagoAlias, setMercadoPagoAlias] = useState(business?.mercadoPagoAlias || business?.cbuAlias || 'agenda.turnos.mp');
+  const [mercadoPagoCvu, setMercadoPagoCvu] = useState(business?.mercadoPagoCvu || '0000003100085492109482');
+  const [defaultDepositPercentage, setDefaultDepositPercentage] = useState(business?.defaultDepositPercentage || 30);
+  const [showToken, setShowToken] = useState(false);
   const [defaultSlotMinutes, setDefaultSlotMinutes] = useState(business?.defaultSlotMinutes || 30);
   const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por Iris Quiroz');
 
@@ -53,9 +64,14 @@ export function SettingsAndGuideView() {
       tagline: tagline.trim() || `Desarrollado por ${developerName.trim() || 'Iris Quiroz'}`,
       category: category.trim(),
       phone: phone.trim(),
+      phoneCountryPrefix: phoneCountryPrefix.trim() || '+54',
       address: address.trim(),
       currency: currency.trim(),
       cbuAlias: cbuAlias.trim(),
+      mercadoPagoAccessToken: mercadoPagoAccessToken.trim(),
+      mercadoPagoAlias: mercadoPagoAlias.trim(),
+      mercadoPagoCvu: mercadoPagoCvu.trim(),
+      defaultDepositPercentage: Number(defaultDepositPercentage) || 30,
       defaultSlotMinutes: Number(defaultSlotMinutes),
     });
     setIsSaved(true);
@@ -248,6 +264,63 @@ export function SettingsAndGuideView() {
             </div>
           </div>
 
+          {/* Configuración de WhatsApp & Prefijo de País */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                    Configuración de WhatsApp & Envíos Directos
+                  </h4>
+                  <p className="text-[11px] text-emerald-800 mt-0.5">
+                    Define el prefijo internacional predeterminado para abrir WhatsApp con un clic en cada turno.
+                  </p>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                wa.me activo
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-bold text-emerald-950 block mb-1.5">
+                  Prefijo / País Predeterminado *
+                </label>
+                <select
+                  value={phoneCountryPrefix}
+                  onChange={(e) => setPhoneCountryPrefix(e.target.value)}
+                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-emerald-300 bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 outline-none font-bold text-slate-800"
+                >
+                  <option value="+54">🇦🇷 Argentina (+54)</option>
+                  <option value="+34">🇪🇸 España (+34)</option>
+                  <option value="+52">🇲🇽 México (+52)</option>
+                  <option value="+56">🇨🇱 Chile (+56)</option>
+                  <option value="+598">🇺🇾 Uruguay (+598)</option>
+                  <option value="+57">🇨🇴 Colombia (+57)</option>
+                  <option value="+51">🇵🇪 Perú (+51)</option>
+                  <option value="+595">🇵🇾 Paraguay (+595)</option>
+                  <option value="+591">🇧🇴 Bolivia (+591)</option>
+                  <option value="+1">🇺🇸 Estados Unidos / Canadá (+1)</option>
+                  <option value="+55">🇧🇷 Brasil (+55)</option>
+                </select>
+                <span className="text-[11px] text-emerald-700 mt-1 block">
+                  Al hacer clic en el ícono verde de WhatsApp, se formateará automáticamente el número del cliente.
+                </span>
+              </div>
+
+              <div className="bg-white/80 p-3.5 rounded-xl border border-emerald-200 text-xs space-y-1">
+                <span className="font-bold text-emerald-900 block">Mensaje predeterminado generado:</span>
+                <p className="text-slate-600 italic bg-slate-50 p-2 rounded-lg border border-slate-100">
+                  "Hola [Nombre], te confirmamos tu turno para [Servicio] el día [Fecha] a las [Hora] hs."
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div className="sm:col-span-2">
               <label className="text-xs font-semibold text-slate-700 block mb-1.5">Dirección del Salón / Local</label>
@@ -278,19 +351,119 @@ export function SettingsAndGuideView() {
             </div>
           </div>
 
-          <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-              Alias / CBU para recibir señas bancarias
-            </label>
-            <div className="relative">
-              <CreditCard className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-              <input
-                type="text"
-                placeholder="agenda.salon.mp / 00000031000..."
-                value={cbuAlias}
-                onChange={(e) => setCbuAlias(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
-              />
+          {/* Integración Completa de Cobros con Mercado Pago */}
+          <div className="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-sky-50 via-white to-sky-50/50 border-2 border-[#009EE3]/40 shadow-sm space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-[#009EE3] text-white font-black text-lg flex items-center justify-center shadow-md">
+                  MP
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
+                      Integración de Cobros con Mercado Pago
+                    </h4>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#009EE3] text-white">
+                      Oficial
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Permite generar botones de "Pagar Seña con Mercado Pago", checkout directo y códigos QR interactivos.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-[#009EE3] bg-sky-100/70 px-3 py-1 rounded-xl">
+                <QrCode className="w-3.5 h-3.5" />
+                <span>Link & QR Automático</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Mercado Pago Access Token */}
+              <div>
+                <label className="text-xs font-bold text-slate-800 block mb-1.5 flex items-center gap-1.5">
+                  <Key className="w-3.5 h-3.5 text-[#009EE3]" />
+                  Mercado Pago Access Token (Producción o Prueba)
+                </label>
+                <div className="relative">
+                  <input
+                    type={showToken ? 'text' : 'password'}
+                    placeholder="APP_USR-xxxxxx o TEST-xxxxxx"
+                    value={mercadoPagoAccessToken}
+                    onChange={(e) => setMercadoPagoAccessToken(e.target.value)}
+                    className="w-full text-xs font-mono pl-3.5 pr-10 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none font-medium text-slate-800"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowToken(!showToken)}
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700"
+                    title={showToken ? 'Ocultar token' : 'Ver token'}
+                  >
+                    {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                <span className="text-[11px] text-slate-500 mt-1 block">
+                  Obtenla en tu panel de Mercado Pago Developers &gt; Tus Credenciales.
+                </span>
+              </div>
+
+              {/* Alias / CVU */}
+              <div>
+                <label className="text-xs font-bold text-slate-800 block mb-1.5 flex items-center gap-1.5">
+                  <CreditCard className="w-3.5 h-3.5 text-[#009EE3]" />
+                  Alias de Mercado Pago
+                </label>
+                <input
+                  type="text"
+                  placeholder="agenda.turnos.mp"
+                  value={mercadoPagoAlias}
+                  onChange={(e) => {
+                    setMercadoPagoAlias(e.target.value);
+                    setCbuAlias(e.target.value);
+                  }}
+                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none font-bold text-slate-800 font-mono"
+                />
+                <span className="text-[11px] text-slate-500 mt-1 block">
+                  Alias para transferencias inmediatas de señas sin comisiones bancarias.
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
+              {/* CVU */}
+              <div>
+                <label className="text-xs font-semibold text-slate-700 block mb-1.5">
+                  CVU de Mercado Pago (22 dígitos opcionales)
+                </label>
+                <input
+                  type="text"
+                  placeholder="0000003100085492109482"
+                  value={mercadoPagoCvu}
+                  onChange={(e) => setMercadoPagoCvu(e.target.value)}
+                  className="w-full text-xs font-mono px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none text-slate-800"
+                />
+              </div>
+
+              {/* Porcentaje sugerido de Seña */}
+              <div>
+                <label className="text-xs font-semibold text-slate-700 block mb-1.5">
+                  Porcentaje sugerido de seña (%)
+                </label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="number"
+                    min="10"
+                    max="100"
+                    step="5"
+                    value={defaultDepositPercentage}
+                    onChange={(e) => setDefaultDepositPercentage(Number(e.target.value))}
+                    className="w-28 text-sm px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none font-extrabold text-slate-800"
+                  />
+                  <span className="text-xs text-slate-500 font-medium">
+                    (Se calculará automáticamente al agendar cada turno, ej. 30% o 50%)
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 

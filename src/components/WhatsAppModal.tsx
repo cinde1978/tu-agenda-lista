@@ -11,21 +11,21 @@ interface WhatsAppModalProps {
 
 export function WhatsAppModal({ appointment, business, onClose }: WhatsAppModalProps) {
   const [copied, setCopied] = useState(false);
-  const [templateType, setTemplateType] = useState<'confirm' | 'reminder' | 'deposit' | 'reschedule'>('reminder');
+  const [templateType, setTemplateType] = useState<'confirm' | 'reminder' | 'deposit' | 'reschedule'>('confirm');
 
-  const cleanPhone = cleanPhoneForWhatsApp(appointment.clientPhone);
+  const cleanPhone = cleanPhoneForWhatsApp(appointment.clientPhone, business.phoneCountryPrefix || '+54');
   const formattedDate = formatDateSpanishLong(appointment.date);
 
   const getTemplateText = (type: string) => {
     switch (type) {
       case 'confirm':
-        return `✨ *¡Hola ${appointment.clientName}!* Te confirmamos tu turno en *${business.name}*:\n\n📅 *Fecha:* ${formattedDate}\n⏰ *Hora:* ${appointment.time} hs\n✂️ *Servicio:* ${appointment.serviceName}\n👤 *Profesional:* ${appointment.staffName}\n💰 *Total:* ${business.currency} ${appointment.price}${appointment.depositAmount > 0 ? `\n💳 *Seña abonada:* ${business.currency} ${appointment.depositAmount}\n💵 *Saldo restante:* ${business.currency} ${appointment.remainingBalance}` : ''}\n📍 *Dirección:* ${business.address}\n\n¡Te esperamos con muchas ganas! Si necesitas reprogramar, avísanos con tiempo. 😊`;
+        return `Hola ${appointment.clientName}, te confirmamos tu turno para ${appointment.serviceName} el día ${formattedDate} a las ${appointment.time} hs.`;
 
       case 'reminder':
         return `🔔 *¡Hola ${appointment.clientName}!* Te recordamos tu turno programado en *${business.name}*:\n\n📅 *Fecha:* ${formattedDate}\n⏰ *Hora:* ${appointment.time} hs\n✂️ *Servicio:* ${appointment.serviceName}\n👤 *Atendido por:* ${appointment.staffName}\n📍 *Lugar:* ${business.address}\n\nPor favor, responde este mensaje para confirmar tu asistencia. ¡Muchas gracias! 💕`;
 
       case 'deposit':
-        return `👋 *¡Hola ${appointment.clientName}!* Para asegurar y confirmar tu turno en *${business.name}* para el *${formattedDate} a las ${appointment.time} hs*, te solicitamos una seña de *${business.currency} ${appointment.depositAmount || Math.round(appointment.price * 0.3)}*.\n\n🏦 *Datos de transferencia:*\n*Alias:* ${business.cbuAlias || 'agenda.estetica.mp'}\n*Titular:* ${business.name}\n\nUna vez realizado, por favor envíanos el comprobante por acá. ¡Muchas gracias! ✨`;
+        return `👋 *¡Hola ${appointment.clientName}!* Para asegurar y confirmar tu turno en *${business.name}* para el *${formattedDate} a las ${appointment.time} hs*, te solicitamos una seña de *${business.currency} ${appointment.depositAmount || Math.round(appointment.price * 0.3)}*.\n\n🏦 *Datos de transferencia:*\n*Alias:* ${business.mercadoPagoAlias || business.cbuAlias || 'agenda.turnos.mp'}\n*Titular:* ${business.name}\n\nUna vez realizado, por favor envíanos el comprobante por acá. ¡Muchas gracias! ✨`;
 
       case 'reschedule':
         return `👋 *¡Hola ${appointment.clientName}!* Nos comunicamos desde *${business.name}* respecto a tu turno del ${formattedDate}. Quisiéramos coordinar una reprogramación para un horario que te resulte cómodo. ¿En qué días y horarios te vendría bien? Quedamos a tu disposición. 💖`;
@@ -35,7 +35,7 @@ export function WhatsAppModal({ appointment, business, onClose }: WhatsAppModalP
     }
   };
 
-  const [message, setMessage] = useState(getTemplateText('reminder'));
+  const [message, setMessage] = useState(getTemplateText('confirm'));
 
   const handleTemplateChange = (type: 'confirm' | 'reminder' | 'deposit' | 'reschedule') => {
     setTemplateType(type);

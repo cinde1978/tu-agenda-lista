@@ -2,7 +2,7 @@ import React from 'react';
 import { Clock, MessageCircle, Calendar } from 'lucide-react';
 import { Appointment } from '../types';
 import { useApp } from '../context/AppContext';
-import { formatCurrency, getStatusBadge } from '../utils/formatters';
+import { formatCurrency, getStatusBadge, openWhatsAppTurno } from '../utils/formatters';
 
 interface UpcomingTodayWidgetProps {
   onSelectAppointment: (appointment: Appointment) => void;
@@ -106,16 +106,17 @@ export function UpcomingTodayWidget({
                   </div>
                 </div>
 
-                {/* WhatsApp Quick Trigger */}
+                {/* WhatsApp Quick Trigger (Direct WhatsApp Open with preconfigured confirmation) */}
                 {apt.clientPhone && (
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
+                      openWhatsAppTurno(apt, business?.phoneCountryPrefix || '+54');
                       onOpenWhatsApp(apt);
                     }}
-                    className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors shrink-0"
-                    title="Enviar WhatsApp"
+                    className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white transition-all shrink-0 shadow-2xs hover:scale-105 active:scale-95"
+                    title={`Enviar WhatsApp a ${apt.clientName}`}
                   >
                     <MessageCircle className="w-4 h-4" />
                   </button>

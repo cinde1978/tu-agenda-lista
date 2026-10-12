@@ -12,12 +12,15 @@ import {
   Edit2,
   Trash2,
   AlertTriangle,
-  ArrowRight
+  ArrowRight,
+  CreditCard,
+  QrCode,
 } from 'lucide-react';
 import { Appointment, PaymentMethod } from '../types';
 import { useApp } from '../context/AppContext';
-import { formatCurrency, formatDateSpanishLong, getStatusBadge } from '../utils/formatters';
+import { formatCurrency, formatDateSpanishLong, getStatusBadge, openWhatsAppTurno } from '../utils/formatters';
 import { WhatsAppModal } from './WhatsAppModal';
+import { MercadoPagoModal } from './mercadopago/MercadoPagoModal';
 
 interface AppointmentDetailModalProps {
   appointment: Appointment;
@@ -32,6 +35,7 @@ export function AppointmentDetailModal({
 }: AppointmentDetailModalProps) {
   const { business, deleteAppointment, markAppointmentCompleted, updateAppointment } = useApp();
   const [showWhatsApp, setShowWhatsApp] = useState(false);
+  const [showMercadoPagoModal, setShowMercadoPagoModal] = useState(false);
   const [showCompletePrompt, setShowCompletePrompt] = useState(false);
   const [collectedAmount, setCollectedAmount] = useState(appointment.remainingBalance);
   const [completePaymentMethod, setCompletePaymentMethod] = useState<PaymentMethod>('efectivo');
@@ -103,14 +107,27 @@ export function AppointmentDetailModal({
               </div>
 
               {business && (
-                <button
-                  type="button"
-                  onClick={() => setShowWhatsApp(true)}
-                  className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>WhatsApp</span>
-                </button>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      openWhatsAppTurno(appointment, business.phoneCountryPrefix || '+54');
+                    }}
+                    className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95"
+                    title="Abrir WhatsApp directamente con confirmación"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>WhatsApp</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowWhatsApp(true)}
+                    className="p-2 hover:bg-emerald-100 rounded-xl text-emerald-800 transition-colors"
+                    title="Editar mensaje o elegir plantilla"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               )}
             </div>
 
@@ -169,6 +186,20 @@ export function AppointmentDetailModal({
                   {formatCurrency(appointment.remainingBalance, business?.currency)}
                 </span>
               </div>
+
+              {/* Botón Pagar Seña con Mercado Pago */}
+              {appointment.status !== 'completado' && business && (
+                <div className="pt-2 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowMercadoPagoModal(true)}
+                    className="w-full py-2.5 px-3 bg-gradient-to-r from-[#009EE3] to-[#0074B7] hover:from-[#0089C7] hover:to-[#006EA8] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    <span>Pagar Seña con Mercado Pago (Link / QR)</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Notes if present */}
@@ -291,6 +322,26 @@ export function AppointmentDetailModal({
           appointment={appointment}
           business={business}
           onClose={() => setShowWhatsApp(false)}
+        />
+      )}
+
+      {showMercadoPagoModal && business && (
+        <MercadoPagoModal
+          appointment={appointment}
+          business={business}
+          onClose={() => setShowMercadoPagoModal(false)}
+          onConfirmDepositPaid={async (amountPaid) => {
+            const newDeposit = (appointment.depositAmount || 0) + amountPaid;
+            const newRemaining = Math.max(0, appointment.price - newDeposit);
+            await updateAppointment({
+              ...appointment,
+              depositAmount: newDeposit,
+              remainingBalance: newRemaining,
+              paymentMethod: 'mercadopago',
+              status: appointment.status === 'en_espera' || appointment.status === 'pendiente' ? 'confirmado' : appointment.status,
+            });
+            setShowMercadoPagoModal(false);
+          }}
         />
       )}
     </>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Clock, User, Scissors, DollarSign, AlertCircle, Plus, Check, Palette } from 'lucide-react';
+import { X, Calendar, Clock, User, Scissors, DollarSign, AlertCircle, Plus, Check, Palette, CreditCard, QrCode } from 'lucide-react';
 import { Appointment, AppointmentStatus, PaymentMethod, APPOINTMENT_COLORS } from '../types';
 import { useApp } from '../context/AppContext';
 import { getTodayDateString } from '../utils/initialData';
+import { MercadoPagoModal } from './mercadopago/MercadoPagoModal';
 
 interface AppointmentModalProps {
   initialDate?: string;
@@ -53,6 +54,7 @@ export function AppointmentModal({
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(appointmentToEdit?.paymentMethod || 'pendiente');
   const [registerDepositInCash, setRegisterDepositInCash] = useState(true);
   const [notes, setNotes] = useState(appointmentToEdit?.notes || '');
+  const [showMercadoPagoModal, setShowMercadoPagoModal] = useState(false);
 
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -483,6 +485,21 @@ export function AppointmentModal({
                 </div>
               </div>
             </div>
+
+            {/* Mercado Pago Deposit Button */}
+            <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between gap-2 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setShowMercadoPagoModal(true)}
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#009EE3] to-[#007BBB] hover:from-[#0089C7] hover:to-[#006EA8] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <CreditCard className="w-4 h-4" />
+                <span>Pagar Seña con Mercado Pago (Link / QR)</span>
+              </button>
+              <span className="text-[11px] text-slate-500">
+                Genera enlace de pago directo o código QR interactivo
+              </span>
+            </div>
           </div>
 
           {/* Status & Payment Method */}
@@ -549,6 +566,30 @@ export function AppointmentModal({
           </div>
         </form>
       </div>
+
+      {showMercadoPagoModal && business && (
+        <MercadoPagoModal
+          appointment={{
+            id: appointmentToEdit?.id,
+            clientName: clientName || 'Cliente',
+            clientPhone: clientPhone || '',
+            serviceName: services.find((s) => s.id === serviceId)?.name || 'Servicio',
+            price,
+            depositAmount,
+            date,
+            time,
+          }}
+          business={business}
+          onClose={() => setShowMercadoPagoModal(false)}
+          onConfirmDepositPaid={(amountPaid) => {
+            setDepositAmount(amountPaid);
+            setPaymentMethod('mercadopago');
+            if (status === 'pendiente' || status === 'en_espera') {
+              setStatus('confirmado');
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
