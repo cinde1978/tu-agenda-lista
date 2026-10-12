@@ -4,7 +4,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Filter,
-  User,
   Plus,
   Clock,
   CalendarDays,
@@ -48,15 +47,15 @@ export function AgendaHeader({
   };
 
   return (
-    <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 shadow-xs space-y-4">
+    <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         {/* Date Navigator */}
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center bg-gray-100/90 rounded-xl p-1 border border-gray-200/60">
+          <div className="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200/70">
             <button
               type="button"
               onClick={() => handleShiftDate(agendaMode === 'semana' ? -7 : agendaMode === 'mes' ? -30 : -1)}
-              className="p-1.5 hover:bg-white rounded-lg text-gray-600 transition-colors"
+              className="p-1.5 hover:bg-white rounded-lg text-slate-600 transition-colors"
               title="Anterior"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -66,8 +65,8 @@ export function AgendaHeader({
               onClick={() => onDateChange(todayStr)}
               className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors ${
                 currentDate === todayStr
-                  ? 'bg-purple-700 text-white shadow-xs'
-                  : 'text-gray-700 hover:bg-white'
+                  ? 'bg-blue-600 text-white shadow-2xs'
+                  : 'text-slate-700 hover:bg-white'
               }`}
             >
               Hoy
@@ -75,7 +74,7 @@ export function AgendaHeader({
             <button
               type="button"
               onClick={() => handleShiftDate(agendaMode === 'semana' ? 7 : agendaMode === 'mes' ? 30 : 1)}
-              className="p-1.5 hover:bg-white rounded-lg text-gray-600 transition-colors"
+              className="p-1.5 hover:bg-white rounded-lg text-slate-600 transition-colors"
               title="Siguiente"
             >
               <ChevronRight className="w-4 h-4" />
@@ -87,11 +86,11 @@ export function AgendaHeader({
               type="date"
               value={currentDate}
               onChange={(e) => onDateChange(e.target.value)}
-              className="text-xs p-2 rounded-xl border border-gray-200 bg-white font-semibold text-gray-800 outline-none focus:border-purple-600"
+              className="text-xs p-2 rounded-xl border border-slate-200 bg-white font-semibold text-slate-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
             />
           </div>
 
-          <span className="text-xs font-bold text-gray-700 capitalize hidden sm:inline-block px-2">
+          <span className="text-xs font-bold text-slate-700 capitalize hidden sm:inline-block px-2">
             {formatDateSpanishLong(currentDate)}
           </span>
         </div>
@@ -99,12 +98,12 @@ export function AgendaHeader({
         {/* View mode toggle & staff filter */}
         <div className="flex items-center gap-2.5 flex-wrap">
           {/* Staff filter */}
-          <div className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 rounded-xl px-2.5 py-1">
-            <Filter className="w-3.5 h-3.5 text-gray-400" />
+          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1">
+            <Filter className="w-3.5 h-3.5 text-slate-400" />
             <select
               value={selectedStaffId}
               onChange={(e) => onStaffChange(e.target.value)}
-              className="text-xs font-semibold bg-transparent text-gray-700 outline-none cursor-pointer py-1"
+              className="text-xs font-semibold bg-transparent text-slate-700 outline-none cursor-pointer py-1"
             >
               <option value="todos">Todos los profesionales</option>
               {staff.map((s) => (
@@ -116,12 +115,12 @@ export function AgendaHeader({
           </div>
 
           {/* Mode Switcher */}
-          <div className="flex items-center bg-gray-100/90 p-1 rounded-xl border border-gray-200/60">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/70">
             <button
               type="button"
               onClick={() => onModeChange('dia')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                agendaMode === 'dia' ? 'bg-purple-700 text-white shadow-xs' : 'text-gray-600 hover:text-gray-900'
+                agendaMode === 'dia' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Clock className="w-3.5 h-3.5" />
@@ -131,7 +130,7 @@ export function AgendaHeader({
               type="button"
               onClick={() => onModeChange('semana')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                agendaMode === 'semana' ? 'bg-purple-700 text-white shadow-xs' : 'text-gray-600 hover:text-gray-900'
+                agendaMode === 'semana' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <CalendarDays className="w-3.5 h-3.5" />
@@ -141,7 +140,7 @@ export function AgendaHeader({
               type="button"
               onClick={() => onModeChange('mes')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                agendaMode === 'mes' ? 'bg-purple-700 text-white shadow-xs' : 'text-gray-600 hover:text-gray-900'
+                agendaMode === 'mes' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <CalendarRange className="w-3.5 h-3.5" />
@@ -153,10 +152,10 @@ export function AgendaHeader({
           <button
             type="button"
             onClick={onNewAppointment}
-            className="px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-600 hover:from-purple-800 hover:to-indigo-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-purple-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] shrink-0"
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span>Nuevo Turno</span>
+            <span>+ Nuevo Turno</span>
           </button>
         </div>
       </div>

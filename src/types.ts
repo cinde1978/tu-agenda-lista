@@ -15,6 +15,8 @@ export interface Business {
   defaultSlotMinutes: number;
   openingHour?: string; // e.g. "08:00"
   closingHour?: string; // e.g. "20:00"
+  developerName?: string; // e.g. "[Tu Nombre]"
+  tagline?: string;
   createdAt: string;
   updatedAt: string;
 }

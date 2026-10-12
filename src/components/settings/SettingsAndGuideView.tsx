@@ -6,25 +6,23 @@ import {
   MapPin,
   DollarSign,
   CreditCard,
-  Clock,
-  Download,
-  Globe,
-  Flame,
-  CheckCircle2,
-  Copy,
   Check,
-  Code2,
   Sparkles,
-  ExternalLink,
   ShieldCheck,
-  RefreshCw
+  RefreshCw,
+  Copy,
+  Eye,
+  Award,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { AppLogo } from '../AppLogo';
 
 export function SettingsAndGuideView() {
-  const { business, updateBusiness, resetToSampleData, isDemoMode, user, loginWithGoogle } = useApp();
+  const { business, updateBusiness, resetToSampleData, isDemoMode, loginWithGoogle } = useApp();
 
-  const [name, setName] = useState(business?.name || '');
+  const [name, setName] = useState(business?.name || '[Tu Nombre o Marca]');
+  const [developerName, setDeveloperName] = useState(business?.developerName || '[Tu Nombre]');
+  const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por [Tu Nombre]');
   const [category, setCategory] = useState(business?.category || 'Estética & Peluquería');
   const [phone, setPhone] = useState(business?.phone || '');
   const [address, setAddress] = useState(business?.address || '');
@@ -38,7 +36,9 @@ export function SettingsAndGuideView() {
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     await updateBusiness({
-      name: name.trim(),
+      name: name.trim() || '[Tu Nombre o Marca]',
+      developerName: developerName.trim() || '[Tu Nombre]',
+      tagline: tagline.trim() || `Desarrollado por ${developerName.trim() || '[Tu Nombre]'}`,
       category: category.trim(),
       phone: phone.trim(),
       address: address.trim(),
@@ -58,6 +58,43 @@ export function SettingsAndGuideView() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
+      {/* SaaS White-label Brand Live Preview Card */}
+      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-6 shadow-md border border-indigo-700/40 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div className="flex items-center gap-2 text-sky-300 text-xs font-bold tracking-wide uppercase">
+            <Eye className="w-4 h-4" />
+            <span>Vista Previa de tu Marca SaaS</span>
+          </div>
+          <span className="text-[11px] font-semibold bg-white/10 px-3 py-1 rounded-full text-indigo-200 border border-white/15 w-fit">
+            Listo para Comercializar
+          </span>
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10">
+          <div className="flex items-center gap-3">
+            <AppLogo size={46} />
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-extrabold text-lg text-white tracking-tight">
+                  {name || '[Tu Nombre o Marca]'}
+                </h3>
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-sky-300 border border-sky-400/30 uppercase">
+                  PRO
+                </span>
+              </div>
+              <p className="text-xs text-slate-300">
+                Desarrollado por <strong className="text-sky-300">{developerName || '[Tu Nombre]'}</strong>
+              </p>
+            </div>
+          </div>
+
+          <div className="text-xs text-slate-300 bg-white/10 px-3 py-2 rounded-lg border border-white/10 self-start sm:self-auto">
+            <span className="text-slate-400 block text-[10px]">Pie de página visible:</span>
+            <span>{name || '[Tu Nombre o Marca]'} © 2026 — Desarrollado por {developerName || '[Tu Nombre]'}</span>
+          </div>
+        </div>
+      </div>
+
       {/* Business Profile Configuration */}
       <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-xs">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
@@ -66,9 +103,9 @@ export function SettingsAndGuideView() {
               <Building2 className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-extrabold text-slate-900">Datos de tu Negocio & Marca</h2>
+              <h2 className="text-xl font-extrabold text-slate-900">Personalización de Marca & Software</h2>
               <p className="text-xs text-slate-500">
-                Personaliza el nombre, moneda, dirección y datos bancarios para señas
+                Configura el nombre principal, autor/desarrollador, moneda y datos del negocio
               </p>
             </div>
           </div>
@@ -84,23 +121,56 @@ export function SettingsAndGuideView() {
           )}
         </div>
 
-        <form onSubmit={handleSaveSettings} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Nombre Comercial *</label>
-              <div className="relative">
-                <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+        <form onSubmit={handleSaveSettings} className="space-y-5">
+          {/* Whitelabel Row */}
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-4">
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+              <Award className="w-4 h-4 text-blue-600" />
+              Identidad de Marca (White-Label)
+            </h4>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-slate-700 block mb-1">
+                  Título Principal de la Aplicación *
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Ej. Salón de Belleza Glamour"
+                  placeholder="[Tu Nombre o Marca]"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900"
                 />
+                <span className="text-[11px] text-slate-500 mt-1 block">
+                  Aparece en el encabezado, menú lateral y reportes (ej. [Tu Nombre o Marca])
+                </span>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold text-slate-700 block mb-1">
+                  Desarrollado por (Pie de página y Subtítulo) *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="[Tu Nombre]"
+                  value={developerName}
+                  onChange={(e) => {
+                    setDeveloperName(e.target.value);
+                    setTagline(`Desarrollado por ${e.target.value}`);
+                  }}
+                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900"
+                />
+                <span className="text-[11px] text-slate-500 mt-1 block">
+                  Aparece como "Desarrollado por {developerName || '[Tu Nombre]'}"
+                </span>
               </div>
             </div>
+          </div>
 
+          {/* Business Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">Rubro / Categoría</label>
               <input
@@ -111,9 +181,7 @@ export function SettingsAndGuideView() {
                 className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
               />
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">Teléfono / WhatsApp del Local</label>
               <div className="relative">
@@ -127,9 +195,11 @@ export function SettingsAndGuideView() {
                 />
               </div>
             </div>
+          </div>
 
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Dirección del Salón</label>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="sm:col-span-2">
+              <label className="text-xs font-semibold text-slate-700 block mb-1">Dirección del Salón / Local</label>
               <div className="relative">
                 <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                 <input
@@ -141,9 +211,7 @@ export function SettingsAndGuideView() {
                 />
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1">Símbolo de Moneda</label>
               <div className="relative">
@@ -157,21 +225,21 @@ export function SettingsAndGuideView() {
                 />
               </div>
             </div>
+          </div>
 
-            <div className="sm:col-span-2">
-              <label className="text-xs font-semibold text-slate-700 block mb-1">
-                Alias / CBU para recibir señas bancarias
-              </label>
-              <div className="relative">
-                <CreditCard className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                <input
-                  type="text"
-                  placeholder="agenda.salon.mp / 00000031000..."
-                  value={cbuAlias}
-                  onChange={(e) => setCbuAlias(e.target.value)}
-                  className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
-                />
-              </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-700 block mb-1">
+              Alias / CBU para recibir señas bancarias
+            </label>
+            <div className="relative">
+              <CreditCard className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <input
+                type="text"
+                placeholder="agenda.salon.mp / 00000031000..."
+                value={cbuAlias}
+                onChange={(e) => setCbuAlias(e.target.value)}
+                className="w-full text-sm pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+              />
             </div>
           </div>
 
@@ -191,10 +259,10 @@ export function SettingsAndGuideView() {
 
             <button
               type="submit"
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 transition-all flex items-center gap-2"
+              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2"
             >
               {isSaved ? <Check className="w-4 h-4" /> : <Settings className="w-4 h-4" />}
-              <span>{isSaved ? '¡Guardado correctamente!' : 'Guardar Cambios'}</span>
+              <span>{isSaved ? '¡Guardado correctamente!' : 'Guardar Cambios de Marca'}</span>
             </button>
           </div>
         </form>
@@ -208,7 +276,7 @@ export function SettingsAndGuideView() {
             100% Control y Propiedad del Código
           </div>
           <h3 className="text-2xl font-extrabold text-white">
-            Guía de Uso, Descarga y Publicación Independiente
+            Guía de Uso, Descarga y Comercialización Independiente
           </h3>
           <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
             Esta aplicación está desarrollada sobre estándares abiertos (React 19, TypeScript, Tailwind CSS y Firebase).
@@ -274,12 +342,12 @@ export function SettingsAndGuideView() {
         <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-2">
           <div className="flex items-center gap-2 text-sky-400 font-bold text-sm">
             <span className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center text-xs">4</span>
-            ¿Cómo publicarla en tu propio dominio (ej. tuagendalista.com)?
+            ¿Cómo publicarla en tu propio dominio?
           </div>
           <ul className="text-xs text-slate-300 space-y-1.5 pl-8 list-disc">
             <li><strong>Vercel o Netlify:</strong> Conecta tu repositorio de GitHub en Vercel o Netlify y compila con un clic (<code className="text-sky-300">npm run build</code>). Tienen planes gratuitos excelentes.</li>
             <li><strong>Firebase Hosting:</strong> Ejecuta <code className="text-sky-300">firebase deploy</code> para alojar la web directamente en los servidores de Google con SSL gratis.</li>
-            <li><strong>Dominio propio:</strong> Configura tu dominio personalizado (ej. <em>tuagendalista.com</em> o <em>agenda.tunegocio.com</em>) en los DNS sin pagar costo extra.</li>
+            <li><strong>Dominio propio:</strong> Configura tu dominio personalizado en los DNS sin pagar costo extra.</li>
             <li><strong>Monetización:</strong> Puedes cobrar una tarifa mensual o instalación llave en mano a salones de belleza, barberías y manicurías.</li>
           </ul>
         </div>

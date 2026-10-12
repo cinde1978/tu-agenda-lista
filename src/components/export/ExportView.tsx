@@ -119,7 +119,7 @@ export function ExportView() {
               Planilla Oficial de Turnos
             </span>
             <h1 className="text-2xl font-extrabold text-slate-900 mt-0.5">
-              {business?.name || 'TU AGENDA LISTA'}
+              {business?.name || '[Tu Nombre o Marca]'}
             </h1>
             <p className="text-xs text-slate-500 mt-1">
               {business?.phone && `Tel: ${business.phone} · `}
@@ -229,7 +229,7 @@ export function ExportView() {
 
         {/* Footer in print */}
         <div className="pt-6 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-400">
-          <span>TU AGENDA LISTA — Sistema de Gestión</span>
+          <span>{business?.name || '[Tu Nombre o Marca]'} — Desarrollado por {business?.developerName || '[Tu Nombre]'}</span>
           <span>Firma responsable: _________________________</span>
         </div>
       </div>

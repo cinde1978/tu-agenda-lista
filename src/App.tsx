@@ -65,19 +65,18 @@ function MainAppContent() {
       <div className="flex-1 min-w-0 flex flex-col pb-20 lg:pb-0">
         {/* Optional cloud sync banner */}
         {!user && (
-          <div className="no-print bg-gradient-to-r from-purple-800 via-purple-700 to-indigo-700 text-white text-xs py-2 px-4 shadow-xs">
+          <div className="no-print bg-gradient-to-r from-blue-700 via-indigo-700 to-indigo-800 text-white text-xs py-2 px-4 shadow-xs">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-purple-200 shrink-0" />
+                <Sparkles className="w-4 h-4 text-blue-200 shrink-0" />
                 <span>
-                  <strong>Tu Agenda Lista Pro:</strong> Tus datos se guardan al instante en tu dispositivo de forma gratuita y privada.
-                  Puedes conectar tu cuenta de Google gratis para sincronizar en múltiples dispositivos.
+                  <strong>Sincronización en la nube:</strong> Tus turnos se guardan de forma instantánea y privada en tu dispositivo. Puedes conectar Google gratis para sincronizar en tiempo real en múltiples dispositivos.
                 </span>
               </div>
               <button
                 type="button"
                 onClick={loginWithGoogle}
-                className="px-3 py-1 bg-white hover:bg-gray-100 text-purple-900 rounded-lg font-bold text-xs shrink-0 flex items-center gap-1.5 transition-colors shadow-xs"
+                className="px-3 py-1 bg-white hover:bg-slate-100 text-blue-900 rounded-lg font-bold text-xs shrink-0 flex items-center gap-1.5 transition-colors shadow-xs"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 <span>Conectar Google Gratis</span>
@@ -172,14 +171,14 @@ function MainAppContent() {
           {currentTab === 'configuracion' && <SettingsAndGuideView />}
         </main>
 
-        {/* Footer (Clean & quiet) */}
-        <footer className="no-print mt-auto border-t border-gray-200/80 bg-white py-4 px-6 text-center text-xs text-gray-500">
+        {/* Footer (Professional Whitelabel SaaS) */}
+        <footer className="no-print mt-auto border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-500">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>
-              <strong>Tu Agenda Lista Pro</strong> © {new Date().getFullYear()} — Plataforma profesional de turnos y gestión de salones.
+              <strong>{business?.name || '[Tu Nombre o Marca]'}</strong> © {new Date().getFullYear()} — Desarrollado por <strong className="text-slate-800">{business?.developerName || '[Tu Nombre]'}</strong>.
             </span>
-            <span className="text-gray-400">
-              Diseño súper moderno, mobile-first y sin suscripciones obligatorias.
+            <span className="text-slate-400">
+              Software SaaS profesional de agenda y gestión de clientes.
             </span>
           </div>
         </footer>
@@ -190,7 +189,7 @@ function MainAppContent() {
         <button
           type="button"
           onClick={() => handleOpenNewAppointment()}
-          className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-purple-700 to-indigo-600 text-white shadow-xl shadow-purple-600/30 flex items-center justify-center transition-transform active:scale-95 hover:scale-105"
+          className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-xl shadow-blue-600/30 flex items-center justify-center transition-transform active:scale-95 hover:scale-105"
           title="Nuevo Turno"
         >
           <Plus className="w-6 h-6" />

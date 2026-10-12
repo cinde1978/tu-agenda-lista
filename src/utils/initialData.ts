@@ -8,18 +8,20 @@ export function getTodayDateString(): string {
   return `${year}-${month}-${day}`;
 }
 
-export function getDefaultBusiness(ownerId: string, businessName = 'Mi Centro de Estética'): Business {
+export function getDefaultBusiness(ownerId: string, businessName = '[Tu Nombre o Marca]'): Business {
   const today = getTodayDateString();
   return {
     id: `biz_${ownerId.slice(0, 10)}`,
     ownerId,
     name: businessName,
-    category: 'Estética & Peluquería',
+    category: 'Centro de Estética & Belleza',
     phone: '+54 9 11 4567-8901',
-    address: 'Av. Santa Fe 2340, CABA',
+    address: 'Av. Principal 1234',
     currency: '$',
-    cbuAlias: 'agenda.estetica.mp',
+    cbuAlias: 'agenda.turnos.mp',
     defaultSlotMinutes: 30,
+    developerName: '[Tu Nombre]',
+    tagline: 'Desarrollado por [Tu Nombre]',
     createdAt: today,
     updatedAt: today,
   };
