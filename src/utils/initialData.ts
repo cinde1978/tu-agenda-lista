@@ -25,6 +25,8 @@ export function getDefaultBusiness(ownerId: string, businessName = 'Tu Agenda Li
     mercadoPagoAccessToken: 'APP_USR-78219401284-102914-tuagenda-prod',
     defaultDepositPercentage: 30,
     defaultSlotMinutes: 30,
+    themeColor: '#D4AF37',
+    themeName: 'Oro Metálico & Obsidian (Oficial)',
     developerName: 'Iris Quiroz',
     tagline: 'Desarrollado por Iris Quiroz',
     createdAt: today,

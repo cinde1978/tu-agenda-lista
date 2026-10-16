@@ -238,10 +238,10 @@ export function Sidebar({
           </div>
         )}
 
-        {/* Whitelabel Developer Credit */}
-        <div className="pt-2 border-t border-slate-200/60 text-center">
-          <p className="text-[10.5px] text-slate-500 font-medium">
-            Desarrollado por <span className="font-bold text-slate-800">{developerName}</span>
+        {/* Whitelabel Developer Credit (Fixed & Protected SaaS License) */}
+        <div className="pt-2.5 border-t border-slate-200/70 text-center select-none">
+          <p className="text-[11px] text-slate-500 font-medium">
+            Desarrollado por <span className="font-extrabold text-slate-900 tracking-tight">Iris Quiroz</span>
           </p>
         </div>
       </div>

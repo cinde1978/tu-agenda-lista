@@ -199,15 +199,24 @@ function MainAppContent() {
           {currentTab === 'configuracion' && <SettingsAndGuideView />}
         </main>
 
-        {/* Footer (Professional Whitelabel SaaS) */}
+        {/* Footer (Professional Whitelabel SaaS - Fixed & Protected Iris Quiroz Credits) */}
         <footer className="no-print mt-auto border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-500">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>
-              <strong>{business?.name || 'Tu Agenda Lista'}</strong> © {new Date().getFullYear()} — Desarrollado por <strong className="text-slate-800 font-bold">{business?.developerName || 'Iris Quiroz'}</strong>.
-            </span>
-            <span className="text-slate-400">
-              Software SaaS profesional de agenda y gestión de clientes.
-            </span>
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
+              <strong className="text-slate-900 font-bold">{business?.name || 'Tu Agenda Lista'}</strong>
+              <span className="text-slate-300">© {new Date().getFullYear()}</span>
+              <span className="text-slate-400 hidden sm:inline">·</span>
+              <span className="text-slate-700 font-medium">
+                Desarrollado por <strong className="text-slate-900 font-extrabold tracking-tight">Iris Quiroz</strong>
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-slate-400 justify-center sm:justify-end">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80 shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Licencia SaaS Activa · Iris Quiroz</span>
+              </span>
+              <span className="hidden md:inline text-[11px]">Software SaaS Multi-Cliente</span>
+            </div>
           </div>
         </footer>
       </div>

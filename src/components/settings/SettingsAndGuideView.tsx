@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Settings,
   Building2,
@@ -19,11 +19,15 @@ import {
   EyeOff,
   MessageCircle,
   QrCode,
+  Lock,
+  Palette,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { AppLogo } from '../AppLogo';
 import { usePWAInstall } from '../../hooks/usePWAInstall';
 import { WhatsAppIcon, MercadoPagoIcon } from '../icons';
+import { ConfigImportExportCard } from './ConfigImportExportCard';
+import { THEME_COLOR_OPTIONS } from '../../types';
 
 export function SettingsAndGuideView() {
   const {
@@ -39,7 +43,6 @@ export function SettingsAndGuideView() {
 
   // Local form state
   const [name, setName] = useState(business?.name || 'Tu Agenda Lista');
-  const [developerName, setDeveloperName] = useState(business?.developerName || 'Iris Quiroz');
   const [category, setCategory] = useState(business?.category || 'Centro de Estética & Belleza');
   const [phone, setPhone] = useState(business?.phone || '+54 9 11 4567-8901');
   const [phoneCountryPrefix, setPhoneCountryPrefix] = useState(business?.phoneCountryPrefix || '+54');
@@ -52,17 +55,40 @@ export function SettingsAndGuideView() {
   const [defaultDepositPercentage, setDefaultDepositPercentage] = useState(business?.defaultDepositPercentage || 30);
   const [showToken, setShowToken] = useState(false);
   const [defaultSlotMinutes, setDefaultSlotMinutes] = useState(business?.defaultSlotMinutes || 30);
-  const [tagline, setTagline] = useState(business?.tagline || 'Desarrollado por Iris Quiroz');
+  const [themeColor, setThemeColor] = useState(business?.themeColor || '#D4AF37');
+  const [themeName, setThemeName] = useState(business?.themeName || 'Oro Metálico & Obsidian (Oficial)');
 
   const [isSaved, setIsSaved] = useState(false);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
+
+  // Sync state whenever business updates (e.g. on JSON configuration import)
+  useEffect(() => {
+    if (business) {
+      setName(business.name || 'Tu Agenda Lista');
+      setCategory(business.category || 'Centro de Estética & Belleza');
+      setPhone(business.phone || '+54 9 11 4567-8901');
+      setPhoneCountryPrefix(business.phoneCountryPrefix || '+54');
+      setAddress(business.address || 'Av. Principal 1234');
+      setCurrency(business.currency || '$');
+      setCbuAlias(business.cbuAlias || 'agenda.turnos.mp');
+      setMercadoPagoAccessToken(business.mercadoPagoAccessToken || '');
+      setMercadoPagoAlias(business.mercadoPagoAlias || business.cbuAlias || 'agenda.turnos.mp');
+      setMercadoPagoCvu(business.mercadoPagoCvu || '0000003100085492109482');
+      setDefaultDepositPercentage(business.defaultDepositPercentage || 30);
+      setDefaultSlotMinutes(business.defaultSlotMinutes || 30);
+      setThemeColor(business.themeColor || '#D4AF37');
+      setThemeName(business.themeName || 'Oro Metálico & Obsidian (Oficial)');
+    }
+  }, [business]);
 
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     await updateBusiness({
       name: name.trim() || 'Tu Agenda Lista',
-      developerName: developerName.trim() || 'Iris Quiroz',
-      tagline: tagline.trim() || `Desarrollado por ${developerName.trim() || 'Iris Quiroz'}`,
+      developerName: 'Iris Quiroz', // Protected immutable master SaaS license
+      tagline: 'Desarrollado por Iris Quiroz',
+      themeColor,
+      themeName,
       category: category.trim(),
       phone: phone.trim(),
       phoneCountryPrefix: phoneCountryPrefix.trim() || '+54',
@@ -113,7 +139,7 @@ export function SettingsAndGuideView() {
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                Desarrollado por <strong className="text-[#E5C378] font-bold">{developerName || 'Iris Quiroz'}</strong>
+                Desarrollado por <strong className="text-[#E5C378] font-bold">Iris Quiroz</strong>
               </p>
             </div>
           </div>
@@ -127,41 +153,8 @@ export function SettingsAndGuideView() {
         </div>
       </div>
 
-      {/* 2. PWA Direct Access Box (Generous padding, clean spacing, clear readable description) */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-start sm:items-center gap-4">
-          <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-indigo-700 text-white flex items-center justify-center shrink-0 shadow-sm">
-            <Smartphone className="w-6 h-6" />
-          </div>
-          <div>
-            <h3 className="font-extrabold text-base sm:text-lg text-slate-900 leading-tight">
-              Aplicación Web Móvil (PWA)
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl mt-1.5">
-              Permite a los profesionales y clientes guardar <strong>Tu Agenda Lista</strong> directamente en la pantalla de inicio de su teléfono o computadora con un solo toque, funcionando como una app nativa veloz y sin pasar por tiendas de aplicaciones.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0 pt-2 md:pt-0">
-          {isInstalled ? (
-            <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs sm:text-sm font-bold shadow-2xs">
-              <Check className="w-4 h-4" />
-              <span>App Instalada en este dispositivo</span>
-            </span>
-          ) : (
-            <button
-              type="button"
-              onClick={install}
-              disabled={!isInstallable}
-              className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2 disabled:opacity-60 active:scale-95"
-            >
-              <Download className="w-4 h-4" />
-              <span>{isInstallable ? 'Instalar Ahora en este Dispositivo' : 'Listo para Instalar en Navegador'}</span>
-            </button>
-          )}
-        </div>
-      </div>
+      {/* 2. SaaS White-Label Multi-Cliente: Exportar e Importar Configuración JSON */}
+      <ConfigImportExportCard />
 
       {/* 3. Personalización de Marca & Software (Adequate padding, clear input labels, spacious buttons) */}
       <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-7">
@@ -173,7 +166,7 @@ export function SettingsAndGuideView() {
             <div>
               <h2 className="text-xl font-extrabold text-slate-900">Personalización de Marca & Software</h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
-                Configura el nombre principal de la aplicación, firma de autor/desarrollador, moneda y datos del negocio.
+                Configura el nombre principal de la aplicación, paleta de colores del salón, moneda y datos del negocio.
               </p>
             </div>
           </div>
@@ -190,17 +183,77 @@ export function SettingsAndGuideView() {
         </div>
 
         <form onSubmit={handleSaveSettings} className="space-y-6">
-          {/* Whitelabel Identity Container */}
-          <div className="p-5 sm:p-7 rounded-2xl bg-slate-50/90 border border-slate-200/80 space-y-5">
+          {/* Panel de Control de Licencia SaaS (Protegido e Inmutable) */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-[#0F1420] border-2 border-[#D4AF37]/45 text-white space-y-4 shadow-md">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-amber-500/20 text-[#D4AF37] border border-amber-400/30">
+                  <ShieldCheck className="w-5 h-5 text-[#E5C378]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-sm font-extrabold text-white tracking-tight">
+                      Panel de Control de Licencia SaaS
+                    </h4>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 flex items-center gap-1">
+                      <Lock className="w-2.5 h-2.5" />
+                      Inmutable
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    Derechos de autor y autoría protegidos contractualmente contra modificaciones o borrado accidental.
+                  </p>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono font-bold text-[#E5C378] bg-white/5 px-3 py-1 rounded-xl border border-white/10 self-start sm:self-auto shadow-2xs">
+                LIC-SAAS-IRIS-QUIROZ-2026
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-1.5">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  Desarrollado por (Pie de Página y Créditos Oficiales)
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-black text-white tracking-tight">
+                    Iris Quiroz
+                  </span>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] uppercase shadow-2xs">
+                    Master Autor
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  Fijado de forma permanente en el pie de página y barra lateral de la aplicación para garantizar la autoría del software.
+                </p>
+              </div>
+
+              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-1.5">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  Estado de Protección de Licencia
+                </span>
+                <div className="flex items-center gap-2 text-emerald-300 font-bold text-sm">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>Activa · Protegida contra Borrado</span>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  Los créditos "Desarrollado por Iris Quiroz" se mantienen fijos aunque se importen o dupliquen nuevos salones.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Configuración de Marca del Cliente y Colores */}
+          <div className="p-5 sm:p-7 rounded-2xl bg-slate-50/90 border border-slate-200/80 space-y-6">
             <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
               <Award className="w-4 h-4 text-blue-600" />
-              Identidad de Marca (White-Label)
+              Identidad de Marca del Salón (White-Label)
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
-                  Título Principal de la Aplicación *
+                  Título Principal del Salón o Negocio *
                 </label>
                 <input
                   type="text"
@@ -215,23 +268,39 @@ export function SettingsAndGuideView() {
                 </span>
               </div>
 
+              {/* Selector de Paleta de Colores del Salón */}
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
-                  Desarrollado por (Pie de página y Crédito) *
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                  <Palette className="w-3.5 h-3.5 text-blue-600" />
+                  Paleta de Color de Marca del Salón
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Iris Quiroz"
-                  value={developerName}
-                  onChange={(e) => {
-                    setDeveloperName(e.target.value);
-                    setTagline(`Desarrollado por ${e.target.value}`);
-                  }}
-                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900 shadow-2xs transition-all"
-                />
+                <div className="grid grid-cols-3 gap-2">
+                  {THEME_COLOR_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => {
+                        setThemeColor(opt.hex);
+                        setThemeName(opt.name);
+                      }}
+                      className={`p-2 rounded-xl border text-left transition-all flex items-center gap-2 ${
+                        themeColor === opt.hex
+                          ? 'border-slate-900 bg-white ring-2 ring-slate-900/10 shadow-xs'
+                          : 'border-slate-200 bg-white hover:bg-slate-50'
+                      }`}
+                    >
+                      <span
+                        className="w-4 h-4 rounded-full shrink-0 shadow-2xs"
+                        style={{ backgroundColor: opt.hex }}
+                      />
+                      <span className="text-[11px] font-bold text-slate-800 truncate">
+                        {opt.name.split(' ')[0]}
+                      </span>
+                    </button>
+                  ))}
+                </div>
                 <span className="text-xs text-slate-500 mt-2 block leading-relaxed">
-                  Aparece al pie del menú lateral y pie de página como "Desarrollado por {developerName || 'Iris Quiroz'}"
+                  Color activo: <strong className="text-slate-800">{themeName}</strong> ({themeColor}). Se guarda y exporta en el JSON del cliente.
                 </span>
               </div>
             </div>

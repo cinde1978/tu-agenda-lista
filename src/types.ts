@@ -21,7 +21,9 @@ export interface Business {
   defaultSlotMinutes: number;
   openingHour?: string; // e.g. "08:00"
   closingHour?: string; // e.g. "20:00"
-  developerName?: string; // e.g. "Iris Quiroz"
+  themeColor?: string; // Hex color for salon brand identity (e.g. "#D4AF37", "#2563eb", etc.)
+  themeName?: string; // e.g. "Oro & Obsidian Luxury"
+  developerName?: string; // Strictly fixed: "Iris Quiroz"
   tagline?: string;
   createdAt: string;
   updatedAt: string;
@@ -119,3 +121,56 @@ export const APPOINTMENT_COLORS = [
   { label: 'Coral', hex: '#ea580c' },
   { label: 'Grafito', hex: '#475569' },
 ];
+
+export interface ThemeColorOption {
+  id: string;
+  name: string;
+  hex: string;
+  category: string;
+}
+
+export const THEME_COLOR_OPTIONS: ThemeColorOption[] = [
+  { id: 'gold', name: 'Oro Metálico & Obsidian (Oficial)', hex: '#D4AF37', category: 'Alta Gama / Monograma' },
+  { id: 'blue', name: 'Azul Real & Índigo', hex: '#2563eb', category: 'Peluquería & Estilismo' },
+  { id: 'emerald', name: 'Esmeralda Botanicals', hex: '#059669', category: 'Spa & Relax' },
+  { id: 'pink', name: 'Rosa Glam & Magenta', hex: '#ec4899', category: 'Uñas & Manicuría' },
+  { id: 'violet', name: 'Lavanda & Violeta Intenso', hex: '#7c3aed', category: 'Estética & Mirada' },
+  { id: 'dark', name: 'Grafito & Acero Negro', hex: '#334155', category: 'Barber Club' },
+];
+
+export interface BusinessConfigExport {
+  version: string;
+  schema: 'TuAgendaLista_Config';
+  exportedAt: string;
+  business: {
+    name: string;
+    category: string;
+    phone: string;
+    phoneCountryPrefix?: string;
+    address: string;
+    currency: string;
+    cbuAlias?: string;
+    mercadoPagoAccessToken?: string;
+    mercadoPagoAlias?: string;
+    mercadoPagoCvu?: string;
+    defaultDepositPercentage?: number;
+    defaultSlotMinutes: number;
+    openingHour?: string;
+    closingHour?: string;
+    themeColor?: string;
+    themeName?: string;
+  };
+  colors?: {
+    primary: string;
+    themeName?: string;
+    palette?: string[];
+  };
+  services: Array<Omit<Service, 'businessId' | 'createdAt'>>;
+  staff: Array<Omit<StaffMember, 'businessId' | 'createdAt'>>;
+  license: {
+    developer: 'Iris Quiroz';
+    type: 'SaaS Multi-Cliente PRO';
+    status: 'ACTIVE_VERIFIED';
+    protected: true;
+  };
+}

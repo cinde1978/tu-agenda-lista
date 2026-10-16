@@ -24,6 +24,7 @@ import {
   StaffMember,
   Appointment,
   CashMovement,
+  BusinessConfigExport,
 } from '../types';
 import {
   getDefaultBusiness,
@@ -82,6 +83,8 @@ interface AppContextType {
   deleteCashMovement: (id: string) => Promise<void>;
   resetToSampleData: () => Promise<void>;
   exportAppointmentsToCSV: (dateFilter?: string) => void;
+  exportBusinessConfiguration: () => BusinessConfigExport;
+  importBusinessConfiguration: (imported: BusinessConfigExport) => Promise<{ servicesCount: number; staffCount: number }>;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -379,6 +382,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const merged: Business = {
         ...business,
         ...updated,
+        developerName: 'Iris Quiroz', // Protected master SaaS license - immutable
+        tagline: 'Desarrollado por Iris Quiroz',
         updatedAt: getTodayDateString(),
       };
       setBusiness(merged);
@@ -797,6 +802,156 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     URL.revokeObjectURL(url);
   }, [appointments]);
 
+  // Export full business configuration (White-Label multi-client JSON)
+  const exportBusinessConfiguration = useCallback((): BusinessConfigExport => {
+    return {
+      version: '2.0',
+      schema: 'TuAgendaLista_Config',
+      exportedAt: new Date().toISOString(),
+      business: {
+        name: business?.name || 'Tu Agenda Lista',
+        category: business?.category || 'Centro de Estética & Belleza',
+        phone: business?.phone || '',
+        phoneCountryPrefix: business?.phoneCountryPrefix || '+54',
+        address: business?.address || '',
+        currency: business?.currency || '$',
+        cbuAlias: business?.cbuAlias || '',
+        mercadoPagoAccessToken: business?.mercadoPagoAccessToken || '',
+        mercadoPagoAlias: business?.mercadoPagoAlias || '',
+        mercadoPagoCvu: business?.mercadoPagoCvu || '',
+        defaultDepositPercentage: business?.defaultDepositPercentage || 30,
+        defaultSlotMinutes: business?.defaultSlotMinutes || 30,
+        openingHour: business?.openingHour || '08:00',
+        closingHour: business?.closingHour || '20:00',
+        themeColor: business?.themeColor || '#D4AF37',
+        themeName: business?.themeName || 'Oro Metálico & Obsidian (Oficial)',
+      },
+      colors: {
+        primary: business?.themeColor || '#D4AF37',
+        themeName: business?.themeName || 'Oro Metálico & Obsidian (Oficial)',
+        palette: [
+          business?.themeColor || '#D4AF37',
+          '#2563eb',
+          '#059669',
+          '#ec4899',
+          '#7c3aed',
+          '#334155',
+        ],
+      },
+      services: services.map((s) => ({
+        id: s.id,
+        name: s.name,
+        category: s.category,
+        durationMinutes: s.durationMinutes,
+        price: s.price,
+        description: s.description,
+        color: s.color,
+        active: s.active,
+      })),
+      staff: staff.map((st) => ({
+        id: st.id,
+        name: st.name,
+        role: st.role,
+        phone: st.phone,
+        color: st.color,
+        workingDays: st.workingDays,
+        workingHoursStart: st.workingHoursStart,
+        workingHoursEnd: st.workingHoursEnd,
+        blockedDates: st.blockedDates,
+        active: st.active,
+      })),
+      license: {
+        developer: 'Iris Quiroz',
+        type: 'SaaS Multi-Cliente PRO',
+        status: 'ACTIVE_VERIFIED',
+        protected: true,
+      },
+    };
+  }, [business, services, staff]);
+
+  // Import full business configuration (White-Label multi-client JSON)
+  const importBusinessConfiguration = useCallback(
+    async (imported: BusinessConfigExport): Promise<{ servicesCount: number; staffCount: number }> => {
+      if (!imported || !imported.business) {
+        throw new Error('El archivo JSON no tiene un formato válido de configuración.');
+      }
+
+      const today = getTodayDateString();
+      const updatedBusiness: Business = {
+        ...(business || getDefaultBusiness(user ? user.uid : 'local_owner')),
+        name: imported.business.name || 'Tu Agenda Lista',
+        category: imported.business.category || 'Centro de Estética & Belleza',
+        phone: imported.business.phone || '',
+        phoneCountryPrefix: imported.business.phoneCountryPrefix || '+54',
+        address: imported.business.address || '',
+        currency: imported.business.currency || '$',
+        cbuAlias: imported.business.cbuAlias || '',
+        mercadoPagoAccessToken: imported.business.mercadoPagoAccessToken || '',
+        mercadoPagoAlias: imported.business.mercadoPagoAlias || imported.business.cbuAlias || '',
+        mercadoPagoCvu: imported.business.mercadoPagoCvu || '',
+        defaultDepositPercentage: imported.business.defaultDepositPercentage || 30,
+        defaultSlotMinutes: imported.business.defaultSlotMinutes || 30,
+        openingHour: imported.business.openingHour || '08:00',
+        closingHour: imported.business.closingHour || '20:00',
+        themeColor: imported.business.themeColor || imported.colors?.primary || '#D4AF37',
+        themeName: imported.business.themeName || imported.colors?.themeName || 'Oro Metálico & Obsidian (Oficial)',
+        developerName: 'Iris Quiroz',
+        tagline: 'Desarrollado por Iris Quiroz',
+        updatedAt: today,
+      };
+
+      const newServices: Service[] = (imported.services || []).map((s, idx) => ({
+        id: s.id || `srv_${Date.now()}_${idx}`,
+        businessId: currentBusinessId,
+        name: s.name,
+        category: s.category || 'General',
+        durationMinutes: Number(s.durationMinutes) || 30,
+        price: Number(s.price) || 0,
+        description: s.description || '',
+        color: s.color || '#3b82f6',
+        active: s.active !== false,
+        createdAt: today,
+      }));
+
+      const newStaff: StaffMember[] = (imported.staff || []).map((st, idx) => ({
+        id: st.id || `stf_${Date.now()}_${idx}`,
+        businessId: currentBusinessId,
+        name: st.name,
+        role: st.role || 'Especialista',
+        phone: st.phone || '',
+        color: st.color || '#0284c7',
+        workingDays: Array.isArray(st.workingDays) ? st.workingDays : [1, 2, 3, 4, 5, 6],
+        workingHoursStart: st.workingHoursStart || '08:00',
+        workingHoursEnd: st.workingHoursEnd || '20:00',
+        blockedDates: Array.isArray(st.blockedDates) ? st.blockedDates : [],
+        active: st.active !== false,
+        createdAt: today,
+      }));
+
+      setBusiness(updatedBusiness);
+      if (newServices.length > 0) setServices(newServices);
+      if (newStaff.length > 0) setStaff(newStaff);
+
+      if (user && currentBusinessId) {
+        try {
+          const batch = writeBatch(db);
+          batch.set(doc(db, 'businesses', currentBusinessId), updatedBusiness, { merge: true });
+          newServices.forEach((s) => batch.set(doc(db, `businesses/${currentBusinessId}/services`, s.id), s));
+          newStaff.forEach((st) => batch.set(doc(db, `businesses/${currentBusinessId}/staff`, st.id), st));
+          await batch.commit();
+        } catch (err) {
+          console.error('Error writing imported config to firestore', err);
+        }
+      }
+
+      return {
+        servicesCount: newServices.length,
+        staffCount: newStaff.length,
+      };
+    },
+    [business, currentBusinessId, user]
+  );
+
   const value = {
     user,
     authLoading,
@@ -832,6 +987,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     deleteCashMovement,
     resetToSampleData,
     exportAppointmentsToCSV,
+    exportBusinessConfiguration,
+    importBusinessConfiguration,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
