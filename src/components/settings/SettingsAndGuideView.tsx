@@ -10,7 +10,6 @@ import {
   Sparkles,
   ShieldCheck,
   RefreshCw,
-  Copy,
   Award,
   Smartphone,
   Download,
@@ -59,7 +58,6 @@ export function SettingsAndGuideView() {
   const [themeName, setThemeName] = useState(business?.themeName || 'Oro Metálico & Obsidian (Oficial)');
 
   const [isSaved, setIsSaved] = useState(false);
-  const [copiedSection, setCopiedSection] = useState<string | null>(null);
 
   // Sync state whenever business updates (e.g. on JSON configuration import)
   useEffect(() => {
@@ -103,12 +101,6 @@ export function SettingsAndGuideView() {
     });
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 2500);
-  };
-
-  const copyToClipboard = (text: string, sectionId: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedSection(sectionId);
-    setTimeout(() => setCopiedSection(null), 2000);
   };
 
   return (
@@ -557,91 +549,6 @@ export function SettingsAndGuideView() {
             </button>
           </div>
         </form>
-      </div>
-
-      {/* 4. Guide: Ownership, Export and Deployment */}
-      <div className="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl space-y-8">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/20 text-sky-300 text-xs font-bold border border-blue-400/30">
-            <ShieldCheck className="w-4 h-4" />
-            100% Control y Propiedad del Código
-          </div>
-          <h3 className="text-2xl font-extrabold text-white">
-            Guía de Uso, Descarga y Comercialización Independiente
-          </h3>
-          <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-            Esta aplicación está desarrollada sobre estándares abiertos (React 19, TypeScript, Tailwind CSS y Firebase).
-            No dependes de suscripciones obligatorias ni plataformas cerradas: eres libre de comercializarla,
-            alojarla en tu propio dominio y ofrecerla a salones y estilistas bajo tu propia marca <strong>Tu Agenda Lista</strong>.
-          </p>
-        </div>
-
-        {/* Step 1: Testing */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-2">
-          <div className="flex items-center gap-2 text-sky-400 font-bold text-sm">
-            <span className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center text-xs">1</span>
-            ¿Cómo probar la aplicación ahora mismo?
-          </div>
-          <ul className="text-xs text-slate-300 space-y-1.5 pl-8 list-disc">
-            <li><strong>Agenda:</strong> Navega entre vista Diaria, Semanal y Mensual. Haz clic en cualquier hueco para crear un turno.</li>
-            <li><strong>WhatsApp:</strong> Abre cualquier turno y toca el botón "WhatsApp". Se generará el mensaje personalizado listo para enviar.</li>
-            <li><strong>Caja Diaria:</strong> Al finalizar un turno, haz clic en "Completar y Cobrar". El dinero ingresará automáticamente a la caja del día.</li>
-            <li><strong>Clientes y Servicios:</strong> Administra las fichas de clientes y el catálogo de tratamientos con sus precios y duraciones.</li>
-          </ul>
-        </div>
-
-        {/* Step 2: Download Code */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sky-400 font-bold text-sm">
-              <span className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center text-xs">2</span>
-              ¿Cómo descargar y clonar el código a tu computadora?
-            </div>
-          </div>
-          <p className="text-xs text-slate-300 pl-8">
-            Puedes clonar el repositorio o descargar los archivos del proyecto directamente en tu máquina.
-            Para ejecutarlo localmente:
-          </p>
-          <div className="bg-slate-950 p-3.5 rounded-xl text-xs font-mono text-emerald-400 flex items-center justify-between border border-white/10 ml-8">
-            <code>npm install && npm run dev</code>
-            <button
-              onClick={() => copyToClipboard('npm install && npm run dev', 'npm_run')}
-              className="text-slate-400 hover:text-white p-1"
-              title="Copiar comando"
-            >
-              {copiedSection === 'npm_run' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Step 3: Own Firebase */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-2">
-          <div className="flex items-center gap-2 text-sky-400 font-bold text-sm">
-            <span className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center text-xs">3</span>
-            ¿Cómo conectar tu propia base de datos Firebase 100% gratuita?
-          </div>
-          <ol className="text-xs text-slate-300 space-y-1.5 pl-8 list-decimal">
-            <li>Ingresa a <a href="https://console.firebase.google.com" target="_blank" rel="noreferrer" className="text-sky-300 underline font-medium">console.firebase.google.com</a> con cualquier cuenta de Google.</li>
-            <li>Crea un proyecto nuevo (el plan gratuito Spark incluye Firestore y Autenticación sin costo).</li>
-            <li>En "Authentication", activa el proveedor de "Google".</li>
-            <li>En "Cloud Firestore", crea la base de datos y copia las reglas de seguridad de este proyecto (<code className="text-sky-300">firestore.rules</code>).</li>
-            <li>Copia las credenciales web en tu archivo <code className="text-sky-300">firebase-applet-config.json</code>. ¡Listo, tus datos serán 100% privados y tuyos!</li>
-          </ol>
-        </div>
-
-        {/* Step 4: Publish to Web */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-2">
-          <div className="flex items-center gap-2 text-sky-400 font-bold text-sm">
-            <span className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center text-xs">4</span>
-            ¿Cómo publicarla en tu propio dominio?
-          </div>
-          <ul className="text-xs text-slate-300 space-y-1.5 pl-8 list-disc">
-            <li><strong>Vercel o Netlify:</strong> Conecta tu repositorio de GitHub en Vercel o Netlify y compila con un clic (<code className="text-sky-300">npm run build</code>). Tienen planes gratuitos excelentes.</li>
-            <li><strong>Firebase Hosting:</strong> Ejecuta <code className="text-sky-300">firebase deploy</code> para alojar la web directamente en los servidores de Google con SSL gratis.</li>
-            <li><strong>Dominio propio:</strong> Configura tu dominio personalizado en los DNS sin pagar costo extra.</li>
-            <li><strong>Monetización:</strong> Puedes cobrar una tarifa mensual o instalación llave en mano a salones de belleza, barberías y manicurías.</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
