@@ -23,6 +23,7 @@ import {
 import { useApp } from '../../context/AppContext';
 import { AppLogo } from '../AppLogo';
 import { usePWAInstall } from '../../hooks/usePWAInstall';
+import { WhatsAppIcon, MercadoPagoIcon } from '../icons';
 
 export function SettingsAndGuideView() {
   const {
@@ -268,9 +269,7 @@ export function SettingsAndGuideView() {
           <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
-                  <MessageCircle className="w-4 h-4" />
-                </div>
+                <WhatsAppIcon size={34} variant="badge" className="shadow-xs" />
                 <div>
                   <h4 className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
                     Configuración de WhatsApp & Envíos Directos
@@ -355,9 +354,7 @@ export function SettingsAndGuideView() {
           <div className="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-sky-50 via-white to-sky-50/50 border-2 border-[#009EE3]/40 shadow-sm space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-100 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#009EE3] text-white font-black text-lg flex items-center justify-center shadow-md">
-                  MP
-                </div>
+                <MercadoPagoIcon size={40} variant="badge" className="shadow-md ring-2 ring-white/50" />
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">

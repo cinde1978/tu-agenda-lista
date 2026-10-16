@@ -1,8 +1,9 @@
 import React from 'react';
-import { Clock, Plus, User, Scissors, MessageCircle, AlertCircle, CheckCircle } from 'lucide-react';
+import { Clock, Plus, User, Scissors, AlertCircle, CheckCircle } from 'lucide-react';
 import { Appointment, StaffMember } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { formatCurrency, getStatusBadge, openWhatsAppTurno } from '../../utils/formatters';
+import { WhatsAppIcon } from '../icons/WhatsAppIcon';
 
 interface AgendaDayViewProps {
   currentDate: string;
@@ -129,7 +130,7 @@ export function AgendaDayView({
                                   className="p-1.5 hover:bg-emerald-600 rounded-lg text-emerald-600 hover:text-white transition-all shadow-2xs"
                                   title={`Enviar WhatsApp a ${apt.clientName}`}
                                 >
-                                  <MessageCircle className="w-3.5 h-3.5" />
+                                  <WhatsAppIcon size={14} variant="monochrome" />
                                 </button>
                               )}
                             </div>

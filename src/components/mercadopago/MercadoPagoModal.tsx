@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Copy, Check, ExternalLink, QrCode, CreditCard, ShieldCheck, MessageCircle, DollarSign, Sparkles } from 'lucide-react';
 import { Appointment, Business } from '../../types';
 import { formatCurrency, formatDateSpanish, cleanPhoneForWhatsApp } from '../../utils/formatters';
+import { MercadoPagoIcon, WhatsAppIcon } from '../icons';
 
 export interface MercadoPagoModalProps {
   appointment: Partial<Appointment>;
@@ -102,9 +103,7 @@ export function MercadoPagoModal({
         {/* Mercado Pago Header */}
         <div className="bg-gradient-to-r from-[#009EE3] to-[#0074B7] px-6 py-5 text-white flex items-center justify-between shrink-0 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white text-[#009EE3] font-black text-xl flex items-center justify-center shadow-md">
-              MP
-            </div>
+            <MercadoPagoIcon size={40} variant="badge" className="shadow-md ring-2 ring-white/30" />
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-extrabold text-lg leading-tight text-white tracking-tight">
@@ -413,7 +412,7 @@ export function MercadoPagoModal({
             onClick={handleSendWhatsAppPayment}
             className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-sm shadow-emerald-600/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
           >
-            <MessageCircle className="w-4 h-4" />
+            <WhatsAppIcon size={18} variant="monochrome" />
             <span>Enviar Link de Seña por WhatsApp al Cliente</span>
           </button>
         </div>

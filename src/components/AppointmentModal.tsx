@@ -4,6 +4,7 @@ import { Appointment, AppointmentStatus, PaymentMethod, APPOINTMENT_COLORS } fro
 import { useApp } from '../context/AppContext';
 import { getTodayDateString } from '../utils/initialData';
 import { MercadoPagoModal } from './mercadopago/MercadoPagoModal';
+import { MercadoPagoIcon } from './icons/MercadoPagoIcon';
 
 interface AppointmentModalProps {
   initialDate?: string;
@@ -493,7 +494,7 @@ export function AppointmentModal({
                 onClick={() => setShowMercadoPagoModal(true)}
                 className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#009EE3] to-[#007BBB] hover:from-[#0089C7] hover:to-[#006EA8] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
               >
-                <CreditCard className="w-4 h-4" />
+                <MercadoPagoIcon size={18} variant="badge" />
                 <span>Pagar Seña con Mercado Pago (Link / QR)</span>
               </button>
               <span className="text-[11px] text-slate-500">

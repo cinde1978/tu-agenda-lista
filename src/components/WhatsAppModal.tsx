@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, Send, Copy, Check, MessageCircle, Sparkles } from 'lucide-react';
 import { Appointment, Business } from '../types';
 import { cleanPhoneForWhatsApp, formatDateSpanishLong } from '../utils/formatters';
+import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface WhatsAppModalProps {
   appointment: Appointment;
@@ -64,8 +65,8 @@ export function WhatsAppModal({ appointment, business, onClose }: WhatsAppModalP
         {/* Header */}
         <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-5 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-xs">
-              <MessageCircle className="w-6 h-6 text-white" />
+            <div className="p-2 bg-white/20 rounded-xl backdrop-blur-xs">
+              <WhatsAppIcon size={24} variant="monochrome" className="text-white" />
             </div>
             <div>
               <h3 className="font-bold text-lg leading-tight">Enviar Mensaje de WhatsApp</h3>
@@ -185,7 +186,7 @@ export function WhatsAppModal({ appointment, business, onClose }: WhatsAppModalP
               disabled={!cleanPhone}
               className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm flex items-center gap-2 shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              <Send className="w-4 h-4" />
+              <WhatsAppIcon size={16} variant="monochrome" />
               <span>Abrir en WhatsApp</span>
             </button>
           </div>

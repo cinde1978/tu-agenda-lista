@@ -1,8 +1,9 @@
 import React from 'react';
-import { Clock, MessageCircle, Calendar } from 'lucide-react';
+import { Clock, Calendar } from 'lucide-react';
 import { Appointment } from '../types';
 import { useApp } from '../context/AppContext';
 import { formatCurrency, getStatusBadge, openWhatsAppTurno } from '../utils/formatters';
+import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface UpcomingTodayWidgetProps {
   onSelectAppointment: (appointment: Appointment) => void;
@@ -118,7 +119,7 @@ export function UpcomingTodayWidget({
                     className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white transition-all shrink-0 shadow-2xs hover:scale-105 active:scale-95"
                     title={`Enviar WhatsApp a ${apt.clientName}`}
                   >
-                    <MessageCircle className="w-4 h-4" />
+                    <WhatsAppIcon size={16} variant="monochrome" />
                   </button>
                 )}
               </div>

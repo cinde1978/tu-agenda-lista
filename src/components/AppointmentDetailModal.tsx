@@ -21,6 +21,7 @@ import { useApp } from '../context/AppContext';
 import { formatCurrency, formatDateSpanishLong, getStatusBadge, openWhatsAppTurno } from '../utils/formatters';
 import { WhatsAppModal } from './WhatsAppModal';
 import { MercadoPagoModal } from './mercadopago/MercadoPagoModal';
+import { WhatsAppIcon, MercadoPagoIcon } from './icons';
 
 interface AppointmentDetailModalProps {
   appointment: Appointment;
@@ -116,7 +117,7 @@ export function AppointmentDetailModal({
                     className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95"
                     title="Abrir WhatsApp directamente con confirmación"
                   >
-                    <MessageCircle className="w-4 h-4" />
+                    <WhatsAppIcon size={16} variant="monochrome" />
                     <span>WhatsApp</span>
                   </button>
                   <button
@@ -195,7 +196,7 @@ export function AppointmentDetailModal({
                     onClick={() => setShowMercadoPagoModal(true)}
                     className="w-full py-2.5 px-3 bg-gradient-to-r from-[#009EE3] to-[#0074B7] hover:from-[#0089C7] hover:to-[#006EA8] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
                   >
-                    <CreditCard className="w-4 h-4" />
+                    <MercadoPagoIcon size={18} variant="badge" />
                     <span>Pagar Seña con Mercado Pago (Link / QR)</span>
                   </button>
                 </div>
