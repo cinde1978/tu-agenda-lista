@@ -55,7 +55,7 @@ export function Sidebar({
     { id: 'caja', label: 'Caja Diaria', icon: <Wallet className="w-4 h-4" /> },
     { id: 'reportes', label: 'Estadísticas', icon: <BarChart3 className="w-4 h-4" /> },
     { id: 'exportar', label: 'Imprimir / Excel', icon: <Printer className="w-4 h-4" /> },
-    { id: 'configuracion', label: 'Configuración & Marca', icon: <Settings className="w-4 h-4" /> },
+    { id: 'configuracion', label: 'Ajustes del Negocio', icon: <Settings className="w-4 h-4" /> },
   ];
 
   // Calculate today's projected revenue

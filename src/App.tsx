@@ -14,7 +14,7 @@ import { StaffView } from './components/staff/StaffView';
 import { CashView } from './components/cash/CashView';
 import { ReportsView } from './components/reports/ReportsView';
 import { ExportView } from './components/export/ExportView';
-import { SettingsAndGuideView } from './components/settings/SettingsAndGuideView';
+import { SettingsView } from './components/SettingsView';
 import { AppointmentModal } from './components/AppointmentModal';
 import { AppointmentDetailModal } from './components/AppointmentDetailModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
@@ -196,7 +196,7 @@ function MainAppContent() {
 
           {currentTab === 'exportar' && <ExportView />}
 
-          {currentTab === 'configuracion' && <SettingsAndGuideView />}
+          {currentTab === 'configuracion' && <SettingsView />}
         </main>
 
         {/* Footer (Professional Whitelabel SaaS - Fixed & Protected Iris Quiroz Credits) */}

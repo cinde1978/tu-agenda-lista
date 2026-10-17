@@ -44,7 +44,7 @@ export function Navbar({ currentTab, onSelectTab, onNewAppointment, onOpenRemind
     { id: 'caja', label: 'Caja Diaria', icon: <Wallet className="w-4 h-4" /> },
     { id: 'reportes', label: 'Estadísticas', icon: <BarChart3 className="w-4 h-4" /> },
     { id: 'exportar', label: 'Imprimir / Excel', icon: <FileSpreadsheet className="w-4 h-4" /> },
-    { id: 'configuracion', label: 'Mi Negocio & Guía', icon: <Settings className="w-4 h-4" /> },
+    { id: 'configuracion', label: 'Ajustes', icon: <Settings className="w-4 h-4" /> },
   ];
 
   return (
