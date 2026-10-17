@@ -106,202 +106,211 @@ export function StaffModal({ staffToEdit, onClose, onSaved }: StaffModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-lg max-h-[90vh] overflow-y-auto my-auto animate-in fade-in zoom-in-95 duration-150">
-        <div className="bg-gradient-to-r from-blue-700 to-sky-600 p-5 text-white flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-xs">
-              <User className="w-5 h-5 text-white" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4">
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg max-h-[85vh] flex flex-col my-auto overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+        {/* Modal Header (Compact) */}
+        <div className="bg-gradient-to-r from-blue-700 to-sky-600 px-4 py-3 sm:px-5 sm:py-3.5 text-white flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 bg-white/20 rounded-lg backdrop-blur-xs">
+              <User className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-lg">
+              <h3 className="font-bold text-base sm:text-lg leading-tight">
                 {staffToEdit ? 'Editar Profesional' : 'Nuevo Profesional'}
               </h3>
-              <p className="text-blue-100 text-xs">
-                Configura días de atención, horarios y bloqueos de agenda
+              <p className="text-blue-100 text-[11px] sm:text-xs">
+                Configura atención, horarios y bloqueos
               </p>
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-1.5 hover:bg-white/20 rounded-lg text-white/80 hover:text-white"
+            className="p-1.5 hover:bg-white/20 rounded-lg text-white/80 hover:text-white transition-colors cursor-pointer"
+            title="Cerrar modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Nombre Completo *</label>
-              <input
-                type="text"
-                required
-                placeholder="Ej. Camila Rossi"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
-              />
-            </div>
+        {/* Scrollable Form Body with Sticky Footer */}
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto flex flex-col justify-between">
+          <div className="p-4 sm:p-5 space-y-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label className="text-xs font-bold text-slate-800 block mb-1">Nombre Completo *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Ej. Camila Rossi"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full text-xs sm:text-sm p-2 rounded-xl border border-slate-300 focus:border-blue-600 outline-none font-medium"
+                />
+              </div>
 
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Especialidad / Rol *</label>
-              <input
-                type="text"
-                required
-                placeholder="Ej. Colorista & Peinadora"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">WhatsApp / Contacto</label>
-              <input
-                type="tel"
-                placeholder="+54 9 11 1234-5678"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Color distintivo</label>
-              <div className="flex items-center gap-2">
-                {COLORS.map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setColor(c)}
-                    className={`w-7 h-7 rounded-full border-2 transition-all ${
-                      color === c ? 'scale-110 border-slate-800' : 'border-transparent hover:scale-105'
-                    }`}
-                    style={{ backgroundColor: c }}
-                  />
-                ))}
+              <div>
+                <label className="text-xs font-bold text-slate-800 block mb-1">Especialidad / Rol *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Ej. Colorista & Peinadora"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full text-xs sm:text-sm p-2 rounded-xl border border-slate-300 focus:border-blue-600 outline-none font-medium"
+                />
               </div>
             </div>
-          </div>
 
-          {/* Working Days */}
-          <div>
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-2">
-              Días de atención en la semana
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {DAYS_OF_WEEK.map((d) => {
-                const isSelected = workingDays.includes(d.day);
-                return (
-                  <button
-                    key={d.day}
-                    type="button"
-                    onClick={() => toggleDay(d.day)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                      isSelected
-                        ? 'bg-blue-600 text-white shadow-xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    {d.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label className="text-xs font-bold text-slate-800 block mb-1">WhatsApp / Contacto</label>
+                <input
+                  type="tel"
+                  placeholder="+54 9 11 1234-5678"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full text-xs sm:text-sm p-2 rounded-xl border border-slate-300 focus:border-blue-600 outline-none font-medium"
+                />
+              </div>
 
-          {/* Working Hours */}
-          <div className="grid grid-cols-2 gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-            <div>
-              <label className="text-xs font-semibold text-slate-600 block mb-1">Hora de entrada</label>
-              <input
-                type="time"
-                value={workingHoursStart}
-                onChange={(e) => setWorkingHoursStart(e.target.value)}
-                className="w-full text-sm p-2 rounded-lg border border-slate-200 bg-white outline-none"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-semibold text-slate-600 block mb-1">Hora de salida</label>
-              <input
-                type="time"
-                value={workingHoursEnd}
-                onChange={(e) => setWorkingHoursEnd(e.target.value)}
-                className="w-full text-sm p-2 rounded-lg border border-slate-200 bg-white outline-none"
-              />
-            </div>
-          </div>
-
-          {/* Blocked Dates / Vacations */}
-          <div>
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 block mb-1.5">
-              Días no disponibles / Vacaciones / Francos especiales
-            </label>
-            <div className="flex items-center gap-2 mb-2">
-              <input
-                type="date"
-                value={newBlockedDate}
-                onChange={(e) => setNewBlockedDate(e.target.value)}
-                className="flex-1 text-xs p-2 rounded-xl border border-slate-200 outline-none"
-              />
-              <button
-                type="button"
-                onClick={handleAddBlockedDate}
-                className="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold flex items-center gap-1"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Bloquear fecha</span>
-              </button>
-            </div>
-
-            {blockedDates.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1 bg-slate-50 rounded-lg">
-                {blockedDates.map((d) => (
-                  <span
-                    key={d}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium"
-                  >
-                    <span>{d}</span>
+              <div>
+                <label className="text-xs font-bold text-slate-800 block mb-1">Color distintivo</label>
+                <div className="flex items-center gap-1.5 pt-0.5">
+                  {COLORS.map((c) => (
                     <button
+                      key={c}
                       type="button"
-                      onClick={() => handleRemoveBlockedDate(d)}
-                      className="hover:text-rose-900"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
+                      onClick={() => setColor(c)}
+                      className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 transition-all cursor-pointer ${
+                        color === c ? 'scale-110 border-slate-900 ring-2 ring-blue-300' : 'border-transparent hover:scale-105'
+                      }`}
+                      style={{ backgroundColor: c }}
+                      title={c}
+                    />
+                  ))}
+                </div>
               </div>
-            )}
+            </div>
+
+            {/* Working Days */}
+            <div>
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-800 block mb-1.5">
+                Días de atención en la semana
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {DAYS_OF_WEEK.map((d) => {
+                  const isSelected = workingDays.includes(d.day);
+                  return (
+                    <button
+                      key={d.day}
+                      type="button"
+                      onClick={() => toggleDay(d.day)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-blue-600 text-white shadow-xs'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                      }`}
+                    >
+                      {d.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Working Hours */}
+            <div className="grid grid-cols-2 gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+              <div>
+                <label className="text-[11px] font-bold text-slate-700 block mb-1">Hora de entrada</label>
+                <input
+                  type="time"
+                  value={workingHoursStart}
+                  onChange={(e) => setWorkingHoursStart(e.target.value)}
+                  className="w-full text-xs sm:text-sm p-1.5 rounded-lg border border-slate-300 bg-white font-semibold outline-none"
+                />
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-700 block mb-1">Hora de salida</label>
+                <input
+                  type="time"
+                  value={workingHoursEnd}
+                  onChange={(e) => setWorkingHoursEnd(e.target.value)}
+                  className="w-full text-xs sm:text-sm p-1.5 rounded-lg border border-slate-300 bg-white font-semibold outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Blocked Dates / Vacations */}
+            <div>
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-800 block mb-1">
+                Días no disponibles / Vacaciones / Francos
+              </label>
+              <div className="flex items-center gap-2 mb-1.5">
+                <input
+                  type="date"
+                  value={newBlockedDate}
+                  onChange={(e) => setNewBlockedDate(e.target.value)}
+                  className="flex-1 text-xs p-1.5 rounded-lg border border-slate-300 outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddBlockedDate}
+                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Bloquear</span>
+                </button>
+              </div>
+
+              {blockedDates.length > 0 && (
+                <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto p-1 bg-slate-50 rounded-lg border border-slate-200">
+                  {blockedDates.map((d) => (
+                    <span
+                      key={d}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold"
+                    >
+                      <span>{d}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveBlockedDate(d)}
+                        className="hover:text-rose-900 cursor-pointer"
+                        title="Eliminar bloqueo"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="pt-0.5">
+              <label className="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-bold">
+                <input
+                  type="checkbox"
+                  checked={active}
+                  onChange={(e) => setActive(e.target.checked)}
+                  className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
+                />
+                <span>Profesional activo en el equipo</span>
+              </label>
+            </div>
           </div>
 
-          <div className="pt-1">
-            <label className="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-700 font-medium">
-              <input
-                type="checkbox"
-                checked={active}
-                onChange={(e) => setActive(e.target.checked)}
-                className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4"
-              />
-              <span>Profesional activo en el equipo</span>
-            </label>
-          </div>
-
-          <div className="sticky bottom-0 bg-white p-4 border-t z-10 flex items-center justify-end gap-3 -mx-6 -mb-6">
+          {/* Sticky Action Footer */}
+          <div className="sticky bottom-0 bg-white border-t border-slate-200 px-4 py-3 sm:px-5 sm:py-3 flex items-center justify-end gap-2.5 shrink-0 z-20 shadow-xs">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-slate-400 hover:border-black bg-white hover:bg-slate-100 text-[#000000] font-black text-sm shadow-2xs transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-xl border border-slate-300 hover:border-black bg-white hover:bg-slate-100 text-[#000000] font-black text-xs sm:text-sm shadow-2xs transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-[#172554] active:scale-98 text-white font-black text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              className="px-5 py-2 rounded-xl bg-[#1E3A8A] hover:bg-[#172554] active:scale-98 text-white font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Check className="w-4 h-4 stroke-[3]" />
               <span>{isSubmitting ? 'Guardando...' : staffToEdit ? 'Guardar Cambios' : 'Crear Profesional'}</span>
