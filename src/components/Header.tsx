@@ -177,47 +177,47 @@ export function Header({
         <button
           type="button"
           onClick={() => onSelectTab('agenda')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'agenda' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
+            currentTab === 'agenda' ? 'text-[#8C531D] font-black' : 'text-slate-800 font-bold hover:text-black'
           }`}
         >
           <Calendar className="w-5 h-5" />
-          <span className="text-[10px] mt-1 font-medium">Agenda</span>
+          <span className="text-[10px] mt-1">Agenda</span>
         </button>
 
         <button
           type="button"
           onClick={() => onSelectTab('clientes')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'clientes' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
+            currentTab === 'clientes' ? 'text-[#8C531D] font-black' : 'text-slate-800 font-bold hover:text-black'
           }`}
         >
           <Users className="w-5 h-5" />
-          <span className="text-[10px] mt-1 font-medium">Clientes</span>
+          <span className="text-[10px] mt-1">Clientes</span>
         </button>
 
         <button
           type="button"
           onClick={() => onSelectTab('caja')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'caja' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
+            currentTab === 'caja' ? 'text-[#8C531D] font-black' : 'text-slate-800 font-bold hover:text-black'
           }`}
         >
           <Wallet className="w-5 h-5" />
-          <span className="text-[10px] mt-1 font-medium">Caja</span>
+          <span className="text-[10px] mt-1">Caja</span>
         </button>
 
         <button
           type="button"
           onClick={() => onSelectTab('configuracion')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors ${
-            currentTab === 'configuracion' ? 'text-[#A2721C] font-extrabold' : 'text-slate-500 hover:text-slate-800'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
+            currentTab === 'configuracion' ? 'text-[#8C531D] font-black' : 'text-slate-800 font-bold hover:text-black'
           }`}
         >
-          <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-[10px] font-bold">
+          <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-[10px] font-black">
             ⚙
           </div>
-          <span className="text-[10px] mt-1 font-medium">Ajustes</span>
+          <span className="text-[10px] mt-1">Ajustes</span>
         </button>
       </nav>
     </>

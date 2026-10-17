@@ -125,25 +125,25 @@ export function Sidebar({
               key={item.id}
               type="button"
               onClick={() => onSelectTab(item.id)}
-              className={`w-full px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-all group ${
+              className={`w-full px-3 py-2.5 rounded-xl text-xs flex items-center justify-between transition-all group cursor-pointer ${
                 isActive
-                  ? 'bg-amber-50/90 text-amber-950 font-extrabold border border-amber-200/80 shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  ? 'bg-amber-50 text-amber-950 font-black border border-amber-300 shadow-2xs'
+                  : 'text-slate-900 font-bold hover:text-black hover:bg-slate-100/90'
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`transition-colors ${isActive ? 'text-[#A2721C]' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                <span className={`transition-colors ${isActive ? 'text-[#8C531D]' : 'text-slate-700 group-hover:text-black'}`}>
                   {item.icon}
                 </span>
-                <span>{item.label}</span>
+                <span className="tracking-tight">{item.label}</span>
               </div>
 
               {item.badge ? (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F6EDD9] text-[#73431D]">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#F6EDD9] text-[#73431D] border border-[#EEDBBA]">
                   {item.badge}
                 </span>
               ) : isActive ? (
-                <ChevronRight className="w-3.5 h-3.5 text-[#A2721C]" />
+                <ChevronRight className="w-3.5 h-3.5 text-[#8C531D] stroke-[2.5]" />
               ) : null}
             </button>
           );
@@ -152,30 +152,30 @@ export function Sidebar({
 
       {/* Today Mini Summary Card */}
       <div className="p-3.5 mx-3.5 mb-2.5 rounded-2xl bg-gradient-to-br from-[#FCF9F2] via-[#F8F2E2] to-white border border-[#EEDBBA] space-y-2">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-800">
-          <span className="flex items-center gap-1.5 text-amber-950 font-bold">
-            <Clock className="w-3.5 h-3.5 text-[#A2721C]" />
+        <div className="flex items-center justify-between text-xs font-black text-slate-950">
+          <span className="flex items-center gap-1.5 text-amber-950 font-black">
+            <Clock className="w-3.5 h-3.5 text-[#8C531D]" />
             Hoy en el Salón
           </span>
           <button
             type="button"
             onClick={onOpenReminders}
-            className="text-[10px] font-bold text-[#A2721C] hover:underline flex items-center gap-0.5"
+            className="text-[10px] font-black text-[#8C531D] hover:underline flex items-center gap-0.5 cursor-pointer"
           >
             Ver {upcomingTodayAppointments.length}
           </button>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-xs pt-0.5">
-          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
-            <span className="text-[10px] text-slate-500 block font-medium">Turnos</span>
-            <span className="font-extrabold text-slate-900 text-sm">
+          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/80 shadow-2xs">
+            <span className="text-[10px] text-slate-800 block font-bold">Turnos</span>
+            <span className="font-black text-slate-950 text-sm">
               {upcomingTodayAppointments.length}
             </span>
           </div>
-          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/60 shadow-2xs">
-            <span className="text-[10px] text-slate-500 block font-medium">Estimado</span>
-            <span className="font-extrabold text-[#8C531D] text-xs truncate block">
+          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/80 shadow-2xs">
+            <span className="text-[10px] text-slate-800 block font-bold">Estimado</span>
+            <span className="font-black text-[#73431D] text-xs truncate block">
               {formatCurrency(todayRevenue, business?.currency)}
             </span>
           </div>

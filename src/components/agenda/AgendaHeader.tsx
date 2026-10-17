@@ -102,12 +102,12 @@ export function AgendaHeader({
         {/* View mode toggle & staff filter */}
         <div className="flex items-center gap-2.5 flex-wrap">
           {/* Staff filter */}
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1">
-            <Filter className="w-3.5 h-3.5 text-slate-400" />
+          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1">
+            <Filter className="w-3.5 h-3.5 text-slate-700" />
             <select
               value={selectedStaffId}
               onChange={(e) => onStaffChange(e.target.value)}
-              className="text-xs font-semibold bg-transparent text-slate-700 outline-none cursor-pointer py-1"
+              className="text-xs font-bold bg-transparent text-slate-950 outline-none cursor-pointer py-1"
             >
               <option value="todos">Todos los profesionales</option>
               {staff.map((s) => (
@@ -119,12 +119,12 @@ export function AgendaHeader({
           </div>
 
           {/* Mode Switcher */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/70">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-300">
             <button
               type="button"
               onClick={() => onModeChange('dia')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                agendaMode === 'dia' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
+                agendaMode === 'dia' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-900 hover:text-black hover:bg-white/80'
               }`}
             >
               <Clock className="w-3.5 h-3.5" />
@@ -133,8 +133,8 @@ export function AgendaHeader({
             <button
               type="button"
               onClick={() => onModeChange('semana')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                agendaMode === 'semana' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
+                agendaMode === 'semana' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-900 hover:text-black hover:bg-white/80'
               }`}
             >
               <CalendarDays className="w-3.5 h-3.5" />
@@ -143,8 +143,8 @@ export function AgendaHeader({
             <button
               type="button"
               onClick={() => onModeChange('mes')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                agendaMode === 'mes' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
+                agendaMode === 'mes' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-900 hover:text-black hover:bg-white/80'
               }`}
             >
               <CalendarRange className="w-3.5 h-3.5" />

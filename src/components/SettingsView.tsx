@@ -21,8 +21,9 @@ import { THEME_COLOR_OPTIONS } from '../types';
 
 /**
  * SettingsView - Configuración y personalización del negocio / salón.
- * Sección de ajustes 100% limpia: sin guías de uso, sin tarjetas de comercialización ni números de pasos.
- * Muestra exclusivamente las opciones de configuración del negocio.
+ * - Textos de alto contraste (#111827 / text-gray-900) para lectura óptima sobre blanco.
+ * - Eliminadas por completo las secciones técnicas: 'Aplicación Web Móvil (PWA)', 'Identidad Oficial' y 'Guía de Uso'.
+ * - Muestra exclusivamente las opciones reales de configuración del negocio.
  */
 export function SettingsView() {
   const {
@@ -97,18 +98,20 @@ export function SettingsView() {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Personalización de Marca & Opciones de Configuración */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-7">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+    <div className="space-y-6 max-w-5xl mx-auto text-gray-900">
+      {/* Tarjeta Principal de Configuración */}
+      <div className="bg-white rounded-2xl border border-gray-300 p-6 sm:p-8 shadow-sm space-y-7">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
           <div className="flex items-center gap-3.5">
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl shrink-0">
-              <Building2 className="w-6 h-6" />
+            <div className="p-3 bg-amber-50 text-amber-900 border border-amber-300 rounded-2xl shrink-0">
+              <Building2 className="w-6 h-6 text-gray-900" />
             </div>
             <div>
-              <h2 className="text-xl font-extrabold text-slate-900">Ajustes del Negocio & Marca</h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
-                Configura el nombre de tu salón, medios de cobro, paleta de colores, teléfono y dirección.
+              <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+                Configuración del Negocio
+              </h2>
+              <p className="text-sm font-semibold text-gray-900 mt-0.5">
+                Datos del local, medios de cobro, colores, teléfono y dirección.
               </p>
             </div>
           </div>
@@ -117,25 +120,25 @@ export function SettingsView() {
             <button
               type="button"
               onClick={loginWithGoogle}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors self-start sm:self-auto"
+              className="px-4 py-2 bg-gray-900 hover:bg-black text-white rounded-xl text-xs font-extrabold shadow-sm transition-colors self-start sm:self-auto cursor-pointer"
             >
               Conectar Cuenta de Google
             </button>
           )}
         </div>
 
-        <form onSubmit={handleSaveSettings} className="space-y-6">
-          {/* 1. Identidad de Marca y Colores */}
-          <div className="p-5 sm:p-7 rounded-2xl bg-slate-50/90 border border-slate-200/80 space-y-6">
-            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-              <Award className="w-4 h-4 text-blue-600" />
-              Identidad de Marca del Salón
-            </h4>
+        <form onSubmit={handleSaveSettings} className="space-y-7">
+          {/* 1. Datos Principales y Nombre del Local */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-gray-50 border border-gray-300 space-y-6">
+            <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider flex items-center gap-2">
+              <Award className="w-4 h-4 text-[#D4AF37]" />
+              <span>Nombre y Marca del Local</span>
+            </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
-                  Nombre Principal del Salón o Negocio *
+                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-2">
+                  Nombre Principal del Negocio *
                 </label>
                 <input
                   type="text"
@@ -143,18 +146,18 @@ export function SettingsView() {
                   placeholder="Tu Agenda Lista"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none bg-white font-semibold text-slate-900 shadow-2xs transition-all"
+                  className="w-full text-sm px-4 py-3 rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 outline-none bg-white font-bold text-gray-900 shadow-xs transition-all"
                 />
-                <span className="text-xs text-slate-500 mt-2 block leading-relaxed">
-                  Aparece en la cabecera principal, barra lateral y reportes impresos.
+                <span className="text-xs font-medium text-gray-900 mt-1.5 block">
+                  Se muestra en la barra superior, reportes y comprobantes.
                 </span>
               </div>
 
-              {/* Selector de Paleta de Colores */}
+              {/* Selector de Paleta de Color */}
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                  <Palette className="w-3.5 h-3.5 text-blue-600" />
-                  Color Principal de la Aplicación
+                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                  <Palette className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  Color Distintivo del Negocio
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {THEME_COLOR_OPTIONS.map((opt) => (
@@ -165,85 +168,89 @@ export function SettingsView() {
                         setThemeColor(opt.hex);
                         setThemeName(opt.name);
                       }}
-                      className={`p-2 rounded-xl border text-left transition-all flex items-center gap-2 ${
+                      className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                         themeColor === opt.hex
-                          ? 'border-slate-900 bg-white ring-2 ring-slate-900/10 shadow-xs'
-                          : 'border-slate-200 bg-white hover:bg-slate-50'
+                          ? 'border-gray-900 bg-white ring-2 ring-gray-900 shadow-xs'
+                          : 'border-gray-300 bg-white hover:border-gray-400'
                       }`}
                     >
                       <span
-                        className="w-4 h-4 rounded-full shrink-0 shadow-2xs"
+                        className="w-4 h-4 rounded-full shrink-0 border border-black/10"
                         style={{ backgroundColor: opt.hex }}
                       />
-                      <span className="text-[11px] font-bold text-slate-800 truncate">
+                      <span className="text-xs font-black text-gray-900 truncate">
                         {opt.name.split(' ')[0]}
                       </span>
                     </button>
                   ))}
                 </div>
-                <span className="text-xs text-slate-500 mt-2 block leading-relaxed">
-                  Color activo: <strong className="text-slate-800">{themeName}</strong> ({themeColor})
+                <span className="text-xs font-medium text-gray-900 mt-1.5 block">
+                  Color activo: <strong className="text-black font-extrabold">{themeName}</strong>
                 </span>
               </div>
             </div>
           </div>
 
-          {/* 2. Datos de Contacto y Rubro */}
+          {/* 2. Rubro y Teléfono de Contacto */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Rubro o Especialidad del Salón</label>
+              <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5">
+                Rubro o Especialidad del Salón
+              </label>
               <input
                 type="text"
                 placeholder="Ej. Peluquería, Estética, Barbería, Spa, Uñas..."
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
+                className="w-full text-sm px-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 outline-none font-bold text-gray-900"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Teléfono / WhatsApp de Contacto</label>
+              <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5">
+                Teléfono / WhatsApp de Contacto
+              </label>
               <div className="relative">
-                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <Phone className="w-4 h-4 text-gray-900 absolute left-3.5 top-3.5" />
                 <input
                   type="tel"
                   placeholder="+54 9 11 4567-8901"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
+                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 outline-none font-bold text-gray-900"
                 />
               </div>
             </div>
           </div>
 
-          {/* 3. Configuración de WhatsApp Directo */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-4">
+          {/* 3. Prefijo Telefónico y Recordatorios */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-emerald-50/90 border border-emerald-300 space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <WhatsAppIcon size={34} variant="badge" className="shadow-xs" />
                 <div>
-                  <h4 className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
-                    WhatsApp & Recordatorios
+                  <h4 className="text-sm font-black text-emerald-950 uppercase tracking-wider">
+                    WhatsApp & Envíos Directos
                   </h4>
-                  <p className="text-[11px] text-emerald-800 mt-0.5">
-                    Prefijo telefónico para formatear los enlaces automáticos de WhatsApp con 1 clic.
+                  <p className="text-xs font-semibold text-emerald-900 mt-0.5">
+                    Prefijo para enviar mensajes y recordatorios con 1 solo toque.
                   </p>
                 </div>
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
-                wa.me directo
+              <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-950 border border-emerald-400">
+                wa.me activo
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-emerald-950 block mb-1.5">
+                <label className="text-xs font-bold text-emerald-950 uppercase tracking-wider block mb-1.5">
                   Prefijo / País Predeterminado *
                 </label>
                 <select
                   value={phoneCountryPrefix}
                   onChange={(e) => setPhoneCountryPrefix(e.target.value)}
-                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-emerald-300 bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 outline-none font-bold text-slate-800"
+                  className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-emerald-400 bg-white focus:border-emerald-700 outline-none font-black text-gray-900"
                 >
                   <option value="+54">🇦🇷 Argentina (+54)</option>
                   <option value="+34">🇪🇸 España (+34)</option>
@@ -259,67 +266,71 @@ export function SettingsView() {
                 </select>
               </div>
 
-              <div className="bg-white/80 p-3.5 rounded-xl border border-emerald-200 text-xs space-y-1">
-                <span className="font-bold text-emerald-900 block">Mensaje de confirmación:</span>
-                <p className="text-slate-600 italic bg-slate-50 p-2 rounded-lg border border-slate-100">
+              <div className="bg-white p-3.5 rounded-xl border border-emerald-300 text-xs space-y-1">
+                <span className="font-black text-emerald-950 block">Mensaje de confirmación:</span>
+                <p className="text-gray-900 font-semibold italic bg-emerald-50/50 p-2 rounded-lg border border-emerald-200">
                   "Hola [Nombre], te confirmamos tu turno para [Servicio] el día [Fecha] a las [Hora] hs."
                 </p>
               </div>
             </div>
           </div>
 
-          {/* 4. Dirección y Símbolo de Moneda */}
+          {/* 4. Dirección del Local y Símbolo de Moneda */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div className="sm:col-span-2">
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Dirección del Salón / Local</label>
+              <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5">
+                Dirección del Local / Sucursal
+              </label>
               <div className="relative">
-                <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <MapPin className="w-4 h-4 text-gray-900 absolute left-3.5 top-3.5" />
                 <input
                   type="text"
                   placeholder="Ej. Av. Santa Fe 2340, CABA"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-medium text-slate-800"
+                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 outline-none font-bold text-gray-900"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1.5">Símbolo de Moneda</label>
+              <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5">
+                Símbolo de Moneda
+              </label>
               <div className="relative">
-                <DollarSign className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <DollarSign className="w-4 h-4 text-gray-900 absolute left-3.5 top-3.5" />
                 <input
                   type="text"
                   placeholder="$, ARS, USD, EUR, MXN..."
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none font-bold text-slate-800"
+                  className="w-full text-sm pl-10 pr-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 outline-none font-black text-gray-900"
                 />
               </div>
             </div>
           </div>
 
-          {/* 5. Integración de Cobros con Mercado Pago */}
-          <div className="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-sky-50 via-white to-sky-50/50 border-2 border-[#009EE3]/40 shadow-sm space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-100 pb-4">
+          {/* 5. Cobros con Mercado Pago */}
+          <div className="p-5 sm:p-7 rounded-2xl bg-sky-50/80 border-2 border-sky-300 shadow-xs space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-200 pb-4">
               <div className="flex items-center gap-3">
-                <MercadoPagoIcon size={40} variant="badge" className="shadow-md ring-2 ring-white/50" />
+                <MercadoPagoIcon size={40} variant="badge" className="shadow-xs" />
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
+                    <h4 className="text-sm font-black text-gray-900 tracking-tight">
                       Cobros y Señas con Mercado Pago
                     </h4>
-                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#009EE3] text-white">
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#009EE3] text-white">
                       Oficial
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs font-semibold text-gray-900 mt-0.5">
                     Permite generar links de pago de seña, botones directos y cobro por QR.
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-xs font-bold text-[#009EE3] bg-sky-100/70 px-3 py-1 rounded-xl">
-                <QrCode className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-2 text-xs font-black text-sky-900 bg-sky-100 px-3 py-1.5 rounded-xl border border-sky-300">
+                <QrCode className="w-3.5 h-3.5 text-sky-800" />
                 <span>Link & QR Automático</span>
               </div>
             </div>
@@ -327,8 +338,8 @@ export function SettingsView() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Access Token */}
               <div>
-                <label className="text-xs font-bold text-slate-800 block mb-1.5 flex items-center gap-1.5">
-                  <Key className="w-3.5 h-3.5 text-[#009EE3]" />
+                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                  <Key className="w-3.5 h-3.5 text-sky-700" />
                   Mercado Pago Access Token
                 </label>
                 <div className="relative">
@@ -337,26 +348,26 @@ export function SettingsView() {
                     placeholder="APP_USR-xxxxxx o TEST-xxxxxx"
                     value={mercadoPagoAccessToken}
                     onChange={(e) => setMercadoPagoAccessToken(e.target.value)}
-                    className="w-full text-xs font-mono pl-3.5 pr-10 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none font-medium text-slate-800"
+                    className="w-full text-xs font-mono pl-3.5 pr-10 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 outline-none font-bold text-gray-900"
                   />
                   <button
                     type="button"
                     onClick={() => setShowToken(!showToken)}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700"
+                    className="absolute right-3 top-3 text-gray-700 hover:text-black cursor-pointer"
                     title={showToken ? 'Ocultar token' : 'Ver token'}
                   >
                     {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
-                <span className="text-[11px] text-slate-500 mt-1 block">
-                  Obtenla en tu panel de Mercado Pago Developers &gt; Tus Credenciales.
+                <span className="text-xs font-medium text-gray-900 mt-1 block">
+                  Panel de Mercado Pago Developers &gt; Tus Credenciales.
                 </span>
               </div>
 
               {/* Alias */}
               <div>
-                <label className="text-xs font-bold text-slate-800 block mb-1.5 flex items-center gap-1.5">
-                  <CreditCard className="w-3.5 h-3.5 text-[#009EE3]" />
+                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                  <CreditCard className="w-3.5 h-3.5 text-sky-700" />
                   Alias de Mercado Pago
                 </label>
                 <input
@@ -367,9 +378,9 @@ export function SettingsView() {
                     setMercadoPagoAlias(e.target.value);
                     setCbuAlias(e.target.value);
                   }}
-                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none font-bold text-slate-800 font-mono"
+                  className="w-full text-sm px-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 outline-none font-black text-gray-900 font-mono"
                 />
-                <span className="text-[11px] text-slate-500 mt-1 block">
+                <span className="text-xs font-medium text-gray-900 mt-1 block">
                   Alias para transferencias inmediatas de señas sin comisiones.
                 </span>
               </div>
@@ -378,7 +389,7 @@ export function SettingsView() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
               {/* CVU */}
               <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-1.5">
+                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5">
                   CVU de Mercado Pago (22 dígitos opcionales)
                 </label>
                 <input
@@ -386,13 +397,13 @@ export function SettingsView() {
                   placeholder="0000003100085492109482"
                   value={mercadoPagoCvu}
                   onChange={(e) => setMercadoPagoCvu(e.target.value)}
-                  className="w-full text-xs font-mono px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none text-slate-800"
+                  className="w-full text-xs font-mono px-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 outline-none font-bold text-gray-900"
                 />
               </div>
 
               {/* Porcentaje sugerido de Seña */}
               <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-1.5">
+                <label className="text-xs font-bold text-gray-900 uppercase tracking-wider block mb-1.5">
                   Porcentaje sugerido de seña (%)
                 </label>
                 <div className="flex items-center gap-3">
@@ -403,18 +414,18 @@ export function SettingsView() {
                     step="5"
                     value={defaultDepositPercentage}
                     onChange={(e) => setDefaultDepositPercentage(Number(e.target.value))}
-                    className="w-28 text-sm px-4 py-3 rounded-xl border border-slate-200 bg-white focus:border-[#009EE3] focus:ring-2 focus:ring-[#009EE3]/20 outline-none font-extrabold text-slate-800"
+                    className="w-28 text-sm px-4 py-3 rounded-xl border border-gray-300 bg-white focus:border-gray-900 outline-none font-black text-gray-900"
                   />
-                  <span className="text-xs text-slate-500 font-medium">
-                    (Se calculará automáticamente al agendar cada turno, ej. 30% o 50%)
+                  <span className="text-xs font-bold text-gray-900">
+                    (% calculado automáticamente al agendar cada turno, ej. 30% o 50%)
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Form Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-100">
+          {/* Botones de Acción */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200">
             <button
               type="button"
               onClick={async () => {
@@ -422,17 +433,17 @@ export function SettingsView() {
                   await resetToSampleData();
                 }
               }}
-              className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-2 font-medium px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
+              className="text-xs font-bold text-gray-900 hover:text-black flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-4 h-4 text-gray-900" />
               <span>Restaurar datos de muestra</span>
             </button>
 
             <button
               type="submit"
-              className="w-full sm:w-auto px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-xl text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2.5 active:scale-98 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-gray-900 hover:bg-black text-white rounded-xl text-sm font-black shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 active:scale-98 cursor-pointer"
             >
-              {isSaved ? <Check className="w-4 h-4" /> : <Settings className="w-4 h-4" />}
+              {isSaved ? <Check className="w-4 h-4 text-emerald-400" /> : <Settings className="w-4 h-4 text-amber-300" />}
               <span>{isSaved ? '¡Guardado correctamente!' : 'Guardar Cambios del Negocio'}</span>
             </button>
           </div>

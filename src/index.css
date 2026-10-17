@@ -17,24 +17,31 @@
   --color-dark-850: #121620;
   --color-dark-900: #0b0f17;
   --color-dark-950: #06090e;
-
-  /* Harmonize blue accents with rich golden bronze tones */
-  --color-blue-50: #fcf9f2;
-  --color-blue-100: #f6edd9;
-  --color-blue-200: #eed8b0;
-  --color-blue-300: #e2bd7e;
-  --color-blue-400: #d4a24c;
-  --color-blue-500: #c68c2c;
-  --color-blue-600: #b07221;
-  --color-blue-700: #8c531d;
-  --color-blue-800: #73431d;
-  --color-blue-900: #60381d;
-  --color-blue-950: #391c0c;
 }
 
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #111827;
+    background-color: #f8fafc;
+  }
+
+  /* High contrast text hierarchy - crisp and sharp on light backgrounds */
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827;
+  }
+
+  label {
+    color: #111827;
+    font-weight: 600;
+  }
+
+  input, select, textarea {
+    color: #111827 !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #6b7280;
   }
 }
 
@@ -47,11 +54,11 @@
   background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #94a3b8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #64748b;
 }
 
 /* Print Styles: Clean printable sheet */

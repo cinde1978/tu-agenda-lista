@@ -8,15 +8,16 @@ export interface AppLogoProps {
 }
 
 /**
- * AppLogo Oficial de Tu Agenda Lista
- * SVG vectorial con la letra 'A' en relieve dorado brillante (Embossed Brilliant Gold 3D).
+ * Logo Oficial de Tu Agenda Lista
+ * Logo estilizado con la letra 'A' en tono dorado brillante (#D4AF37).
+ * Silueta libre y pura, sin fondos redondos ni círculos oscuros.
  */
 export function AppLogo({
   size = 40,
   className = '',
-  alt = 'Tu Agenda Lista Logo Oficial',
+  alt = 'Tu Agenda Lista Logo',
 }: AppLogoProps) {
-  const uid = 'goldA';
+  const uid = 'stylizedGoldA';
 
   return (
     <div
@@ -30,185 +31,129 @@ export function AppLogo({
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full drop-shadow-sm"
+        className="w-full h-full drop-shadow-sm transition-transform"
         aria-label={alt}
       >
         <defs>
-          {/* Outer Beveled Medallion Gradient */}
-          <linearGradient id={`${uid}-bg`} x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#1E2330" />
-            <stop offset="50%" stopColor="#0F131D" />
-            <stop offset="100%" stopColor="#07090E" />
-          </linearGradient>
-
-          {/* Outer Rim Gold Gradient */}
-          <linearGradient id={`${uid}-rim`} x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFF4BE" />
-            <stop offset="25%" stopColor="#E5BE5E" />
-            <stop offset="50%" stopColor="#D4AF37" />
-            <stop offset="75%" stopColor="#8F6211" />
-            <stop offset="100%" stopColor="#F9DF88" />
-          </linearGradient>
-
-          {/* Inner Relief Groove */}
-          <linearGradient id={`${uid}-innerGroove`} x1="100" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#4A3408" />
-            <stop offset="50%" stopColor="#C89D30" />
-            <stop offset="100%" stopColor="#FFF7D6" />
-          </linearGradient>
-
-          {/* Chiseled 'A' - Left Highlighted Bevel Facet */}
-          <linearGradient id={`${uid}-facetLeft`} x1="25" y1="20" x2="52" y2="82" gradientUnits="userSpaceOnUse">
+          {/* Brilliant Gold Primary Gradient (#D4AF37) */}
+          <linearGradient id={`${uid}-primary`} x1="20" y1="12" x2="80" y2="88" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#FFF9E0" />
-            <stop offset="20%" stopColor="#FDE184" />
-            <stop offset="55%" stopColor="#E2B74B" />
-            <stop offset="85%" stopColor="#B38622" />
-            <stop offset="100%" stopColor="#7A530C" />
+            <stop offset="18%" stopColor="#FEE685" />
+            <stop offset="42%" stopColor="#E5BE53" />
+            <stop offset="70%" stopColor="#D4AF37" />
+            <stop offset="88%" stopColor="#AC7F1A" />
+            <stop offset="100%" stopColor="#78530A" />
           </linearGradient>
 
-          {/* Chiseled 'A' - Right Shadowed Bevel Facet */}
-          <linearGradient id={`${uid}-facetRight`} x1="50" y1="20" x2="78" y2="82" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#E8C56B" />
-            <stop offset="30%" stopColor="#C4962A" />
-            <stop offset="70%" stopColor="#8C6314" />
-            <stop offset="100%" stopColor="#553805" />
+          {/* Left Chiseled Facet Light Highlight */}
+          <linearGradient id={`${uid}-lightFacet`} x1="15" y1="20" x2="52" y2="85" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="25%" stopColor="#FFF3B8" />
+            <stop offset="60%" stopColor="#E2BA4E" />
+            <stop offset="100%" stopColor="#B3841D" />
           </linearGradient>
 
-          {/* Chiseled 'A' - Crossbar Emboss Gradient */}
-          <linearGradient id={`${uid}-crossbar`} x1="38" y1="56" x2="62" y2="61" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFF8D1" />
-            <stop offset="40%" stopColor="#E4BA50" />
-            <stop offset="70%" stopColor="#C29227" />
-            <stop offset="100%" stopColor="#855B0F" />
+          {/* Right Chiseled Facet Shadow Accent */}
+          <linearGradient id={`${uid}-shadowFacet`} x1="50" y1="15" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#E8C462" />
+            <stop offset="40%" stopColor="#C4982C" />
+            <stop offset="80%" stopColor="#8C6212" />
+            <stop offset="100%" stopColor="#543805" />
           </linearGradient>
 
-          {/* Embossed Drop Shadow for 3D Relief Lift */}
-          <filter id={`${uid}-reliefShadow`} x="10" y="10" width="80" height="85" filterUnits="userSpaceOnUse">
-            <feDropShadow dx="0" dy="2.5" stdDeviation="2.2" floodColor="#000000" floodOpacity="0.75" />
-            <feDropShadow dx="0" dy="0.8" stdDeviation="0.6" floodColor="#000000" floodOpacity="0.85" />
-          </filter>
+          {/* Stylized Crossbar Gleam */}
+          <linearGradient id={`${uid}-crossbar`} x1="30" y1="58" x2="70" y2="66" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFBE8" />
+            <stop offset="35%" stopColor="#FFE06B" />
+            <stop offset="70%" stopColor="#D4AF37" />
+            <stop offset="100%" stopColor="#9E7315" />
+          </linearGradient>
 
-          {/* Specular Glint Glow */}
-          <radialGradient id={`${uid}-glint`} cx="50" cy="20.5" r="12" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-            <stop offset="45%" stopColor="#FFEAA7" stopOpacity="0.5" />
+          {/* Golden Ambient Glow */}
+          <radialGradient id={`${uid}-glint`} cx="50" cy="16" r="14" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+            <stop offset="35%" stopColor="#FFECA0" stopOpacity="0.6" />
             <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
           </radialGradient>
+
+          {/* 3D Drop Shadow for Depth */}
+          <filter id={`${uid}-shadow`} x="5" y="8" width="90" height="90" filterUnits="userSpaceOnUse">
+            <feDropShadow dx="0" dy="2.5" stdDeviation="2.2" floodColor="#78530A" floodOpacity="0.35" />
+            <feDropShadow dx="0" dy="1" stdDeviation="0.8" floodColor="#000000" floodOpacity="0.25" />
+          </filter>
+          {/* Mask to carve out the inner triangle of letter 'A' so it's 100% transparent */}
+          <mask id={`${uid}-innerHole`}>
+            <rect x="0" y="0" width="100" height="100" fill="#FFFFFF" />
+            <polygon points="50,28 41.5,51 58.5,51" fill="#000000" />
+          </mask>
         </defs>
 
-        {/* 1. Base Medallion / Background Shield */}
-        <rect x="4" y="4" width="92" height="92" rx="26" fill={`url(#${uid}-bg)`} />
-
-        {/* 2. Outer Embossed Gold Border */}
-        <rect
-          x="4"
-          y="4"
-          width="92"
-          height="92"
-          rx="26"
-          stroke={`url(#${uid}-rim)`}
-          strokeWidth="3"
-          fill="none"
-        />
-
-        {/* 3. Inner Fine Polished Groove */}
-        <rect
-          x="9"
-          y="9"
-          width="82"
-          height="82"
-          rx="22"
-          stroke={`url(#${uid}-innerGroove)`}
-          strokeWidth="1"
-          strokeOpacity="0.6"
-          fill="none"
-        />
-
-        {/* 4. Top Soft Specular Dome Sheen */}
-        <path
-          d="M10 32 C 20 14, 80 14, 90 32 C 80 16, 68 10, 50 10 C 32 10, 20 16, 10 32 Z"
-          fill="#FFF9E0"
-          fillOpacity="0.18"
-        />
-
-        {/* 5. The Sculpted Letter 'A' in Embossed Brilliant Gold Relief */}
-        <g filter={`url(#${uid}-reliefShadow)`}>
-          {/* Left Serif Foot with Beveled Relief */}
+        <g filter={`url(#${uid}-shadow)`} mask={`url(#${uid}-innerHole)`}>
+          {/* Main Left Pillar of 'A' (Chiseled Brilliant Light Facet) */}
           <path
-            d="M21 78 H36 C36 78, 35 75, 33 75 C31 75, 30.5 73, 31 70 L48 24 C48.5 22.5 49.5 22 50 22 L46 22 L29 70 C28.5 72, 26 75, 23 75 C21 75, 21 78, 21 78 Z"
-            fill={`url(#${uid}-facetLeft)`}
+            d="M50 14 L46 14 C44 14 42.5 15.5 41.5 17.5 L20 74 C18.5 78 14 79 11 79.5 V85 H36 V79.5 C32.5 79 29.5 78 30.5 74 L36.5 58 H50 L50 14 Z"
+            fill={`url(#${uid}-lightFacet)`}
           />
 
-          {/* Left Main Pillar / Facet with Bright Golden Polish */}
+          {/* Main Right Pillar of 'A' (Chiseled Brilliant Shadow Facet) */}
           <path
-            d="M50 20 L30 74 H41.5 L46.5 59.5 H50 L50 20 Z"
-            fill={`url(#${uid}-facetLeft)`}
+            d="M50 14 L54 14 C56 14 57.5 15.5 58.5 17.5 L80 74 C81.5 78 86 79 89 79.5 V85 H64 V79.5 C67.5 79 70.5 78 69.5 74 L63.5 58 H50 L50 14 Z"
+            fill={`url(#${uid}-shadowFacet)`}
           />
 
-          {/* Right Main Pillar / Facet with Deeper Burnished Shadowing */}
+          {/* Apex Crown Chamfer (Gold Jewel Top) */}
           <path
-            d="M50 20 L50 59.5 H53.5 L58.5 74 H70 L50 20 Z"
-            fill={`url(#${uid}-facetRight)`}
+            d="M44 16 C46.5 12 53.5 12 56 16 L50 14 Z"
+            fill="#FFFFFF"
           />
 
-          {/* Right Serif Foot with Beveled Relief */}
+          {/* Stylized Arch Crossbar in High-Shine Metallic Gold */}
           <path
-            d="M79 78 H64 C64 78, 65 75, 67 75 C69 75, 69.5 73, 69 70 L52 24 C51.5 22.5 50.5 22 50 22 L54 22 L71 70 C71.5 72, 74 75, 77 75 C79 75, 79 78, 79 78 Z"
-            fill={`url(#${uid}-facetRight)`}
-          />
-
-          {/* Inner Chiseled Triangle Counter */}
-          <path
-            d="M50 31 L44.5 50 H55.5 L50 31 Z"
-            fill="#0B0F17"
-            fillOpacity="0.95"
-          />
-
-          {/* Raised Beveled Crossbar with Stepped Golden Edge */}
-          <path
-            d="M38 56.5 H62 L60.5 61 H39.5 L38 56.5 Z"
+            d="M34 60 C42 57 58 57 66 60 L64 66 C56 63.5 44 63.5 36 66 L34 60 Z"
             fill={`url(#${uid}-crossbar)`}
           />
 
-          {/* Sharp Central Ridge Highlight Line (Embossed Chisel Peak) */}
+          {/* Specular White-Gold Central Crease Light */}
           <line
             x1="50"
-            y1="20"
+            y1="14"
             x2="50"
-            y2="31"
+            y2="28"
             stroke="#FFFFFF"
-            strokeWidth="1.5"
+            strokeWidth="1.8"
             strokeLinecap="round"
-            strokeOpacity="0.9"
+            strokeOpacity="0.95"
           />
 
-          {/* Left Upper Ridge Specular Line */}
+          {/* Left Bevel Specular Sheen Stripe */}
           <line
-            x1="49.5"
-            y1="21"
-            x2="31.5"
-            y2="71"
-            stroke="#FFFDF0"
+            x1="49"
+            y1="16"
+            x2="23"
+            y2="76"
+            stroke="#FFFDF2"
             strokeWidth="1.2"
-            strokeOpacity="0.75"
+            strokeLinecap="round"
+            strokeOpacity="0.8"
           />
 
-          {/* Crossbar Top Light Rim */}
-          <line
-            x1="38"
-            y1="56.5"
-            x2="62"
-            y2="56.5"
+          {/* Top Crossbar Specular Rim */}
+          <path
+            d="M35 60 C43 57.5 57 57.5 65 60"
             stroke="#FFFFFF"
-            strokeWidth="1"
+            strokeWidth="1.2"
+            strokeLinecap="round"
             strokeOpacity="0.85"
+            fill="none"
           />
 
-          {/* Apex Crown Diamond / Jewel Gem at the top of 'A' */}
-          <circle cx="50" cy="20.5" r="2" fill="#FFFFFF" />
-          <circle cx="50" cy="20.5" r="5" fill={`url(#${uid}-glint)`} />
+          {/* Specular Glint Accent at the Apex Peak */}
+          <circle cx="50" cy="15" r="2.2" fill="#FFFFFF" />
+          <circle cx="50" cy="15" r="6" fill={`url(#${uid}-glint)`} />
         </g>
       </svg>
     </div>
   );
 }
+
+export default AppLogo;
