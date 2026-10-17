@@ -105,50 +105,7 @@ export function SettingsAndGuideView() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
-      {/* 1. SaaS White-label Brand Live Preview Card (Clean, aligned, zero empty or awkward boxes) */}
-      <div className="bg-gradient-to-r from-slate-950 via-[#161B26] to-[#0B0F17] text-white rounded-2xl p-6 sm:p-7 shadow-lg border border-[#D4AF37]/35 space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div className="flex items-center gap-2.5 text-[#D4AF37] text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-[#D4AF37] shrink-0" />
-            <span>Identidad Oficial del Software</span>
-          </div>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-500/20 px-3.5 py-1 rounded-full text-emerald-300 border border-emerald-400/30 w-fit">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>SaaS Pro · Lista para Comercializar</span>
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10">
-          <div className="flex items-center gap-4 min-w-0">
-            <AppLogo size={52} className="shrink-0" />
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-extrabold text-lg sm:text-xl text-white tracking-tight leading-tight">
-                  {name || 'Tu Agenda Lista'}
-                </h3>
-                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] uppercase tracking-wider shrink-0 shadow-2xs">
-                  PRO
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                Desarrollado por <strong className="text-[#E5C378] font-bold">Iris Quiroz</strong>
-              </p>
-            </div>
-          </div>
-
-          <div className="shrink-0">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-[#D4AF37]/30 text-xs font-medium text-amber-200">
-              <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
-              <span>100% Marca Propia</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. SaaS White-Label Multi-Cliente: Exportar e Importar Configuración JSON */}
-      <ConfigImportExportCard />
-
-      {/* 3. Personalización de Marca & Software (Adequate padding, clear input labels, spacious buttons) */}
+      {/* Personalización de Marca & Software */}
       <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-7">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
           <div className="flex items-center gap-3.5">

@@ -71,6 +71,18 @@ export interface StaffMember {
   createdAt: string;
 }
 
+export type BranchId = 'sucursal_1' | 'sucursal_2';
+
+export interface Branch {
+  id: BranchId;
+  name: string;
+}
+
+export const BRANCHES: Branch[] = [
+  { id: 'sucursal_1', name: 'Sucursal 1' },
+  { id: 'sucursal_2', name: 'Sucursal 2' },
+];
+
 export interface Appointment {
   id: string;
   businessId: string;
@@ -81,6 +93,7 @@ export interface Appointment {
   staffName: string;
   serviceId: string;
   serviceName: string;
+  branchId?: BranchId; // 'sucursal_1' | 'sucursal_2'
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
   durationMinutes: number;
@@ -98,6 +111,7 @@ export interface Appointment {
 export interface CashMovement {
   id: string;
   businessId: string;
+  branchId?: BranchId; // 'sucursal_1' | 'sucursal_2'
   date: string; // YYYY-MM-DD
   type: CashMovementType;
   category: CashMovementCategory;

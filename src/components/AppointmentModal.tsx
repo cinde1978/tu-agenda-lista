@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Clock, User, Scissors, DollarSign, AlertCircle, Plus, Check, Palette, CreditCard, QrCode } from 'lucide-react';
-import { Appointment, AppointmentStatus, PaymentMethod, APPOINTMENT_COLORS } from '../types';
+import { X, Calendar, Clock, User, Scissors, DollarSign, AlertCircle, Plus, Check, Palette, CreditCard, QrCode, Building2 } from 'lucide-react';
+import { Appointment, AppointmentStatus, PaymentMethod, APPOINTMENT_COLORS, BranchId } from '../types';
 import { useApp } from '../context/AppContext';
 import { getTodayDateString } from '../utils/initialData';
 import { MercadoPagoModal } from './mercadopago/MercadoPagoModal';
@@ -29,6 +29,8 @@ export function AppointmentModal({
     services,
     staff,
     appointments,
+    selectedBranch,
+    branches,
     createAppointment,
     updateAppointment,
     createClient,
@@ -36,6 +38,7 @@ export function AppointmentModal({
   } = useApp();
 
   // Form states
+  const [branchId, setBranchId] = useState<BranchId>(appointmentToEdit?.branchId || selectedBranch);
   const [clientId, setClientId] = useState(appointmentToEdit?.clientId || '');
   const [clientName, setClientName] = useState(appointmentToEdit?.clientName || '');
   const [clientPhone, setClientPhone] = useState(appointmentToEdit?.clientPhone || '');
@@ -164,6 +167,7 @@ export function AppointmentModal({
           serviceName: srvObj ? srvObj.name : 'Servicio general',
           staffId,
           staffName: stfObj ? stfObj.name : 'Personal asignado',
+          branchId,
           date,
           time,
           durationMinutes: Number(durationMinutes),
@@ -187,6 +191,7 @@ export function AppointmentModal({
           serviceName: srvObj ? srvObj.name : 'Servicio general',
           staffId,
           staffName: stfObj ? stfObj.name : 'Personal asignado',
+          branchId,
           date,
           time,
           durationMinutes: Number(durationMinutes),
@@ -202,11 +207,12 @@ export function AppointmentModal({
         if (registerDepositInCash && depositAmount > 0) {
           await createCashMovement({
             date,
+            branchId,
             type: 'ingreso',
             category: 'seña',
             amount: Number(depositAmount),
             paymentMethod: paymentMethod === 'pendiente' ? 'efectivo' : paymentMethod,
-            description: `Seña para turno de ${finalClientName} (${srvObj?.name || 'Servicio'})`,
+            description: `[${branchId === 'sucursal_1' ? 'Sucursal 1' : 'Sucursal 2'}] Seña para turno de ${finalClientName} (${srvObj?.name || 'Servicio'})`,
             appointmentId: newId,
           });
         }
@@ -379,6 +385,30 @@ export function AppointmentModal({
               ⚠️ Advertencia: Ya existe otro turno en este horario para este profesional.
             </div>
           )}
+
+          {/* Sucursal / Local */}
+          <div>
+            <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-1.5">
+              <Building2 className="w-3.5 h-3.5 text-[#A2721C]" />
+              <span>Sucursal asignada</span>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {branches.map((b) => (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => setBranchId(b.id)}
+                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border text-center ${
+                    branchId === b.id
+                      ? 'bg-amber-500/15 border-[#D4AF37] text-amber-950 shadow-2xs ring-1 ring-[#D4AF37]/40'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {b.name}
+                </button>
+              ))}
+            </div>
+          </div>
 
           {/* Date, Time & Duration */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

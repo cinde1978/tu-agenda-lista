@@ -6,8 +6,10 @@ import {
   Download,
   Smartphone,
   X,
+  Building2,
+  ChevronDown,
 } from 'lucide-react';
-import { ViewTab } from '../types';
+import { ViewTab, BranchId } from '../types';
 import { useApp } from '../context/AppContext';
 import { formatDateSpanishLong } from '../utils/formatters';
 import { getTodayDateString } from '../utils/initialData';
@@ -25,7 +27,7 @@ export function Header({
   currentTab,
   onSelectTab,
 }: HeaderProps) {
-  const { business } = useApp();
+  const { business, selectedBranch, setSelectedBranch, branches } = useApp();
   const { isInstallable, install } = usePWAInstall();
   const [showInstallHelp, setShowInstallHelp] = useState(false);
   const todayStr = getTodayDateString();
@@ -47,71 +49,70 @@ export function Header({
     <>
       {/* Top Clean SaaS Header Bar */}
       <header
-        className="no-print bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-4 sm:px-6 lg:px-8 py-3 select-none shadow-xs"
+        className="no-print bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 select-none shadow-xs"
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '16px',
+          gap: '12px',
           justifyContent: 'space-between',
-          overflow: 'hidden',
         }}
       >
         {/* Left: Logo a la izquierda & Título principal 'Tu Agenda Lista' */}
         <div
           onClick={() => onSelectTab('agenda')}
-          className="cursor-pointer group min-w-0 shrink"
+          className="cursor-pointer group min-w-0 shrink flex items-center gap-2.5 sm:gap-3.5"
           title="Ir a Agenda"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            overflow: 'hidden',
-            minWidth: 0,
-          }}
         >
           <AppLogo size={36} className="shrink-0 group-hover:scale-105 transition-transform" />
           <h1
-            className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-slate-900 leading-none m-0"
-            style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
+            className="font-extrabold text-sm sm:text-lg lg:text-xl tracking-tight text-slate-900 leading-none m-0 truncate"
           >
             {brandName}
           </h1>
         </div>
 
-        {/* Center / Fecha Actual */}
-        <div
-          className="hidden md:flex items-center gap-2 text-xs font-bold text-amber-950 bg-amber-50/90 border border-amber-200/80 px-3.5 py-1.5 rounded-xl capitalize shrink-0 shadow-2xs"
-          style={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          <Calendar className="w-4 h-4 text-[#A2721C] shrink-0" />
-          <span>{formatDateSpanishLong(todayStr)}</span>
-        </div>
+        {/* Center / Right Controls: Multisucursal Selector, Date & Install */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Selector Desplegable Multisucursal (2 Locales) */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className="relative flex items-center bg-gradient-to-r from-amber-50 to-orange-50/70 border border-[#D4AF37]/50 rounded-xl px-2 sm:px-3 py-1 sm:py-1.5 shadow-2xs hover:border-[#D4AF37] transition-all">
+              <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#A2721C] shrink-0 mr-1" />
+              <label htmlFor="branch-selector" className="sr-only">Seleccionar Sucursal</label>
+              <select
+                id="branch-selector"
+                value={selectedBranch}
+                onChange={(e) => setSelectedBranch(e.target.value as BranchId)}
+                className="bg-transparent font-extrabold text-xs sm:text-sm text-slate-900 focus:outline-none cursor-pointer pr-4 appearance-none"
+                title="Cambiar sucursal (Filtra automáticamente la agenda y la caja diaria)"
+              >
+                {branches.map((b) => (
+                  <option key={b.id} value={b.id} className="text-slate-900 font-bold bg-white">
+                    {b.name}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-[#A2721C] pointer-events-none absolute right-2 stroke-[2.5]" />
+            </div>
+          </div>
 
-        {/* Right: Botón 'Instalar App' */}
-        <div
-          className="shrink-0"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-          }}
-        >
+          {/* Fecha Actual (Desktop) */}
+          <div
+            className="hidden lg:flex items-center gap-2 text-xs font-bold text-amber-950 bg-amber-50/90 border border-amber-200/80 px-3 py-1.5 rounded-xl capitalize shrink-0 shadow-2xs"
+          >
+            <Calendar className="w-3.5 h-3.5 text-[#A2721C] shrink-0" />
+            <span>{formatDateSpanishLong(todayStr)}</span>
+          </div>
+
+          {/* Botón 'Instalar App' */}
           <button
             type="button"
             onClick={handleInstallClick}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-[#D4AF37] via-[#C5A059] to-[#AA822A] hover:brightness-105 active:scale-98 text-slate-950 shadow-xs hover:shadow-md ring-1 ring-[#D4AF37]/50 transition-all whitespace-nowrap cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-[#D4AF37] via-[#C5A059] to-[#AA822A] hover:brightness-105 active:scale-98 text-slate-950 shadow-xs hover:shadow-md ring-1 ring-[#D4AF37]/50 transition-all whitespace-nowrap cursor-pointer shrink-0"
             title="Instala nuestra App en tu celular para un acceso más rápido"
           >
-            <Download className="w-4 h-4 shrink-0 stroke-[2.5]" />
-            <span>Instalar App</span>
+            <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 stroke-[2.5]" />
+            <span className="hidden xs:inline sm:inline">Instalar App</span>
+            <span className="inline xs:hidden sm:hidden">Instalar</span>
           </button>
         </div>
       </header>

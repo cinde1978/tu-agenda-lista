@@ -25,6 +25,9 @@ import {
   Appointment,
   CashMovement,
   BusinessConfigExport,
+  BranchId,
+  Branch,
+  BRANCHES,
 } from '../types';
 import {
   getDefaultBusiness,
@@ -56,7 +59,12 @@ interface AppContextType {
   services: Service[];
   staff: StaffMember[];
   appointments: Appointment[];
+  allAppointments: Appointment[];
   cashMovements: CashMovement[];
+  allCashMovements: CashMovement[];
+  selectedBranch: BranchId;
+  setSelectedBranch: (branch: BranchId) => void;
+  branches: Branch[];
   isLoadingData: boolean;
   hasFirestoreError: string | null;
   unreadRemindersCount: number;
@@ -97,8 +105,35 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [clients, setClients] = useState<Client[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [staff, setStaff] = useState<StaffMember[]>([]);
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [cashMovements, setCashMovements] = useState<CashMovement[]>([]);
+  const [rawAppointments, setRawAppointments] = useState<Appointment[]>([]);
+  const [rawCashMovements, setRawCashMovements] = useState<CashMovement[]>([]);
+  const setAppointments = setRawAppointments;
+  const setCashMovements = setRawCashMovements;
+
+  const [selectedBranch, setSelectedBranchState] = useState<BranchId>(() => {
+    try {
+      const saved = localStorage.getItem('tu_agenda_selected_branch');
+      if (saved === 'sucursal_1' || saved === 'sucursal_2') return saved;
+    } catch {}
+    return 'sucursal_1';
+  });
+
+  const setSelectedBranch = useCallback((branch: BranchId) => {
+    setSelectedBranchState(branch);
+    try {
+      localStorage.setItem('tu_agenda_selected_branch', branch);
+    } catch {}
+  }, []);
+
+  // Filter automatically by selected branch
+  const appointments = useMemo(() => {
+    return rawAppointments.filter((apt) => (apt.branchId || 'sucursal_1') === selectedBranch);
+  }, [rawAppointments, selectedBranch]);
+
+  const cashMovements = useMemo(() => {
+    return rawCashMovements.filter((mov) => (mov.branchId || 'sucursal_1') === selectedBranch);
+  }, [rawCashMovements, selectedBranch]);
+
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [hasFirestoreError, setHasFirestoreError] = useState<string | null>(null);
 
@@ -191,14 +226,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         services,
         staff,
         clients,
-        appointments,
-        cashMovements,
+        appointments: rawAppointments,
+        cashMovements: rawCashMovements,
       };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stateToStore));
     } catch (e) {
       console.warn('Error saving to localStorage', e);
     }
-  }, [business, services, staff, clients, appointments, cashMovements]);
+  }, [business, services, staff, clients, rawAppointments, rawCashMovements]);
 
   // Sync with Firestore when User is signed in
   useEffect(() => {
@@ -408,6 +443,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         ...aptData,
         id,
         businessId: currentBusinessId,
+        branchId: aptData.branchId || selectedBranch,
         createdAt: today,
         updatedAt: today,
       };
@@ -423,7 +459,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }
       return id;
     },
-    [currentBusinessId, user]
+    [currentBusinessId, user, selectedBranch]
   );
 
   const updateAppointment = useCallback(
@@ -476,6 +512,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const mov: CashMovement = {
           id: cashId,
           businessId: currentBusinessId,
+          branchId: apt.branchId || selectedBranch,
           date: apt.date,
           type: 'ingreso',
           category: 'saldo',
@@ -700,6 +737,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         ...movData,
         id,
         businessId: currentBusinessId,
+        branchId: movData.branchId || selectedBranch,
         createdAt: today,
       };
 
@@ -714,7 +752,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }
       return id;
     },
-    [currentBusinessId, user]
+    [currentBusinessId, user, selectedBranch]
   );
 
   const deleteCashMovement = useCallback(
@@ -961,7 +999,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     services,
     staff,
     appointments,
+    allAppointments: rawAppointments,
     cashMovements,
+    allCashMovements: rawCashMovements,
+    selectedBranch,
+    setSelectedBranch,
+    branches: BRANCHES,
     isLoadingData,
     hasFirestoreError,
     unreadRemindersCount,

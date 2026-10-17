@@ -33,7 +33,7 @@ export function AgendaHeader({
   onStaffChange,
   onNewAppointment,
 }: AgendaHeaderProps) {
-  const { staff } = useApp();
+  const { staff, selectedBranch } = useApp();
   const todayStr = getTodayDateString();
 
   const handleShiftDate = (deltaDays: number) => {
@@ -92,6 +92,10 @@ export function AgendaHeader({
 
           <span className="text-xs font-bold text-slate-700 capitalize hidden sm:inline-block px-2">
             {formatDateSpanishLong(currentDate)}
+          </span>
+
+          <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-[#D4AF37]/50 shadow-2xs">
+            {selectedBranch === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
           </span>
         </div>
 

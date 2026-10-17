@@ -82,6 +82,9 @@ export function AppointmentDetailModal({
               <span className="text-xs text-slate-500 font-medium">
                 Ref #{appointment.id.slice(-6)}
               </span>
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-300/80 shadow-2xs">
+                {appointment.branchId === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
+              </span>
             </div>
             <button
               onClick={onClose}

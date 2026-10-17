@@ -21,7 +21,7 @@ import { getTodayDateString } from '../../utils/initialData';
 import { CashMovementModal } from './CashMovementModal';
 
 export function CashView() {
-  const { cashMovements, appointments, business, deleteCashMovement } = useApp();
+  const { cashMovements, appointments, business, deleteCashMovement, selectedBranch } = useApp();
   const [selectedDate, setSelectedDate] = useState(getTodayDateString());
   const [activeTab, setActiveTab] = useState<'todos' | 'ingresos' | 'gastos'>('todos');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,9 +80,14 @@ export function CashView() {
       {/* Top Header & Date Navigation */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs">
         <div>
-          <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">Caja Diaria & Finanzas</h2>
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">Caja Diaria & Finanzas</h2>
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-950 border border-[#D4AF37]/50 shadow-2xs">
+              {selectedBranch === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
+            </span>
+          </div>
           <p className="text-xs text-gray-500 mt-0.5">
-            Arqueo diario, control de ingresos, gastos, señas y saldos por cobrar
+            Arqueo diario y movimientos filtrados automáticamente para {selectedBranch === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, DollarSign, ArrowUpRight, ArrowDownLeft, Tag, CreditCard, Check } from 'lucide-react';
-import { CashMovementType, CashMovementCategory, PaymentMethod } from '../../types';
+import { X, DollarSign, ArrowUpRight, ArrowDownLeft, Tag, CreditCard, Check, Building2 } from 'lucide-react';
+import { CashMovementType, CashMovementCategory, PaymentMethod, BranchId } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { getTodayDateString } from '../../utils/initialData';
 
@@ -14,7 +14,8 @@ const INCOME_CATEGORIES: CashMovementCategory[] = ['turno', 'seña', 'saldo', 'o
 const EXPENSE_CATEGORIES: CashMovementCategory[] = ['insumos', 'alquiler', 'servicios', 'comisiones', 'otro'];
 
 export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovementModalProps) {
-  const { createCashMovement, business } = useApp();
+  const { createCashMovement, business, selectedBranch, branches } = useApp();
+  const [branchId, setBranchId] = useState<BranchId>(selectedBranch);
   const [date, setDate] = useState(initialDate || getTodayDateString());
   const [type, setType] = useState<CashMovementType>('ingreso');
   const [category, setCategory] = useState<CashMovementCategory>('turno');
@@ -40,6 +41,7 @@ export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovemen
     try {
       const id = await createCashMovement({
         date,
+        branchId,
         type,
         category,
         amount: Number(amount),
@@ -109,6 +111,30 @@ export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovemen
               <ArrowUpRight className="w-3.5 h-3.5" />
               <span>Gasto (-)</span>
             </button>
+          </div>
+
+          {/* Sucursal Selector */}
+          <div>
+            <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-1.5">
+              <Building2 className="w-3.5 h-3.5 text-[#A2721C]" />
+              <span>Sucursal asignada</span>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {branches.map((b) => (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => setBranchId(b.id)}
+                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border text-center ${
+                    branchId === b.id
+                      ? 'bg-amber-500/15 border-[#D4AF37] text-amber-950 shadow-2xs ring-1 ring-[#D4AF37]/40'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {b.name}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Amount */}
