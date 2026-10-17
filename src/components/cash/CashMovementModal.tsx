@@ -6,6 +6,8 @@ import { getTodayDateString } from '../../utils/initialData';
 
 interface CashMovementModalProps {
   initialDate?: string;
+  initialType?: CashMovementType;
+  initialBranchId?: BranchId;
   onClose: () => void;
   onSaved: (id: string) => void;
 }
@@ -13,12 +15,18 @@ interface CashMovementModalProps {
 const INCOME_CATEGORIES: CashMovementCategory[] = ['turno', 'seña', 'saldo', 'otro'];
 const EXPENSE_CATEGORIES: CashMovementCategory[] = ['insumos', 'alquiler', 'servicios', 'comisiones', 'otro'];
 
-export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovementModalProps) {
+export function CashMovementModal({
+  initialDate,
+  initialType = 'ingreso',
+  initialBranchId,
+  onClose,
+  onSaved,
+}: CashMovementModalProps) {
   const { createCashMovement, business, selectedBranch, branches } = useApp();
-  const [branchId, setBranchId] = useState<BranchId>(selectedBranch);
+  const [branchId, setBranchId] = useState<BranchId>(initialBranchId || selectedBranch);
   const [date, setDate] = useState(initialDate || getTodayDateString());
-  const [type, setType] = useState<CashMovementType>('ingreso');
-  const [category, setCategory] = useState<CashMovementCategory>('turno');
+  const [type, setType] = useState<CashMovementType>(initialType);
+  const [category, setCategory] = useState<CashMovementCategory>(initialType === 'ingreso' ? 'turno' : 'insumos');
   const [amount, setAmount] = useState<number>(1000);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('efectivo');
   const [description, setDescription] = useState('');

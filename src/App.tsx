@@ -128,8 +128,8 @@ function MainAppContent() {
           onOpenReminders={() => setIsRemindersModalOpen(true)}
         />
 
-        {/* Main Workspace Body */}
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        {/* Main Workspace Body with safe bottom padding for mobile navigation */}
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 pb-28 lg:pb-8 space-y-6">
           {currentTab === 'agenda' && (
             <div className="space-y-6">
               {/* Upcoming Appointments of the Day Widget */}
@@ -228,18 +228,20 @@ function MainAppContent() {
         </footer>
       </div>
 
-      {/* Floating Action Button for Mobile screens (sits right above bottom bar) */}
-      <div className="fixed lg:hidden bottom-20 right-4 z-30">
-        <button
-          type="button"
-          onClick={() => handleOpenNewAppointment()}
-          className="w-14 h-14 rounded-full bg-[#0F172A] hover:bg-black text-white shadow-2xl shadow-slate-900/40 border-2 border-white/20 flex items-center justify-center transition-transform active:scale-90 hover:scale-105 cursor-pointer"
-          title="Nuevo Turno"
-          aria-label="Nuevo Turno"
-        >
-          <Plus className="w-7 h-7 text-white stroke-[3.5]" />
-        </button>
-      </div>
+      {/* Floating Action Button for Mobile screens (shown only on Agenda tab so it doesn't overlap tables) */}
+      {currentTab === 'agenda' && (
+        <div className="fixed lg:hidden bottom-20 right-4 z-30">
+          <button
+            type="button"
+            onClick={() => handleOpenNewAppointment()}
+            className="w-14 h-14 rounded-full bg-[#0F172A] hover:bg-black text-white shadow-2xl shadow-slate-900/40 border-2 border-white/20 flex items-center justify-center transition-transform active:scale-90 hover:scale-105 cursor-pointer"
+            title="Nuevo Turno"
+            aria-label="Nuevo Turno"
+          >
+            <Plus className="w-7 h-7 text-white stroke-[3.5]" />
+          </button>
+        </div>
+      )}
 
       {/* Modals */}
       {isAppointmentModalOpen && (

@@ -8,6 +8,7 @@ import {
   X,
   Building2,
   ChevronDown,
+  Settings,
 } from 'lucide-react';
 import { ViewTab, BranchId } from '../types';
 import { useApp } from '../context/AppContext';
@@ -167,52 +168,58 @@ export function Header({
         </div>
       )}
 
-      {/* Mobile Bottom Navigation Bar (48px+ touch targets) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-slate-300 lg:hidden flex items-center justify-around h-16 px-2 shadow-lg no-print select-none">
+      {/* Mobile Bottom Navigation Bar (48px+ touch targets, z-50, no-overlap) */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-slate-300 lg:hidden flex items-center justify-around h-16 px-1 shadow-2xl no-print select-none touch-manipulation">
         <button
           type="button"
           onClick={() => onSelectTab('agenda')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
-            currentTab === 'agenda' ? 'text-[#0F172A] font-black scale-105' : 'text-[#0F172A]/70 font-bold hover:text-black'
+          className={`flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 rounded-xl transition-all cursor-pointer ${
+            currentTab === 'agenda'
+              ? 'text-[#1E3A8A] font-black bg-blue-50/80 scale-105'
+              : 'text-[#0F172A]/70 font-bold hover:text-black hover:bg-slate-50'
           }`}
         >
           <Calendar className="w-5 h-5 stroke-[2.5]" />
-          <span className="text-[11px] font-black mt-1">Agenda</span>
+          <span className="text-[11px] font-black mt-0.5">Agenda</span>
         </button>
 
         <button
           type="button"
           onClick={() => onSelectTab('clientes')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
-            currentTab === 'clientes' ? 'text-[#0F172A] font-black scale-105' : 'text-[#0F172A]/70 font-bold hover:text-black'
+          className={`flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 rounded-xl transition-all cursor-pointer ${
+            currentTab === 'clientes'
+              ? 'text-[#1E3A8A] font-black bg-blue-50/80 scale-105'
+              : 'text-[#0F172A]/70 font-bold hover:text-black hover:bg-slate-50'
           }`}
         >
           <Users className="w-5 h-5 stroke-[2.5]" />
-          <span className="text-[11px] font-black mt-1">Clientes</span>
+          <span className="text-[11px] font-black mt-0.5">Clientes</span>
         </button>
 
         <button
           type="button"
           onClick={() => onSelectTab('caja')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
-            currentTab === 'caja' ? 'text-[#0F172A] font-black scale-105' : 'text-[#0F172A]/70 font-bold hover:text-black'
+          className={`flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 rounded-xl transition-all cursor-pointer ${
+            currentTab === 'caja'
+              ? 'text-[#1E3A8A] font-black bg-blue-50/80 scale-105'
+              : 'text-[#0F172A]/70 font-bold hover:text-black hover:bg-slate-50'
           }`}
         >
           <Wallet className="w-5 h-5 stroke-[2.5]" />
-          <span className="text-[11px] font-black mt-1">Caja</span>
+          <span className="text-[11px] font-black mt-0.5">Caja</span>
         </button>
 
         <button
           type="button"
           onClick={() => onSelectTab('configuracion')}
-          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 transition-colors cursor-pointer ${
-            currentTab === 'configuracion' ? 'text-[#0F172A] font-black scale-105' : 'text-[#0F172A]/70 font-bold hover:text-black'
+          className={`flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 rounded-xl transition-all cursor-pointer ${
+            currentTab === 'configuracion'
+              ? 'text-[#1E3A8A] font-black bg-blue-50/80 scale-105'
+              : 'text-[#0F172A]/70 font-bold hover:text-black hover:bg-slate-50'
           }`}
         >
-          <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center text-[11px] font-black">
-            ⚙
-          </div>
-          <span className="text-[11px] font-black mt-1">Ajustes</span>
+          <Settings className="w-5 h-5 stroke-[2.5]" />
+          <span className="text-[11px] font-black mt-0.5">Ajustes</span>
         </button>
       </nav>
     </>
