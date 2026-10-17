@@ -4,7 +4,7 @@ import {
   Calendar,
   Clock,
   User,
-  Scissors,
+  Sparkles,
   DollarSign,
   MessageCircle,
   CheckCircle2,
@@ -139,7 +139,7 @@ export function AppointmentDetailModal({
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <div className="text-xs text-slate-400 font-medium flex items-center gap-1 mb-1">
-                  <Scissors className="w-3.5 h-3.5 text-blue-600" />
+                  <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                   Servicio
                 </div>
                 <div className="font-bold text-slate-800">{appointment.serviceName}</div>

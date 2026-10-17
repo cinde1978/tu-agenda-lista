@@ -145,11 +145,11 @@ export interface ThemeColorOption {
 
 export const THEME_COLOR_OPTIONS: ThemeColorOption[] = [
   { id: 'gold', name: 'Oro Metálico & Obsidian (Oficial)', hex: '#D4AF37', category: 'Alta Gama / Monograma' },
-  { id: 'blue', name: 'Azul Real & Índigo', hex: '#2563eb', category: 'Peluquería & Estilismo' },
+  { id: 'blue', name: 'Azul Real & Índigo', hex: '#2563eb', category: 'Salud & Consultorio' },
   { id: 'emerald', name: 'Esmeralda Botanicals', hex: '#059669', category: 'Spa & Relax' },
   { id: 'pink', name: 'Rosa Glam & Magenta', hex: '#ec4899', category: 'Uñas & Manicuría' },
-  { id: 'violet', name: 'Lavanda & Violeta Intenso', hex: '#7c3aed', category: 'Estética & Mirada' },
-  { id: 'dark', name: 'Grafito & Acero Negro', hex: '#334155', category: 'Barber Club' },
+  { id: 'violet', name: 'Lavanda & Violeta Intenso', hex: '#7c3aed', category: 'Estética Facial & Corporal' },
+  { id: 'dark', name: 'Grafito & Acero Negro', hex: '#334155', category: 'Moderno & Sobrio' },
 ];
 
 export interface BusinessConfigExport {

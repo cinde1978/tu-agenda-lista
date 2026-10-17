@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Plus, User, Scissors, AlertCircle, CheckCircle } from 'lucide-react';
+import { Clock, Plus, User, Sparkles, AlertCircle, CheckCircle } from 'lucide-react';
 import { Appointment, StaffMember } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { formatCurrency, getStatusBadge, openWhatsAppTurno } from '../../utils/formatters';
@@ -138,7 +138,7 @@ export function AgendaDayView({
 
                           <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
                             <span className="flex items-center gap-1 font-medium text-slate-700">
-                              <Scissors className="w-3 h-3 text-blue-600" />
+                              <Sparkles className="w-3 h-3 text-blue-600" />
                               {apt.serviceName} ({apt.durationMinutes}m)
                             </span>
 

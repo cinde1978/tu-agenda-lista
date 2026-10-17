@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Calendar,
   Users,
-  Scissors,
+  Sparkles,
   UserCheck,
   Wallet,
   BarChart3,
@@ -50,7 +50,7 @@ export function Sidebar({
   const navItems: { id: ViewTab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: 'agenda', label: 'Agenda', icon: <Calendar className="w-4 h-4" /> },
     { id: 'clientes', label: 'Clientes', icon: <Users className="w-4 h-4" /> },
-    { id: 'servicios', label: 'Servicios', icon: <Scissors className="w-4 h-4" /> },
+    { id: 'servicios', label: 'Servicios', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'profesionales', label: 'Profesionales', icon: <UserCheck className="w-4 h-4" /> },
     { id: 'caja', label: 'Caja Diaria', icon: <Wallet className="w-4 h-4" /> },
     { id: 'reportes', label: 'Estadísticas', icon: <BarChart3 className="w-4 h-4" /> },

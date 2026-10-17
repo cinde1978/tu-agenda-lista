@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Clock, User, Scissors, DollarSign, AlertCircle, Plus, Check, Palette, CreditCard, QrCode, Building2 } from 'lucide-react';
+import { X, Calendar, Clock, User, Sparkles, DollarSign, AlertCircle, Plus, Check, Palette, CreditCard, QrCode, Building2 } from 'lucide-react';
 import { Appointment, AppointmentStatus, PaymentMethod, APPOINTMENT_COLORS, BranchId } from '../types';
 import { useApp } from '../context/AppContext';
 import { getTodayDateString } from '../utils/initialData';
@@ -351,7 +351,7 @@ export function AppointmentModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-black uppercase tracking-wider text-[#000000] flex items-center gap-1.5 mb-1">
-                <Scissors className="w-3.5 h-3.5 text-[#1E3A8A]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Servicio
               </label>
               <select

@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   XCircle,
   Users,
-  Scissors,
   Award,
   DollarSign,
   Receipt,
@@ -239,7 +238,7 @@ export function ReportsView() {
         <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-4">
           <div>
             <h3 className="font-bold text-gray-900 text-base flex items-center gap-2">
-              <Scissors className="w-4 h-4 text-purple-600" />
+              <Sparkles className="w-4 h-4 text-purple-600" />
               Servicios Más Demandados
             </h3>
             <p className="text-xs text-gray-500 mt-0.5">Top tratamientos por facturación y volumen</p>

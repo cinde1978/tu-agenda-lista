@@ -18,7 +18,6 @@ import {
   Clock,
   ExternalLink,
   Users,
-  Scissors,
   Plus,
   Edit2,
   Trash2,
@@ -39,13 +38,14 @@ import { formatCurrency } from '../utils/formatters';
 const DAY_NAMES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 const SERVICE_CATEGORY_PRESETS = [
-  'Peluquería',
-  'Manicuría & Pedicuría',
+  'Estética Facial',
+  'Estética Corporal',
+  'Cosmetología',
+  'Masajes',
+  'Manicuría',
   'Pestañas & Cejas',
-  'Cosmetología & Facial',
-  'Barbería',
-  'Masajes & Corporal',
-  'Depilación',
+  'Depilación Láser & Definitiva',
+  'Consultorio & Salud',
   'General',
 ];
 
@@ -213,9 +213,14 @@ export function SettingsView() {
           [
             'Corte & Peinado',
             'Coloración Completa / Balayage',
+            'Limpieza Facial Profunda',
+            'Masaje Descontracturante & Relajante',
+            'Tratamiento Corporal Reductor',
+            'Peeling Químico & Renovación',
+            'Drenaje Linfático Manual',
+            'Manicuría Rusa & Semipermanente',
             'Manicuría Rusa & Esmaltado Semipermanente',
             'Pedicuría Spa Completa',
-            'Limpieza Facial Profunda',
             'Perfilado & Laminado de Cejas',
           ].includes(srv.name)
         ) {
@@ -315,7 +320,7 @@ export function SettingsView() {
               : 'bg-white text-[#000000] border-slate-300 hover:border-slate-700 hover:bg-slate-50'
           }`}
         >
-          <Scissors className="w-4 h-4 stroke-[2.5]" />
+          <Sparkles className="w-4 h-4 stroke-[2.5]" />
           <span>Gestionar Servicios</span>
           <span className={`px-2 py-0.5 rounded-full text-xs font-black ${
             activeTab === 'servicios' ? 'bg-white text-[#1E3A8A]' : 'bg-slate-200 text-[#000000]'
@@ -588,7 +593,7 @@ export function SettingsView() {
               <div>
                 <div className="flex items-center gap-2.5">
                   <div className="p-2.5 bg-purple-50 border-2 border-purple-200 rounded-xl text-purple-700">
-                    <Scissors className="w-6 h-6 stroke-[2.5]" />
+                    <Sparkles className="w-6 h-6 stroke-[2.5]" />
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-black text-[#000000] tracking-tight">
@@ -645,7 +650,7 @@ export function SettingsView() {
                   <input
                     type="text"
                     required
-                    placeholder="Ej. Corte de Cabello + Peinado"
+                    placeholder="Ej. Limpieza Facial, Masajes o Tratamiento Corporal"
                     value={newServiceName}
                     onChange={(e) => setNewServiceName(e.target.value)}
                     className="w-full text-sm font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
@@ -728,7 +733,7 @@ export function SettingsView() {
             {/* Grid of services */}
             {filteredServices.length === 0 ? (
               <div className="text-center py-10 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-300 p-8 space-y-3">
-                <Scissors className="w-12 h-12 text-slate-400 mx-auto" />
+                <Sparkles className="w-12 h-12 text-purple-400 mx-auto" />
                 <h3 className="font-black text-black text-base">No hay servicios en esta categoría</h3>
                 <p className="text-xs font-bold text-slate-600 max-w-md mx-auto">
                   Agrega tratamientos y precios para que aparezcan en el desplegable al agendar turnos.
@@ -860,7 +865,7 @@ export function SettingsView() {
             <div className="bg-white rounded-2xl border-2 border-slate-300 p-5 shadow-xs flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 border-2 border-purple-200 flex items-center justify-center shrink-0">
-                  <Scissors className="w-6 h-6 text-purple-700" />
+                  <Sparkles className="w-6 h-6 text-purple-700" />
                 </div>
                 <div>
                   <h4 className="font-black text-[#000000] text-sm">Gestionar Servicios</h4>
@@ -1068,7 +1073,7 @@ export function SettingsView() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Ej. Peluquería, Estética, Barbería, Spa, Uñas..."
+                    placeholder="Ej. Centro de Estética, Salud Integral, Consultorio, Spa..."
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     className="w-full text-sm px-4 py-3 rounded-xl border-2 border-slate-300 bg-white focus:border-black focus:ring-2 focus:ring-black/10 outline-none font-black text-[#000000]"

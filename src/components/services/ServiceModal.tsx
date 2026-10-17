@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Scissors, Clock, DollarSign, Tag, Check } from 'lucide-react';
+import { X, Sparkles, Clock, DollarSign, Tag, Check } from 'lucide-react';
 import { Service } from '../../types';
 import { useApp } from '../../context/AppContext';
 
@@ -10,13 +10,14 @@ interface ServiceModalProps {
 }
 
 const CATEGORIES = [
-  'Peluquería',
-  'Manicuría & Pedicuría',
+  'Estética Facial',
+  'Estética Corporal',
+  'Cosmetología',
+  'Masajes',
+  'Manicuría',
   'Pestañas & Cejas',
-  'Cosmetología & Facial',
-  'Barbería',
-  'Masajes & Corporal',
   'Depilación',
+  'Consultorio & Salud',
   'Otro',
 ];
 
@@ -87,7 +88,7 @@ export function ServiceModal({ serviceToEdit, onClose, onSaved }: ServiceModalPr
         <div className="bg-gradient-to-r from-blue-700 to-sky-600 p-5 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-xs">
-              <Scissors className="w-5 h-5 text-white" />
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="font-bold text-lg">
@@ -112,7 +113,7 @@ export function ServiceModal({ serviceToEdit, onClose, onSaved }: ServiceModalPr
             <input
               type="text"
               required
-              placeholder="Ej. Balayage & Nutrición"
+              placeholder="Ej. Limpieza Facial Profunda"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"

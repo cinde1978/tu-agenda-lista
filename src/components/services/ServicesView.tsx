@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Scissors, Clock, DollarSign, Edit2, Trash2, Check, Sparkles } from 'lucide-react';
+import { Plus, Sparkles, Clock, DollarSign, Edit2, Trash2, Check } from 'lucide-react';
 import { Service } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { formatCurrency } from '../../utils/formatters';
@@ -76,7 +76,7 @@ export function ServicesView() {
       {/* Services Grid */}
       {filteredServices.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200 p-8">
-          <Scissors className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+          <Sparkles className="w-12 h-12 text-purple-300 mx-auto mb-3" />
           <h3 className="font-bold text-gray-800 text-base">No hay servicios en esta categoría</h3>
           <p className="text-xs text-gray-500 mt-1">
             Agrega nuevos servicios para que aparezcan disponibles al agendar turnos.

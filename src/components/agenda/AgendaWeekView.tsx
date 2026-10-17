@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Plus, Scissors, User, Clock } from 'lucide-react';
+import { Plus, Sparkles, User, Clock } from 'lucide-react';
 import { Appointment } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { formatCurrency, getStatusBadge } from '../../utils/formatters';
@@ -132,7 +132,7 @@ export function AgendaWeekView({
                           </div>
 
                           <div className="text-[11px] text-slate-500 truncate flex items-center gap-1">
-                            <Scissors className="w-2.5 h-2.5 text-blue-500" />
+                            <Sparkles className="w-2.5 h-2.5 text-blue-500" />
                             <span>{apt.serviceName}</span>
                           </div>
 
