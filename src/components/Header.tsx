@@ -77,11 +77,11 @@ export function Header({
                 id="branch-selector"
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value as BranchId)}
-                className="bg-transparent font-black text-xs sm:text-sm text-[#0F172A] focus:outline-none cursor-pointer pr-4 appearance-none"
+                className="bg-white font-black text-xs sm:text-sm text-[#000000] focus:outline-none cursor-pointer pr-4 appearance-none"
                 title="Cambiar sucursal (Filtra automáticamente la agenda y la caja diaria)"
               >
                 {branches.map((b) => (
-                  <option key={b.id} value={b.id} className="text-[#0F172A] font-bold bg-white">
+                  <option key={b.id} value={b.id} className="text-[#000000] font-bold bg-white">
                     {b.name}
                   </option>
                 ))}

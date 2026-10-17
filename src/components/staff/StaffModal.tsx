@@ -290,21 +290,21 @@ export function StaffModal({ staffToEdit, onClose, onSaved }: StaffModalProps) {
             </label>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t-2 border-slate-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-sm font-medium"
+              className="px-5 py-2.5 rounded-xl border border-slate-400 hover:border-black bg-white hover:bg-slate-100 text-[#000000] font-black text-sm shadow-2xs transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-[#172554] active:scale-98 text-white font-black text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              <Check className="w-4 h-4" />
-              <span>{isSubmitting ? 'Guardando...' : staffToEdit ? 'Guardar' : 'Crear Profesional'}</span>
+              <Check className="w-4 h-4 stroke-[3]" />
+              <span>{isSubmitting ? 'Guardando...' : staffToEdit ? 'Guardar Cambios' : 'Crear Profesional'}</span>
             </button>
           </div>
         </form>

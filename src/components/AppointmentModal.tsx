@@ -63,26 +63,43 @@ export function AppointmentModal({
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // When selected service changes, update price & duration if new appointment
+  // When selected service changes, automatically complete duration & price
   const handleServiceChange = (id: string) => {
     setServiceId(id);
     const srv = services.find((s) => s.id === id);
-    if (srv && !appointmentToEdit) {
+    if (srv) {
       setPrice(srv.price);
       setDurationMinutes(srv.durationMinutes);
       if (srv.color) setColor(srv.color);
     }
   };
 
+  // Sync staffId if currently selected staff is removed or empty
+  useEffect(() => {
+    if (staff.length > 0 && (!staffId || !staff.some((s) => s.id === staffId))) {
+      const match = initialStaffId && staff.some((s) => s.id === initialStaffId) ? initialStaffId : staff[0].id;
+      setStaffId(match);
+    }
+  }, [staff, staffId, initialStaffId]);
+
   // Set initial price and duration from first service if creating
   useEffect(() => {
-    if (!appointmentToEdit && services.length > 0 && price === 0) {
-      const firstSrv = services.find((s) => s.id === serviceId) || services[0];
-      if (firstSrv) {
+    if (services.length > 0) {
+      if (!serviceId || !services.some((s) => s.id === serviceId)) {
+        const firstSrv = services[0];
         setServiceId(firstSrv.id);
-        setPrice(firstSrv.price);
-        setDurationMinutes(firstSrv.durationMinutes);
-        if (firstSrv.color) setColor(firstSrv.color);
+        if (!appointmentToEdit) {
+          setPrice(firstSrv.price);
+          setDurationMinutes(firstSrv.durationMinutes);
+          if (firstSrv.color) setColor(firstSrv.color);
+        }
+      } else if (!appointmentToEdit && price === 0) {
+        const currentSrv = services.find((s) => s.id === serviceId);
+        if (currentSrv) {
+          setPrice(currentSrv.price);
+          setDurationMinutes(currentSrv.durationMinutes);
+          if (currentSrv.color) setColor(currentSrv.color);
+        }
       }
     }
   }, [services, serviceId, appointmentToEdit, price]);
@@ -229,45 +246,45 @@ export function AppointmentModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl border-2 border-slate-300 w-full max-w-xl max-h-[85vh] flex flex-col my-auto overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-sky-600 p-5 text-white flex items-center justify-between">
+        <div className="bg-[#1E3A8A] p-4 sm:p-5 text-white flex items-center justify-between shrink-0 border-b border-blue-900">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-xs">
               <Calendar className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-lg">
+              <h3 className="font-black text-lg">
                 {appointmentToEdit ? 'Editar Turno' : 'Nuevo Turno'}
               </h3>
-              <p className="text-blue-100 text-xs">
+              <p className="text-blue-100 text-xs font-medium">
                 {appointmentToEdit ? 'Modifica los datos del turno programado' : 'Asigna un turno rápido en la agenda'}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 hover:bg-white/20 rounded-lg text-white/80 hover:text-white transition-colors"
+            className="p-1.5 hover:bg-white/20 rounded-lg text-white/80 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        {/* Form Body - Scrollable with max-h-[85vh] overflow-y-auto */}
+        <form id="appointment-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-[#000000]">
           {errorMsg && (
-            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+            <div className="p-3 bg-rose-50 border-2 border-rose-300 text-rose-800 text-xs rounded-xl flex items-center gap-2 font-bold">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {/* Client Selection */}
-          <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-3">
+          <div className="bg-slate-50 p-4 rounded-xl border-2 border-slate-300 space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-blue-600" />
+              <label className="text-xs font-black uppercase tracking-wider text-[#000000] flex items-center gap-1.5">
+                <User className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Cliente
               </label>
               <button
@@ -280,7 +297,7 @@ export function AppointmentModal({
                     setClientPhone('');
                   }
                 }}
-                className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 hover:underline"
+                className="text-xs font-black text-[#1E3A8A] hover:text-blue-900 flex items-center gap-1 hover:underline cursor-pointer"
               >
                 {isNewClientMode ? 'Seleccionar existente' : '+ Crear nuevo cliente'}
               </button>
@@ -291,11 +308,11 @@ export function AppointmentModal({
                 <select
                   value={clientId}
                   onChange={(e) => handleClientSelect(e.target.value)}
-                  className="w-full text-sm p-2.5 rounded-xl border border-slate-200 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-slate-800"
+                  className="w-full text-sm font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/20 outline-none text-[#000000]"
                 >
-                  <option value="">-- Seleccionar cliente de la lista --</option>
+                  <option value="" className="text-black bg-white">-- Seleccionar cliente de la lista --</option>
                   {clients.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <option key={c.id} value={c.id} className="text-[#000000] font-bold bg-white">
                       {c.name} {c.phone ? `(${c.phone})` : ''}
                     </option>
                   ))}
@@ -306,24 +323,24 @@ export function AppointmentModal({
             {(isNewClientMode || clients.length === 0 || clientId) && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
-                  <label className="text-xs text-slate-500 block mb-1">Nombre y Apellido *</label>
+                  <label className="text-xs font-bold text-[#000000] block mb-1">Nombre y Apellido *</label>
                   <input
                     type="text"
                     required
                     placeholder="Ej. Sofía Martínez"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="w-full text-sm p-2.5 rounded-xl border border-slate-200 bg-white focus:border-blue-600 outline-none text-slate-800"
+                    className="w-full text-sm font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white focus:border-[#1E3A8A] outline-none text-[#000000]"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-500 block mb-1">WhatsApp / Teléfono</label>
+                  <label className="text-xs font-bold text-[#000000] block mb-1">WhatsApp / Teléfono</label>
                   <input
                     type="tel"
                     placeholder="Ej. 11 3344-5566"
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
-                    className="w-full text-sm p-2.5 rounded-xl border border-slate-200 bg-white focus:border-blue-600 outline-none text-slate-800"
+                    className="w-full text-sm font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white focus:border-[#1E3A8A] outline-none text-[#000000]"
                   />
                 </div>
               </div>
@@ -333,63 +350,75 @@ export function AppointmentModal({
           {/* Service & Staff */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5 mb-1">
-                <Scissors className="w-3.5 h-3.5 text-blue-600" />
+              <label className="text-xs font-black uppercase tracking-wider text-[#000000] flex items-center gap-1.5 mb-1">
+                <Scissors className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Servicio
               </label>
               <select
                 value={serviceId}
                 onChange={(e) => handleServiceChange(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 bg-white focus:border-blue-600 outline-none text-slate-800"
+                className="w-full text-sm font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white focus:border-[#1E3A8A] outline-none text-[#000000]"
               >
-                {services.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name} ({s.durationMinutes} min - {business?.currency || '$'} {s.price})
+                {services.length === 0 ? (
+                  <option value="" className="text-[#000000] font-bold bg-white">
+                    -- No hay servicios (crea uno en Ajustes) --
                   </option>
-                ))}
+                ) : (
+                  services.map((s) => (
+                    <option key={s.id} value={s.id} className="text-[#000000] font-bold bg-white">
+                      {s.name} ({s.durationMinutes} min - {business?.currency || '$'} {s.price})
+                    </option>
+                  ))
+                )}
               </select>
             </div>
 
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5 mb-1">
-                <User className="w-3.5 h-3.5 text-blue-600" />
+              <label className="text-xs font-black uppercase tracking-wider text-[#000000] flex items-center gap-1.5 mb-1">
+                <User className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Profesional
               </label>
               <select
                 value={staffId}
                 onChange={(e) => setStaffId(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 bg-white focus:border-blue-600 outline-none text-slate-800"
+                className="w-full text-sm font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white focus:border-[#1E3A8A] outline-none text-[#000000]"
               >
-                {staff.map((st) => (
-                  <option key={st.id} value={st.id}>
-                    {st.name} ({st.role})
+                {staff.length === 0 ? (
+                  <option value="" className="text-[#000000] font-bold bg-white">
+                    -- No hay profesionales (crea uno en Ajustes) --
                   </option>
-                ))}
+                ) : (
+                  staff.map((st) => (
+                    <option key={st.id} value={st.id} className="text-[#000000] font-bold bg-white">
+                      {st.name} ({st.role})
+                    </option>
+                  ))
+                )}
               </select>
             </div>
           </div>
 
           {/* Warnings */}
           {isStaffOffDay && (
-            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs flex items-center gap-2">
+            <div className="p-2.5 bg-amber-50 border-2 border-amber-300 rounded-xl text-amber-900 text-xs font-bold flex items-center gap-2">
               ⚠️ {selectedStaff?.name} no suele trabajar los días seleccionados.
             </div>
           )}
           {isStaffDateBlocked && (
-            <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-xs flex items-center gap-2">
+            <div className="p-2.5 bg-rose-50 border-2 border-rose-300 rounded-xl text-rose-900 text-xs font-bold flex items-center gap-2">
               🚫 {selectedStaff?.name} tiene esta fecha bloqueada.
             </div>
           )}
           {hasConflict && (
-            <div className="p-2.5 bg-orange-50 border border-orange-200 rounded-xl text-orange-800 text-xs flex items-center gap-2">
+            <div className="p-2.5 bg-orange-50 border-2 border-orange-300 rounded-xl text-orange-950 text-xs font-bold flex items-center gap-2">
               ⚠️ Advertencia: Ya existe otro turno en este horario para este profesional.
             </div>
           )}
 
           {/* Sucursal / Local */}
           <div>
-            <label className="text-xs font-black text-[#0F172A] flex items-center gap-1.5 mb-1.5">
-              <Building2 className="w-3.5 h-3.5 text-[#0F172A]" />
+            <label className="text-xs font-black text-[#000000] flex items-center gap-1.5 mb-1.5">
+              <Building2 className="w-3.5 h-3.5 text-[#1E3A8A]" />
               <span>Sucursal asignada</span>
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -398,10 +427,10 @@ export function AppointmentModal({
                   key={b.id}
                   type="button"
                   onClick={() => setBranchId(b.id)}
-                  className={`py-2 px-3 rounded-xl text-xs font-black transition-all border text-center cursor-pointer ${
+                  className={`py-2 px-3 rounded-xl text-xs font-black transition-all border-2 text-center cursor-pointer ${
                     branchId === b.id
-                      ? 'bg-[#0F172A] border-[#0F172A] text-white shadow-xs'
-                      : 'bg-white border-slate-300 text-[#0F172A] hover:bg-slate-50'
+                      ? 'bg-[#1E3A8A] border-[#1E3A8A] text-white shadow-xs'
+                      : 'bg-white border-slate-300 text-[#000000] hover:bg-slate-100 hover:border-slate-500'
                   }`}
                 >
                   {b.name}
@@ -413,8 +442,8 @@ export function AppointmentModal({
           {/* Date, Time & Duration */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-600 flex items-center gap-1 mb-1">
-                <Calendar className="w-3.5 h-3.5 text-slate-400" />
+              <label className="text-xs font-black text-[#000000] flex items-center gap-1 mb-1">
+                <Calendar className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Fecha
               </label>
               <input
@@ -422,12 +451,12 @@ export function AppointmentModal({
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                className="w-full text-sm font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 flex items-center gap-1 mb-1">
-                <Clock className="w-3.5 h-3.5 text-slate-400" />
+              <label className="text-xs font-black text-[#000000] flex items-center gap-1 mb-1">
+                <Clock className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Hora
               </label>
               <input
@@ -435,12 +464,12 @@ export function AppointmentModal({
                 required
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                className="w-full text-sm font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 flex items-center gap-1 mb-1">
-                <Clock className="w-3.5 h-3.5 text-slate-400" />
+              <label className="text-xs font-black text-[#000000] flex items-center gap-1 mb-1">
+                <Clock className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 Duración (min)
               </label>
               <input
@@ -451,15 +480,15 @@ export function AppointmentModal({
                 required
                 value={durationMinutes}
                 onChange={(e) => setDurationMinutes(Number(e.target.value))}
-                className="w-full text-sm p-2.5 rounded-xl border border-slate-200 focus:border-blue-600 outline-none"
+                className="w-full text-sm font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
               />
             </div>
           </div>
 
           {/* Color Picker for appointment */}
           <div>
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5 mb-1.5">
-              <Palette className="w-3.5 h-3.5 text-blue-600" />
+            <label className="text-xs font-black uppercase tracking-wider text-[#000000] flex items-center gap-1.5 mb-1.5">
+              <Palette className="w-3.5 h-3.5 text-[#1E3A8A]" />
               Color distintivo del turno
             </label>
             <div className="flex items-center gap-2 flex-wrap">
@@ -469,48 +498,48 @@ export function AppointmentModal({
                   type="button"
                   onClick={() => setColor(c.hex)}
                   title={c.label}
-                  className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center ${
-                    color === c.hex ? 'scale-110 border-slate-900 shadow-xs' : 'border-transparent hover:scale-105'
+                  className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center cursor-pointer ${
+                    color === c.hex ? 'scale-110 border-black shadow-md ring-2 ring-blue-500' : 'border-transparent hover:scale-105'
                   }`}
                   style={{ backgroundColor: c.hex }}
                 >
-                  {color === c.hex && <Check className="w-3.5 h-3.5 text-white" />}
+                  {color === c.hex && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
                 </button>
               ))}
             </div>
           </div>
 
           {/* Price & Deposit */}
-          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <div className="p-3.5 rounded-xl bg-slate-50 border-2 border-slate-300 space-y-2">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="text-xs text-slate-500 block mb-1">Precio Total ({business?.currency || '$'})</label>
+                <label className="text-xs font-bold text-[#000000] block mb-1">Precio Total ({business?.currency || '$'})</label>
                 <input
                   type="number"
                   min="0"
                   step="50"
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200 bg-white focus:border-blue-600 outline-none"
+                  className="w-full text-sm font-black p-2 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-500 block mb-1">Seña Abonada ({business?.currency || '$'})</label>
+                <label className="text-xs font-bold text-[#000000] block mb-1">Seña Abonada ({business?.currency || '$'})</label>
                 <input
                   type="number"
                   min="0"
                   step="50"
                   value={depositAmount}
                   onChange={(e) => setDepositAmount(Number(e.target.value))}
-                  className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200 bg-white focus:border-blue-600 outline-none"
+                  className="w-full text-sm font-black p-2 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-700 font-bold block mb-1">Saldo Restante</label>
-                <div className={`p-2 rounded-xl border text-sm font-black ${
+                <label className="text-xs text-[#000000] font-black block mb-1">Saldo Restante</label>
+                <div className={`p-2 rounded-xl border-2 text-sm font-black ${
                   remainingBalance > 0
-                    ? 'bg-slate-100 border-slate-300 text-[#0F172A]'
-                    : 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                    ? 'bg-slate-100 border-slate-300 text-[#000000]'
+                    : 'bg-emerald-50 border-emerald-400 text-emerald-950'
                 }`}>
                   {business?.currency || '$'} {remainingBalance}
                 </div>
@@ -518,16 +547,16 @@ export function AppointmentModal({
             </div>
 
             {/* Mercado Pago Deposit Button */}
-            <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between gap-2 flex-wrap">
+            <div className="pt-2 border-t border-slate-200 flex items-center justify-between gap-2 flex-wrap">
               <button
                 type="button"
                 onClick={() => setShowMercadoPagoModal(true)}
-                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#009EE3] to-[#007BBB] hover:from-[#0089C7] hover:to-[#006EA8] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#009EE3] to-[#007BBB] hover:from-[#0089C7] hover:to-[#006EA8] text-white text-xs font-black flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
                 <MercadoPagoIcon size={18} variant="badge" />
                 <span>Pagar Seña con Mercado Pago (Link / QR)</span>
               </button>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-[11px] font-bold text-slate-700">
                 Genera enlace de pago directo o código QR interactivo
               </span>
             </div>
@@ -536,66 +565,67 @@ export function AppointmentModal({
           {/* Status & Payment Method */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-600 block mb-1">Estado</label>
+              <label className="text-xs font-black text-[#000000] block mb-1">Estado</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as AppointmentStatus)}
-                className="w-full text-sm p-2 rounded-xl border border-slate-200 bg-white outline-none"
+                className="w-full text-sm font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
               >
-                <option value="confirmado">Confirmado</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="en_espera">En espera de seña</option>
-                <option value="completado">Completado</option>
-                <option value="cancelado">Cancelado</option>
+                <option value="confirmado" className="text-[#000000] font-bold bg-white">Confirmado</option>
+                <option value="pendiente" className="text-[#000000] font-bold bg-white">Pendiente</option>
+                <option value="en_espera" className="text-[#000000] font-bold bg-white">En espera de seña</option>
+                <option value="completado" className="text-[#000000] font-bold bg-white">Completado</option>
+                <option value="cancelado" className="text-[#000000] font-bold bg-white">Cancelado</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 block mb-1">Medio de Pago</label>
+              <label className="text-xs font-black text-[#000000] block mb-1">Medio de Pago</label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                className="w-full text-sm p-2 rounded-xl border border-slate-200 bg-white outline-none"
+                className="w-full text-sm font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
               >
-                <option value="pendiente">Pendiente</option>
-                <option value="efectivo">Efectivo</option>
-                <option value="transferencia">Transferencia</option>
-                <option value="mercadopago">Mercado Pago</option>
-                <option value="tarjeta">Tarjeta</option>
+                <option value="pendiente" className="text-[#000000] font-bold bg-white">Pendiente</option>
+                <option value="efectivo" className="text-[#000000] font-bold bg-white">Efectivo</option>
+                <option value="transferencia" className="text-[#000000] font-bold bg-white">Transferencia</option>
+                <option value="mercadopago" className="text-[#000000] font-bold bg-white">Mercado Pago</option>
+                <option value="tarjeta" className="text-[#000000] font-bold bg-white">Tarjeta</option>
               </select>
             </div>
           </div>
 
           {/* Notes */}
           <div>
-            <label className="text-xs font-semibold text-slate-600 block mb-1">Notas del Turno</label>
+            <label className="text-xs font-black text-[#000000] block mb-1">Notas del Turno</label>
             <input
               type="text"
               placeholder="Detalles específicos..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full text-sm p-2 rounded-xl border border-slate-200 outline-none"
+              className="w-full text-sm font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] focus:border-[#1E3A8A] outline-none"
             />
           </div>
-
-          {/* Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-sm font-medium"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md flex items-center gap-2"
-            >
-              <Check className="w-4 h-4" />
-              <span>{isSubmitting ? 'Guardando...' : appointmentToEdit ? 'Guardar Cambios' : 'Crear Turno'}</span>
-            </button>
-          </div>
         </form>
+
+        {/* Bottom Action Footer - ALWAYS VISIBLE with Cancelar and Guardar Turno */}
+        <div className="p-4 sm:px-6 bg-slate-50 border-t-2 border-slate-300 flex items-center justify-end gap-3 shrink-0 shadow-lg">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-xl border border-slate-400 hover:border-slate-800 bg-white hover:bg-slate-100 text-[#000000] font-bold text-sm shadow-2xs transition-colors cursor-pointer"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            form="appointment-form"
+            disabled={isSubmitting}
+            className="px-7 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-[#172554] active:scale-98 text-white font-extrabold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          >
+            <Check className="w-4 h-4 stroke-[3]" />
+            <span>{isSubmitting ? 'Guardando...' : appointmentToEdit ? 'Guardar Cambios' : 'Guardar Turno'}</span>
+          </button>
+        </div>
       </div>
 
       {showMercadoPagoModal && business && (

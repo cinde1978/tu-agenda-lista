@@ -24,12 +24,19 @@ import { getTodayDateString } from './utils/initialData';
 import { Sparkles, LogIn, Plus, X } from 'lucide-react';
 
 function MainAppContent() {
-  const { user, loginWithGoogle, business, unreadRemindersCount } = useApp();
+  const { user, loginWithGoogle, business, unreadRemindersCount, staff } = useApp();
 
   const [currentTab, setCurrentTab] = useState<ViewTab>('agenda');
   const [currentDate, setCurrentDate] = useState<string>(getTodayDateString());
   const [agendaMode, setAgendaMode] = useState<AgendaMode>('dia');
   const [selectedStaffId, setSelectedStaffId] = useState<string>('todos');
+
+  // Reset staff filter if deleted
+  React.useEffect(() => {
+    if (selectedStaffId !== 'todos' && !staff.some((s) => s.id === selectedStaffId)) {
+      setSelectedStaffId('todos');
+    }
+  }, [staff, selectedStaffId]);
 
   // Dismissible cloud sync prompt
   const [isCloudBannerDismissed, setIsCloudBannerDismissed] = useState(() => {

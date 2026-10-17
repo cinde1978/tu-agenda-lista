@@ -51,22 +51,22 @@ export function AgendaHeader({
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         {/* Date Navigator */}
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200/70">
+          <div className="flex items-center bg-slate-100 rounded-xl p-1 border-2 border-slate-300 gap-1">
             <button
               type="button"
               onClick={() => handleShiftDate(agendaMode === 'semana' ? -7 : agendaMode === 'mes' ? -30 : -1)}
-              className="p-1.5 hover:bg-white rounded-lg text-slate-600 transition-colors"
+              className="p-1.5 hover:bg-white rounded-lg text-[#0F172A] hover:text-black transition-colors cursor-pointer"
               title="Anterior"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
             </button>
             <button
               type="button"
               onClick={() => onDateChange(todayStr)}
-              className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors ${
+              className={`px-3.5 py-1 text-xs font-black rounded-lg border-2 transition-all cursor-pointer ${
                 currentDate === todayStr
-                  ? 'bg-blue-600 text-white shadow-2xs'
-                  : 'text-slate-700 hover:bg-white'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-xs'
+                  : 'bg-white text-[#1E3A8A] border-slate-300 hover:border-[#1E3A8A] hover:bg-blue-50'
               }`}
             >
               Hoy
@@ -74,10 +74,10 @@ export function AgendaHeader({
             <button
               type="button"
               onClick={() => handleShiftDate(agendaMode === 'semana' ? 7 : agendaMode === 'mes' ? 30 : 1)}
-              className="p-1.5 hover:bg-white rounded-lg text-slate-600 transition-colors"
+              className="p-1.5 hover:bg-white rounded-lg text-[#0F172A] hover:text-black transition-colors cursor-pointer"
               title="Siguiente"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           </div>
 
@@ -86,15 +86,15 @@ export function AgendaHeader({
               type="date"
               value={currentDate}
               onChange={(e) => onDateChange(e.target.value)}
-              className="text-xs p-2 rounded-xl border border-slate-200 bg-white font-semibold text-slate-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+              className="text-xs p-2 rounded-xl border-2 border-slate-300 bg-white font-black text-[#000000] outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/20"
             />
           </div>
 
-          <span className="text-xs font-bold text-slate-700 capitalize hidden sm:inline-block px-2">
+          <span className="text-xs font-black text-[#0F172A] capitalize hidden sm:inline-block px-2">
             {formatDateSpanishLong(currentDate)}
           </span>
 
-          <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-[#D4AF37]/50 shadow-2xs">
+          <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-slate-100 text-[#0F172A] border-2 border-slate-300 shadow-2xs">
             {selectedBranch === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
           </span>
         </div>
@@ -102,29 +102,31 @@ export function AgendaHeader({
         {/* View mode toggle & staff filter */}
         <div className="flex items-center gap-2.5 flex-wrap">
           {/* Staff filter */}
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1">
-            <Filter className="w-3.5 h-3.5 text-slate-700" />
+          <div className="flex items-center gap-1.5 bg-white border-2 border-slate-300 hover:border-slate-800 rounded-xl px-2.5 py-1 shadow-2xs">
+            <Filter className="w-3.5 h-3.5 text-[#1E3A8A] shrink-0" />
             <select
               value={selectedStaffId}
               onChange={(e) => onStaffChange(e.target.value)}
-              className="text-xs font-bold bg-transparent text-slate-950 outline-none cursor-pointer py-1"
+              className="text-xs font-black bg-white text-[#000000] outline-none cursor-pointer py-1"
             >
-              <option value="todos">Todos los profesionales</option>
+              <option value="todos" className="text-[#000000] font-bold bg-white">Todos los profesionales</option>
               {staff.map((s) => (
-                <option key={s.id} value={s.id}>
+                <option key={s.id} value={s.id} className="text-[#000000] font-bold bg-white">
                   {s.name}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Mode Switcher */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-300">
+          {/* Mode Switcher: Día, Semana, Mes with visible borders & high-contrast dark blue / black text */}
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border-2 border-slate-300">
             <button
               type="button"
               onClick={() => onModeChange('dia')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
-                agendaMode === 'dia' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-900 hover:text-black hover:bg-white/80'
+              className={`px-3 py-1.5 rounded-lg text-xs font-black border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+                agendaMode === 'dia'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-xs'
+                  : 'bg-white text-[#0F172A] border-slate-300 hover:border-slate-700 hover:text-black'
               }`}
             >
               <Clock className="w-3.5 h-3.5" />
@@ -133,8 +135,10 @@ export function AgendaHeader({
             <button
               type="button"
               onClick={() => onModeChange('semana')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
-                agendaMode === 'semana' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-900 hover:text-black hover:bg-white/80'
+              className={`px-3 py-1.5 rounded-lg text-xs font-black border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+                agendaMode === 'semana'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-xs'
+                  : 'bg-white text-[#0F172A] border-slate-300 hover:border-slate-700 hover:text-black'
               }`}
             >
               <CalendarDays className="w-3.5 h-3.5" />
@@ -143,8 +147,10 @@ export function AgendaHeader({
             <button
               type="button"
               onClick={() => onModeChange('mes')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1 cursor-pointer ${
-                agendaMode === 'mes' ? 'bg-blue-600 text-white shadow-2xs' : 'text-slate-900 hover:text-black hover:bg-white/80'
+              className={`px-3 py-1.5 rounded-lg text-xs font-black border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+                agendaMode === 'mes'
+                  ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-xs'
+                  : 'bg-white text-[#0F172A] border-slate-300 hover:border-slate-700 hover:text-black'
               }`}
             >
               <CalendarRange className="w-3.5 h-3.5" />

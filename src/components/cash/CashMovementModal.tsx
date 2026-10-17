@@ -159,14 +159,14 @@ export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovemen
           {/* Category & Payment Method */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Categoría</label>
+              <label className="text-xs font-black text-[#000000] block mb-1">Categoría</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as CashMovementCategory)}
-                className="w-full text-xs p-2.5 rounded-xl border border-slate-200 bg-white capitalize outline-none"
+                className="w-full text-xs font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] capitalize outline-none"
               >
                 {(type === 'ingreso' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map((cat) => (
-                  <option key={cat} value={cat}>
+                  <option key={cat} value={cat} className="text-[#000000] font-bold bg-white">
                     {cat}
                   </option>
                 ))}
@@ -174,61 +174,61 @@ export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovemen
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">Medio de Pago</label>
+              <label className="text-xs font-black text-[#000000] block mb-1">Medio de Pago</label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                className="w-full text-xs p-2.5 rounded-xl border border-slate-200 bg-white capitalize outline-none"
+                className="w-full text-xs font-black p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] capitalize outline-none"
               >
-                <option value="efectivo">Efectivo</option>
-                <option value="transferencia">Transferencia</option>
-                <option value="mercadopago">Mercado Pago</option>
-                <option value="tarjeta">Tarjeta</option>
-                <option value="otro">Otro</option>
+                <option value="efectivo" className="text-[#000000] font-bold bg-white">Efectivo</option>
+                <option value="transferencia" className="text-[#000000] font-bold bg-white">Transferencia</option>
+                <option value="mercadopago" className="text-[#000000] font-bold bg-white">Mercado Pago</option>
+                <option value="tarjeta" className="text-[#000000] font-bold bg-white">Tarjeta</option>
+                <option value="otro" className="text-[#000000] font-bold bg-white">Otro</option>
               </select>
             </div>
           </div>
 
           {/* Date */}
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">Fecha del movimiento</label>
+            <label className="text-xs font-black text-[#000000] block mb-1">Fecha del movimiento</label>
             <input
               type="date"
               required
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none"
+              className="w-full text-xs font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] outline-none"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">Descripción o Detalle</label>
+            <label className="text-xs font-black text-[#000000] block mb-1">Descripción o Detalle</label>
             <input
               type="text"
               placeholder={type === 'ingreso' ? 'Ej. Venta de shampoo o propina' : 'Ej. Compra de algodón, café o toallas'}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full text-xs p-2.5 rounded-xl border border-slate-200 outline-none"
+              className="w-full text-xs font-bold p-2.5 rounded-xl border-2 border-slate-300 bg-white text-[#000000] outline-none"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t-2 border-slate-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-medium"
+              className="px-5 py-2.5 rounded-xl border border-slate-400 hover:border-black bg-white hover:bg-slate-100 text-[#000000] font-black text-xs shadow-2xs transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-md flex items-center gap-2 ${
-                type === 'ingreso' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-rose-600 hover:bg-rose-700'
+              className={`px-5 py-2.5 rounded-xl text-white font-black text-xs shadow-md flex items-center gap-2 cursor-pointer ${
+                type === 'ingreso' ? 'bg-[#1E3A8A] hover:bg-[#172554]' : 'bg-rose-700 hover:bg-rose-800'
               }`}
             >
-              <Check className="w-4 h-4" />
+              <Check className="w-4 h-4 stroke-[3]" />
               <span>{isSubmitting ? 'Guardando...' : 'Registrar Movimiento'}</span>
             </button>
           </div>

@@ -37,7 +37,25 @@
   }
 
   input, select, textarea {
-    color: #0F172A !important;
+    color: #000000 !important;
+  }
+
+  select {
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
+    font-weight: 700;
+  }
+
+  select option {
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
+    font-weight: 700;
+  }
+
+  select option:checked {
+    background-color: #1E3A8A !important;
+    color: #FFFFFF !important;
+    font-weight: 800;
   }
 
   input::placeholder, textarea::placeholder {
