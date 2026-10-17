@@ -82,7 +82,7 @@ export function AppointmentDetailModal({
               <span className="text-xs text-slate-500 font-medium">
                 Ref #{appointment.id.slice(-6)}
               </span>
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-300/80 shadow-2xs">
+              <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-[#0F172A] border border-slate-300 shadow-2xs">
                 {appointment.branchId === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
               </span>
             </div>
@@ -185,8 +185,8 @@ export function AppointmentDetailModal({
                 </div>
               )}
               <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Saldo Pendiente</span>
-                <span className={`text-base font-extrabold ${appointment.remainingBalance > 0 ? 'text-amber-600' : 'text-emerald-600'}`}>
+                <span className="text-xs font-black uppercase tracking-wider text-[#0F172A]">Saldo Pendiente</span>
+                <span className={`text-base font-black ${appointment.remainingBalance > 0 ? 'text-[#0F172A]' : 'text-emerald-700'}`}>
                   {formatCurrency(appointment.remainingBalance, business?.currency)}
                 </span>
               </div>
@@ -197,7 +197,7 @@ export function AppointmentDetailModal({
                   <button
                     type="button"
                     onClick={() => setShowMercadoPagoModal(true)}
-                    className="w-full py-2.5 px-3 bg-gradient-to-r from-[#009EE3] to-[#0074B7] hover:from-[#0089C7] hover:to-[#006EA8] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    className="w-full py-2.5 px-3 bg-[#0F172A] hover:bg-black text-white rounded-xl text-xs font-black flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                   >
                     <MercadoPagoIcon size={18} variant="badge" />
                     <span>Pagar Seña con Mercado Pago (Link / QR)</span>
@@ -208,8 +208,8 @@ export function AppointmentDetailModal({
 
             {/* Notes if present */}
             {appointment.notes && (
-              <div className="p-3 bg-amber-50/60 border border-amber-200/70 rounded-xl text-xs text-amber-900">
-                <span className="font-bold block mb-0.5">Notas del turno:</span>
+              <div className="p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-[#0F172A]">
+                <span className="font-black block mb-0.5">Notas del turno:</span>
                 {appointment.notes}
               </div>
             )}

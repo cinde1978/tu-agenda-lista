@@ -67,57 +67,31 @@ export function Sidebar({
     <aside className="no-print hidden lg:flex flex-col w-72 bg-white border-r border-slate-200/80 shadow-xs h-screen sticky top-0 shrink-0 select-none z-30">
       {/* Brand Header: Logo + Tu Agenda Lista + PRO tag (sin créditos arriba) */}
       <div className="p-5 border-b border-slate-100">
+        {/* Brand Lockup: Stylized Golden Serif 'A' followed by 'Tu Agenda Lista' */}
         <div
-          className="cursor-pointer group"
+          className="cursor-pointer group flex items-center justify-between"
           onClick={() => onSelectTab('agenda')}
           title="Tu Agenda Lista"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-          }}
         >
-          {/* Modern SaaS Vector Logo */}
-          <AppLogo size={40} className="group-hover:scale-105 transition-transform shrink-0" />
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              minWidth: 0,
-              overflow: 'hidden',
-            }}
-          >
-            <span
-              className="font-extrabold text-base tracking-tight text-slate-900 leading-none"
-              style={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {brandName}
-            </span>
-            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] uppercase tracking-wider shrink-0 shadow-2xs">
-              PRO
-            </span>
-          </div>
+          <AppLogo />
+          <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-slate-100 text-[#0F172A] border border-slate-300 uppercase tracking-wider shrink-0">
+            PRO
+          </span>
         </div>
 
         {/* Quick CTA "+ Nuevo Turno" in Sidebar */}
         <button
           type="button"
           onClick={onNewAppointment}
-          className="mt-4 w-full py-2.5 px-4 bg-gradient-to-r from-[#D4AF37] via-[#C5A059] to-[#AA822A] hover:brightness-105 active:scale-98 text-slate-950 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 shadow-xs hover:shadow-md transition-all hover:scale-[1.02] ring-1 ring-[#D4AF37]/50 cursor-pointer"
+          className="mt-4 w-full py-2.5 px-4 bg-[#0F172A] hover:bg-black active:scale-98 text-white rounded-xl text-xs font-black flex items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all cursor-pointer"
         >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
+          <Plus className="w-4 h-4 stroke-[3]" />
           <span>+ Nuevo Turno</span>
         </button>
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto px-3.5 py-3 space-y-1">
+      <nav className="flex-1 overflow-y-auto px-3.5 py-3 space-y-1.5">
         {navItems.map((item) => {
           const isActive = currentTab === item.id;
           return (
@@ -125,25 +99,25 @@ export function Sidebar({
               key={item.id}
               type="button"
               onClick={() => onSelectTab(item.id)}
-              className={`w-full px-3 py-2.5 rounded-xl text-xs flex items-center justify-between transition-all group cursor-pointer ${
+              className={`w-full px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between transition-all group cursor-pointer ${
                 isActive
-                  ? 'bg-amber-50 text-amber-950 font-black border border-amber-300 shadow-2xs'
-                  : 'text-slate-900 font-bold hover:text-black hover:bg-slate-100/90'
+                  ? 'bg-[#0F172A] text-white font-black shadow-xs'
+                  : 'text-[#0F172A] font-black hover:text-black hover:bg-slate-100'
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`transition-colors ${isActive ? 'text-[#8C531D]' : 'text-slate-700 group-hover:text-black'}`}>
+                <span className={`transition-colors ${isActive ? 'text-white' : 'text-[#0F172A] group-hover:text-black'}`}>
                   {item.icon}
                 </span>
                 <span className="tracking-tight">{item.label}</span>
               </div>
 
               {item.badge ? (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#F6EDD9] text-[#73431D] border border-[#EEDBBA]">
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${isActive ? 'bg-white text-[#0F172A]' : 'bg-slate-200 text-[#0F172A]'}`}>
                   {item.badge}
                 </span>
               ) : isActive ? (
-                <ChevronRight className="w-3.5 h-3.5 text-[#8C531D] stroke-[2.5]" />
+                <ChevronRight className="w-3.5 h-3.5 text-white stroke-[3]" />
               ) : null}
             </button>
           );
@@ -151,31 +125,31 @@ export function Sidebar({
       </nav>
 
       {/* Today Mini Summary Card */}
-      <div className="p-3.5 mx-3.5 mb-2.5 rounded-2xl bg-gradient-to-br from-[#FCF9F2] via-[#F8F2E2] to-white border border-[#EEDBBA] space-y-2">
-        <div className="flex items-center justify-between text-xs font-black text-slate-950">
-          <span className="flex items-center gap-1.5 text-amber-950 font-black">
-            <Clock className="w-3.5 h-3.5 text-[#8C531D]" />
+      <div className="p-3.5 mx-3.5 mb-2.5 rounded-2xl bg-white border-2 border-slate-200 space-y-2 shadow-2xs">
+        <div className="flex items-center justify-between text-xs font-black text-[#0F172A]">
+          <span className="flex items-center gap-1.5 text-[#0F172A] font-black">
+            <Clock className="w-3.5 h-3.5 text-[#0F172A] stroke-[2.5]" />
             Hoy en el Salón
           </span>
           <button
             type="button"
             onClick={onOpenReminders}
-            className="text-[10px] font-black text-[#8C531D] hover:underline flex items-center gap-0.5 cursor-pointer"
+            className="text-[10px] font-black text-blue-700 hover:text-blue-900 hover:underline flex items-center gap-0.5 cursor-pointer"
           >
             Ver {upcomingTodayAppointments.length}
           </button>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-xs pt-0.5">
-          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/80 shadow-2xs">
-            <span className="text-[10px] text-slate-800 block font-bold">Turnos</span>
-            <span className="font-black text-slate-950 text-sm">
+          <div className="bg-slate-50 p-2 rounded-xl border border-slate-200 shadow-2xs">
+            <span className="text-[10px] text-[#0F172A] block font-bold">Turnos</span>
+            <span className="font-black text-[#0F172A] text-sm">
               {upcomingTodayAppointments.length}
             </span>
           </div>
-          <div className="bg-white/95 p-2 rounded-xl border border-amber-200/80 shadow-2xs">
-            <span className="text-[10px] text-slate-800 block font-bold">Estimado</span>
-            <span className="font-black text-[#73431D] text-xs truncate block">
+          <div className="bg-slate-50 p-2 rounded-xl border border-slate-200 shadow-2xs">
+            <span className="text-[10px] text-[#0F172A] block font-bold">Estimado</span>
+            <span className="font-black text-[#0F172A] text-xs truncate block">
               {formatCurrency(todayRevenue, business?.currency)}
             </span>
           </div>

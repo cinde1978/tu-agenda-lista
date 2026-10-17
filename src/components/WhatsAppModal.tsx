@@ -155,7 +155,7 @@ export function WhatsAppModal({ appointment, business, onClose }: WhatsAppModalP
           </div>
 
           {!cleanPhone && (
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs flex items-center gap-2">
+            <div className="p-3 bg-slate-100 border border-slate-300 rounded-xl text-[#0F172A] font-bold text-xs flex items-center gap-2">
               ⚠️ Este cliente no tiene número de teléfono guardado. Puedes copiar el texto manualmente.
             </div>
           )}

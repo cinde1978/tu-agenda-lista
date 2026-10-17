@@ -62,7 +62,7 @@ function MainAppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex text-gray-900 font-sans antialiased">
+    <div className="min-h-screen bg-white flex text-[#0F172A] font-sans antialiased">
       {/* Desktop Sidebar */}
       <Sidebar
         currentTab={currentTab}
@@ -211,11 +211,11 @@ function MainAppContent() {
               </span>
             </div>
             <div className="flex items-center gap-2 text-slate-400 justify-center sm:justify-end">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80 shadow-2xs">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-300 shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Licencia SaaS Activa · Iris Quiroz</span>
+                <span>Período de Prueba Activo (7 Días Gratis) · $45.000 / mes</span>
               </span>
-              <span className="hidden md:inline text-[11px]">Software SaaS Multi-Cliente</span>
+              <span className="hidden md:inline text-[11px]">Software SaaS</span>
             </div>
           </div>
         </footer>
@@ -226,10 +226,11 @@ function MainAppContent() {
         <button
           type="button"
           onClick={() => handleOpenNewAppointment()}
-          className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-xl shadow-blue-600/30 flex items-center justify-center transition-transform active:scale-95 hover:scale-105"
+          className="w-14 h-14 rounded-full bg-[#0F172A] hover:bg-black text-white shadow-2xl shadow-slate-900/40 border-2 border-white/20 flex items-center justify-center transition-transform active:scale-90 hover:scale-105 cursor-pointer"
           title="Nuevo Turno"
+          aria-label="Nuevo Turno"
         >
-          <Plus className="w-6 h-6" />
+          <Plus className="w-7 h-7 text-white stroke-[3.5]" />
         </button>
       </div>
 

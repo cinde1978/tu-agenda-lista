@@ -183,11 +183,11 @@ export function ClientDetailDrawer({
                 <FileText className="w-3.5 h-3.5 text-blue-600" />
                 Ficha Técnica & Preferencias
               </h4>
-              <div className="p-4 bg-amber-50/50 border border-amber-200/80 rounded-xl text-xs text-amber-950 leading-relaxed font-sans">
+              <div className="p-4 bg-slate-50 border border-slate-300 rounded-xl text-xs text-[#0F172A] leading-relaxed font-sans font-medium">
                 {client.notes ? (
                   client.notes
                 ) : (
-                  <span className="italic text-slate-400">Sin notas técnicas o preferencias cargadas aún.</span>
+                  <span className="italic text-slate-500">Sin notas técnicas o preferencias cargadas aún.</span>
                 )}
               </div>
             </div>
@@ -239,7 +239,7 @@ export function ClientDetailDrawer({
                             {formatCurrency(apt.price, business?.currency)}
                           </div>
                           {apt.remainingBalance > 0 && (
-                            <div className="text-[10px] text-amber-600 font-semibold">
+                            <div className="text-[10px] text-[#0F172A] font-bold">
                               Saldo: {formatCurrency(apt.remainingBalance, business?.currency)}
                             </div>
                           )}

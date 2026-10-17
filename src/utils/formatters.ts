@@ -97,38 +97,38 @@ export function getStatusBadge(status: string) {
     case 'confirmado':
       return {
         label: 'Confirmado',
-        bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-        dot: 'bg-emerald-500',
+        bg: 'bg-emerald-50 text-[#0F172A] border-emerald-300 font-black',
+        dot: 'bg-emerald-600',
       };
     case 'pendiente':
       return {
         label: 'Pendiente',
-        bg: 'bg-amber-50 text-amber-700 border-amber-200',
-        dot: 'bg-amber-500',
+        bg: 'bg-blue-50 text-[#0F172A] border-blue-300 font-black',
+        dot: 'bg-blue-600',
       };
     case 'completado':
       return {
         label: 'Completado',
-        bg: 'bg-sky-50 text-sky-700 border-sky-200',
-        dot: 'bg-sky-500',
+        bg: 'bg-sky-50 text-[#0F172A] border-sky-300 font-black',
+        dot: 'bg-sky-600',
       };
     case 'cancelado':
       return {
         label: 'Cancelado',
-        bg: 'bg-rose-50 text-rose-700 border-rose-200',
-        dot: 'bg-rose-500',
+        bg: 'bg-rose-50 text-[#0F172A] border-rose-300 font-black',
+        dot: 'bg-rose-600',
       };
     case 'en_espera':
       return {
         label: 'En espera',
-        bg: 'bg-purple-50 text-purple-700 border-purple-200',
-        dot: 'bg-purple-500',
+        bg: 'bg-purple-50 text-[#0F172A] border-purple-300 font-black',
+        dot: 'bg-purple-600',
       };
     default:
       return {
         label: status,
-        bg: 'bg-slate-50 text-slate-700 border-slate-200',
-        dot: 'bg-slate-400',
+        bg: 'bg-slate-100 text-[#0F172A] border-slate-300 font-black',
+        dot: 'bg-slate-500',
       };
   }
 }

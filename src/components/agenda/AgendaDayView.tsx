@@ -150,7 +150,7 @@ export function AgendaDayView({
                             <span className="ml-auto font-bold text-slate-900 text-xs">
                               {formatCurrency(apt.price, business?.currency)}
                               {apt.remainingBalance > 0 && (
-                                <span className="text-amber-600 text-[10px] font-semibold ml-1.5">
+                                <span className="text-[#0F172A] text-[10px] font-bold ml-1.5">
                                   (Resta {formatCurrency(apt.remainingBalance, business?.currency)})
                                 </span>
                               )}

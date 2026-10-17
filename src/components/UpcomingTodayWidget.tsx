@@ -23,14 +23,14 @@ export function UpcomingTodayWidget({
       {/* Widget Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-amber-50 text-[#946E19] flex items-center justify-center font-bold border border-amber-200/60 shadow-2xs">
-            <Clock className="w-4 h-4 text-[#A2721C]" />
+          <div className="w-8 h-8 rounded-xl bg-slate-100 text-[#0F172A] flex items-center justify-center font-bold border border-slate-300 shadow-2xs">
+            <Clock className="w-4 h-4 text-[#0F172A] stroke-[2.5]" />
           </div>
           <div>
-            <h3 className="font-bold text-sm text-slate-900 leading-tight">
+            <h3 className="font-black text-sm text-[#0F172A] leading-tight">
               Próximos Turnos del Día
             </h3>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-slate-700 font-semibold">
               {upcomingTodayAppointments.length === 0
                 ? 'No hay turnos pendientes para hoy'
                 : `${upcomingTodayAppointments.length} cliente(s) agendados para atender hoy`}
@@ -39,7 +39,7 @@ export function UpcomingTodayWidget({
         </div>
 
         {upcomingTodayAppointments.length > 0 && (
-          <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF6ED] text-[#946E19] border border-[#E2D1A6] shadow-2xs">
+          <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-[#0F172A] border border-slate-300 shadow-2xs">
             {upcomingTodayAppointments.length} activos
           </span>
         )}

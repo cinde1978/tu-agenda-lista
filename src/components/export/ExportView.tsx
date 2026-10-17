@@ -152,8 +152,8 @@ export function ExportView() {
             </span>
           </div>
           <div>
-            <span className="text-slate-400 block font-medium">Saldos por Cobrar</span>
-            <span className="text-base font-extrabold text-amber-700">
+            <span className="text-slate-700 block font-bold">Saldos por Cobrar</span>
+            <span className="text-base font-extrabold text-[#0F172A]">
               {formatCurrency(totalPending, business?.currency)}
             </span>
           </div>
@@ -206,7 +206,7 @@ export function ExportView() {
                     <td className="py-2.5 px-2 font-bold text-slate-900 text-right whitespace-nowrap">
                       {formatCurrency(apt.price, business?.currency)}
                     </td>
-                    <td className="py-2.5 px-2 font-bold text-amber-700 text-right whitespace-nowrap">
+                    <td className="py-2.5 px-2 font-black text-[#0F172A] text-right whitespace-nowrap">
                       {apt.remainingBalance > 0 ? formatCurrency(apt.remainingBalance, business?.currency) : '-'}
                     </td>
                     <td className="py-2.5 px-2 text-center whitespace-nowrap capitalize">

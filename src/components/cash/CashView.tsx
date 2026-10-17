@@ -81,12 +81,12 @@ export function CashView() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs">
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">Caja Diaria & Finanzas</h2>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-950 border border-[#D4AF37]/50 shadow-2xs">
+            <h2 className="text-xl font-black text-[#0F172A] tracking-tight">Caja Diaria & Finanzas</h2>
+            <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-[#0F172A] border border-slate-300 shadow-2xs">
               {selectedBranch === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
             </span>
           </div>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-slate-700 font-semibold mt-0.5">
             Arqueo diario y movimientos filtrados automáticamente para {selectedBranch === 'sucursal_2' ? 'Sucursal 2' : 'Sucursal 1'}
           </p>
         </div>
@@ -208,18 +208,18 @@ export function CashView() {
         {/* Saldos pendientes por cobrar */}
         <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-amber-600 uppercase tracking-wider block mb-1">
+            <span className="text-xs font-black text-[#0F172A] uppercase tracking-wider block mb-1">
               Saldos por Cobrar
             </span>
-            <div className="text-3xl font-extrabold text-amber-800 tracking-tight">
+            <div className="text-3xl font-extrabold text-[#0F172A] tracking-tight">
               {formatCurrency(pendingBalances, business?.currency)}
             </div>
-            <span className="text-[11px] text-gray-400 mt-1 block">
+            <span className="text-[11px] text-slate-600 font-semibold mt-1 block">
               De turnos de este día
             </span>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-xs">
-            <Clock className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-slate-100 text-[#0F172A] border border-slate-300 flex items-center justify-center shrink-0 shadow-xs">
+            <Clock className="w-6 h-6 stroke-[2.5]" />
           </div>
         </div>
       </div>

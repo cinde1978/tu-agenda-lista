@@ -14,6 +14,9 @@ import {
   EyeOff,
   QrCode,
   Palette,
+  ShieldCheck,
+  Clock,
+  ExternalLink,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { WhatsAppIcon, MercadoPagoIcon } from './icons';
@@ -98,19 +101,107 @@ export function SettingsView() {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto text-gray-900">
+    <div className="space-y-6 max-w-5xl mx-auto text-[#0F172A]">
+      {/* Sección Licencia / Estado del Servicio */}
+      <div className="bg-white rounded-2xl border-2 border-slate-900 p-6 sm:p-7 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+          <div className="flex items-start sm:items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-300 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-7 h-7 text-[#D4AF37]" />
+            </div>
+            <div>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h3 className="text-lg font-black text-[#0F172A] tracking-tight">
+                  Licencia / Estado del Servicio
+                </h3>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-950 border border-emerald-300">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                  Período de Prueba Activo (7 Días Gratis)
+                </span>
+              </div>
+              <p className="text-xs font-bold text-slate-800 mt-1">
+                Estado del Abono: <strong className="text-black font-black">Período de Prueba Activo (7 Días Gratis)</strong>. Al finalizar la prueba, el abono mensual es de <strong className="text-black font-black">$45.000 / mes</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href="https://wa.me/?text=Hola!%20Quiero%20coordinar%20el%20pago%20de%20la%20suscripci%C3%B3n%20mensual%20de%20Tu%20Agenda%20Lista%20($45.000/mes)."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white rounded-xl text-sm font-black shadow-md hover:shadow-lg transition-all cursor-pointer"
+              title="Contactar soporte para coordinar el pago de la suscripción"
+            >
+              <WhatsAppIcon className="w-5 h-5 text-white" />
+              <span>Contactar Soporte para Pago</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Tarjetas informativas de Licencia y Abono */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-300 space-y-1">
+            <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
+              Estado del Abono
+            </span>
+            <div className="flex items-center gap-2 pt-0.5">
+              <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span className="text-sm font-black text-[#0F172A]">
+                Período de Prueba Activo (7 Días Gratis)
+              </span>
+            </div>
+            <p className="text-xs font-bold text-slate-700 pt-1">
+              Acceso completo a turnos ilimitados, WhatsApp, caja y reportes.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-300 space-y-1">
+            <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
+              Costo del Abono Mensual
+            </span>
+            <div className="text-lg font-black text-[#0F172A] pt-0.5">
+              $45.000 / mes
+            </div>
+            <p className="text-xs font-bold text-slate-700 pt-1">
+              Tarifa mensual al finalizar los 7 días de prueba gratis.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-300 space-y-1">
+            <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
+              Gestión de Pago y Facturación
+            </span>
+            <div className="pt-0.5">
+              <a
+                href="https://wa.me/?text=Hola!%20Quiero%20coordinar%20el%20pago%20de%20la%20suscripci%C3%B3n%20mensual%20de%20Tu%20Agenda%20Lista%20($45.000/mes)."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-700 hover:text-emerald-950 underline"
+              >
+                <span>Coordinar suscripción por WhatsApp</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+            <p className="text-xs font-bold text-slate-700 pt-1">
+              Habilitación inmediata por transferencia bancaria o Mercado Pago.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Tarjeta Principal de Configuración */}
       <div className="bg-white rounded-2xl border border-gray-300 p-6 sm:p-8 shadow-sm space-y-7">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
           <div className="flex items-center gap-3.5">
-            <div className="p-3 bg-amber-50 text-amber-900 border border-amber-300 rounded-2xl shrink-0">
-              <Building2 className="w-6 h-6 text-gray-900" />
+            <div className="p-3 bg-slate-100 text-[#0F172A] border border-slate-300 rounded-2xl shrink-0">
+              <Building2 className="w-6 h-6 text-[#0F172A]" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+              <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight">
                 Configuración del Negocio
               </h2>
-              <p className="text-sm font-semibold text-gray-900 mt-0.5">
+              <p className="text-sm font-bold text-slate-800 mt-0.5">
                 Datos del local, medios de cobro, colores, teléfono y dirección.
               </p>
             </div>
@@ -424,26 +515,39 @@ export function SettingsView() {
             </div>
           </div>
 
-          {/* Botones de Acción */}
+          {/* Botones de Acción y Soporte Técnico WhatsApp */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200">
-            <button
-              type="button"
-              onClick={async () => {
-                if (confirm('¿Restablecer los datos de ejemplo del salón?')) {
-                  await resetToSampleData();
-                }
-              }}
-              className="text-xs font-bold text-gray-900 hover:text-black flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer"
-            >
-              <RefreshCw className="w-4 h-4 text-gray-900" />
-              <span>Restaurar datos de muestra</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  if (confirm('¿Restablecer los datos de ejemplo del salón?')) {
+                    await resetToSampleData();
+                  }
+                }}
+                className="text-xs font-bold text-gray-900 hover:text-black flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                <RefreshCw className="w-4 h-4 text-gray-900" />
+                <span>Restaurar datos de muestra</span>
+              </button>
+
+              <a
+                href="https://wa.me/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-emerald-800 hover:text-emerald-950 flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-colors cursor-pointer"
+                title="Abrir soporte técnico por WhatsApp"
+              >
+                <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
+                <span>Soporte Técnico</span>
+              </a>
+            </div>
 
             <button
               type="submit"
               className="w-full sm:w-auto px-8 py-3.5 bg-gray-900 hover:bg-black text-white rounded-xl text-sm font-black shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 active:scale-98 cursor-pointer"
             >
-              {isSaved ? <Check className="w-4 h-4 text-emerald-400" /> : <Settings className="w-4 h-4 text-amber-300" />}
+              {isSaved ? <Check className="w-4 h-4 text-emerald-400" /> : <Settings className="w-4 h-4 text-white" />}
               <span>{isSaved ? '¡Guardado correctamente!' : 'Guardar Cambios del Negocio'}</span>
             </button>
           </div>

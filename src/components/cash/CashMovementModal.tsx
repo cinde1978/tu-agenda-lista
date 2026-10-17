@@ -115,8 +115,8 @@ export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovemen
 
           {/* Sucursal Selector */}
           <div>
-            <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-1.5">
-              <Building2 className="w-3.5 h-3.5 text-[#A2721C]" />
+            <label className="text-xs font-black text-[#0F172A] flex items-center gap-1.5 mb-1.5">
+              <Building2 className="w-3.5 h-3.5 text-[#0F172A]" />
               <span>Sucursal asignada</span>
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -125,10 +125,10 @@ export function CashMovementModal({ initialDate, onClose, onSaved }: CashMovemen
                   key={b.id}
                   type="button"
                   onClick={() => setBranchId(b.id)}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border text-center ${
+                  className={`py-2 px-3 rounded-xl text-xs font-black transition-all border text-center cursor-pointer ${
                     branchId === b.id
-                      ? 'bg-amber-500/15 border-[#D4AF37] text-amber-950 shadow-2xs ring-1 ring-[#D4AF37]/40'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      ? 'bg-[#0F172A] border-[#0F172A] text-white shadow-xs'
+                      : 'bg-white border-slate-300 text-[#0F172A] hover:bg-slate-50'
                   }`}
                 >
                   {b.name}
