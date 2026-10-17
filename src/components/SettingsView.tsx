@@ -46,6 +46,14 @@ const SERVICE_CATEGORY_PRESETS = [
   'General',
 ];
 
+// Enlaces directos a WhatsApp de Iris Quiroz (Soporte Técnico y Suscripción)
+const IRIS_WHATSAPP_NUMBER = '54911XXXXXXX';
+const SUPPORT_MESSAGE = 'Hola Iris, necesito ayuda con Tu Agenda Lista';
+const SUBSCRIPTION_MESSAGE = 'Hola Iris, quiero abonar mi suscripción mensual de $45.000 de Tu Agenda Lista';
+
+const SUPPORT_WHATSAPP_URL = `https://wa.me/${IRIS_WHATSAPP_NUMBER}?text=${encodeURIComponent(SUPPORT_MESSAGE)}`;
+const SUBSCRIPTION_WHATSAPP_URL = `https://wa.me/${IRIS_WHATSAPP_NUMBER}?text=${encodeURIComponent(SUBSCRIPTION_MESSAGE)}`;
+
 /**
  * SettingsView - Gestor integral dentro de la pestaña "Ajustes":
  * 1. GESTIÓN DE PROFESIONALES: crear, editar y eliminar nombres, especialidades y horarios.
@@ -914,14 +922,14 @@ export function SettingsView() {
 
               <div className="flex flex-wrap items-center gap-3 shrink-0">
                 <a
-                  href="https://wa.me/?text=Hola!%20Quiero%20coordinar%20el%20pago%20de%20la%20suscripci%C3%B3n%20mensual%20de%20Tu%20Agenda%20Lista%20($45.000/mes)."
+                  href={SUBSCRIPTION_WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white rounded-xl text-sm font-black shadow-md hover:shadow-lg transition-all cursor-pointer"
-                  title="Contactar soporte para coordinar el pago de la suscripción"
+                  title="Coordinar suscripción por WhatsApp con Iris Quiroz"
                 >
                   <WhatsAppIcon className="w-5 h-5 text-white" />
-                  <span>Contactar Soporte para Pago</span>
+                  <span>Coordinar suscripción por WhatsApp</span>
                 </a>
               </div>
             </div>
@@ -961,11 +969,12 @@ export function SettingsView() {
                 </span>
                 <div className="pt-0.5">
                   <a
-                    href="https://wa.me/?text=Hola!%20Quiero%20coordinar%20el%20pago%20de%20la%20suscripci%C3%B3n%20mensual%20de%20Tu%20Agenda%20Lista%20($45.000/mes)."
+                    href={SUBSCRIPTION_WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-700 hover:text-emerald-950 underline"
                   >
+                    <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     <span>Coordinar suscripción por WhatsApp</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
@@ -1319,11 +1328,11 @@ export function SettingsView() {
                   </button>
 
                   <a
-                    href="https://wa.me/"
+                    href={SUPPORT_WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs font-black text-emerald-900 hover:text-emerald-950 flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-colors cursor-pointer"
-                    title="Abrir soporte técnico por WhatsApp"
+                    title="Abrir soporte técnico por WhatsApp con Iris Quiroz"
                   >
                     <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
                     <span>Soporte Técnico</span>
