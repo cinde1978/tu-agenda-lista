@@ -39,7 +39,8 @@ import {
   getTodayDateString,
 } from '../utils/initialData';
 
-const LOCAL_STORAGE_KEY = 'tu_agenda_lista_data_v2';
+const LOCAL_STORAGE_KEY = 'tu_agenda_lista_data_v3';
+const PREV_LOCAL_STORAGE_KEY = 'tu_agenda_lista_data_v2';
 
 interface LocalStoredState {
   business: Business;
@@ -169,7 +170,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     // Load local storage
     try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      let stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!stored) {
+        stored = localStorage.getItem(PREV_LOCAL_STORAGE_KEY);
+      }
+
       if (stored) {
         const parsed: LocalStoredState = JSON.parse(stored);
         if (parsed.business) {
@@ -191,12 +196,45 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             parsed.business.tagline = 'Desarrollado por Iris Quiroz';
           }
         }
-        setBusiness(parsed.business);
-        setServices(parsed.services || []);
-        setStaff(parsed.staff || []);
-        setClients(parsed.clients || []);
-        setAppointments(parsed.appointments || []);
-        setCashMovements(parsed.cashMovements || []);
+
+        // Filter out any legacy hair salon or barber services
+        const isHairSalon = (name: string, category: string) => {
+          const n = (name || '').toLowerCase();
+          const c = (category || '').toLowerCase();
+          return (
+            c.includes('peluquer') ||
+            c.includes('barber') ||
+            n.includes('corte') ||
+            n.includes('balayage') ||
+            n.includes('peinado') ||
+            n.includes('barba') ||
+            n.includes('coloración') ||
+            n.includes('brushing')
+          );
+        };
+
+        let validServices = (parsed.services || []).filter((s) => !isHairSalon(s.name, s.category));
+        if (validServices.length === 0) {
+          validServices = getDefaultServices('biz_local_active');
+        }
+
+        let validStaff = parsed.staff || [];
+        const hasAestheticStaff = validStaff.some((st) =>
+          ['Camila Rossi', 'Valeria Gómez', 'Lucas Medina'].includes(st.name)
+        );
+        const onlyHasOldSampleStaff = validStaff.length > 0 && validStaff.every((st) =>
+          ['Valentina Rivas', 'Lucía Fernández', 'Mateo Benítez'].includes(st.name)
+        );
+        if (validStaff.length === 0 || (onlyHasOldSampleStaff && !hasAestheticStaff)) {
+          validStaff = getDefaultStaff('biz_local_active');
+        }
+
+        setBusiness(parsed.business || getDefaultBusiness('local_owner', 'Tu Agenda Lista'));
+        setServices(validServices);
+        setStaff(validStaff);
+        setClients(parsed.clients || getDefaultClients('biz_local_active'));
+        setAppointments(parsed.appointments && parsed.appointments.length > 0 ? parsed.appointments : getDefaultAppointments('biz_local_active'));
+        setCashMovements(parsed.cashMovements && parsed.cashMovements.length > 0 ? parsed.cashMovements : getDefaultCashMovements('biz_local_active'));
         setIsDemoMode(false);
         setIsLoadingData(false);
         return;

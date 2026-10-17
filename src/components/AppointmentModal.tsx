@@ -247,7 +247,7 @@ export function AppointmentModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-2xl border-2 border-slate-300 w-full max-w-xl max-h-[85vh] flex flex-col my-auto overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-2xl shadow-2xl border-2 border-slate-300 w-full max-w-xl max-h-[90vh] overflow-y-auto flex flex-col my-auto animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="bg-[#1E3A8A] p-4 sm:p-5 text-white flex items-center justify-between shrink-0 border-b border-blue-900">
           <div className="flex items-center gap-3">
@@ -608,7 +608,7 @@ export function AppointmentModal({
         </form>
 
         {/* Bottom Action Footer - ALWAYS VISIBLE with Cancelar and Guardar Turno */}
-        <div className="p-4 sm:px-6 bg-slate-50 border-t-2 border-slate-300 flex items-center justify-end gap-3 shrink-0 shadow-lg">
+        <div className="sticky bottom-0 bg-white p-4 border-t z-10 flex items-center justify-end gap-3 shrink-0">
           <button
             type="button"
             onClick={onClose}

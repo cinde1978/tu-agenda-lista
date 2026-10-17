@@ -42,10 +42,7 @@ const SERVICE_CATEGORY_PRESETS = [
   'Estética Corporal',
   'Cosmetología',
   'Masajes',
-  'Manicuría',
-  'Pestañas & Cejas',
-  'Depilación Láser & Definitiva',
-  'Consultorio & Salud',
+  'Manicuría & Pestañas',
   'General',
 ];
 
@@ -192,11 +189,11 @@ export function SettingsView() {
 
   // Replace / Clear Sample Staff
   const handleClearSampleStaff = async () => {
-    if (confirm('¿Eliminar todos los profesionales de muestra precargados (Valentina, Lucía, Mateo) para dejar solo los de tu salón?')) {
+    if (confirm('¿Eliminar los profesionales de muestra precargados para dejar únicamente tu propio equipo de estética?')) {
       for (const member of staff) {
         if (
           member.id.startsWith('stf_sample') ||
-          ['Valentina Rivas', 'Lucía Fernández', 'Mateo Benítez'].includes(member.name)
+          ['Camila Rossi', 'Valeria Gómez', 'Lucas Medina', 'Valentina Rivas', 'Lucía Fernández', 'Mateo Benítez'].some((n) => member.name.includes(n))
         ) {
           await deleteStaff(member.id);
         }
@@ -206,23 +203,20 @@ export function SettingsView() {
 
   // Replace / Clear Sample Services
   const handleClearSampleServices = async () => {
-    if (confirm('¿Eliminar los servicios de muestra para cargar únicamente tu propia lista de precios y tratamientos?')) {
+    if (confirm('¿Eliminar los servicios de muestra para cargar únicamente tu propia lista de tratamientos y precios?')) {
       for (const srv of services) {
         if (
           srv.id.startsWith('srv_sample') ||
           [
+            'Limpieza Facial Profunda',
+            'Lifting de Pestañas + Tinte',
+            'Semipermanente con Kapping',
+            'Masaje Descontracturante / Relajante',
+            'Tratamiento Corporal Reductor / Modelador',
             'Corte & Peinado',
             'Coloración Completa / Balayage',
-            'Limpieza Facial Profunda',
-            'Masaje Descontracturante & Relajante',
-            'Tratamiento Corporal Reductor',
-            'Peeling Químico & Renovación',
-            'Drenaje Linfático Manual',
-            'Manicuría Rusa & Semipermanente',
-            'Manicuría Rusa & Esmaltado Semipermanente',
-            'Pedicuría Spa Completa',
-            'Perfilado & Laminado de Cejas',
-          ].includes(srv.name)
+            'Perfilado de Barba',
+          ].some((n) => srv.name.includes(n))
         ) {
           await deleteService(srv.id);
         }
@@ -274,13 +268,23 @@ export function SettingsView() {
   };
 
   const hasSampleStaff = staff.some(
-    (s) => s.id.startsWith('stf_sample') || ['Valentina Rivas', 'Lucía Fernández', 'Mateo Benítez'].includes(s.name)
+    (s) =>
+      s.id.startsWith('stf_sample') ||
+      ['Camila Rossi', 'Valeria Gómez', 'Lucas Medina', 'Valentina Rivas', 'Lucía Fernández', 'Mateo Benítez'].some((n) => s.name.includes(n))
   );
 
   const hasSampleServices = services.some(
     (s) =>
       s.id.startsWith('srv_sample') ||
-      ['Corte & Peinado', 'Coloración Completa / Balayage', 'Manicuría Rusa & Esmaltado Semipermanente'].includes(s.name)
+      [
+        'Limpieza Facial Profunda',
+        'Lifting de Pestañas + Tinte',
+        'Semipermanente con Kapping',
+        'Masaje Descontracturante / Relajante',
+        'Tratamiento Corporal Reductor / Modelador',
+        'Corte',
+        'Balayage',
+      ].some((n) => s.name.includes(n))
   );
 
   const serviceCategories = ['todos', ...Array.from(new Set(services.map((s) => s.category)))];

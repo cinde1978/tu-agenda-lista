@@ -14,10 +14,7 @@ const CATEGORIES = [
   'Estética Corporal',
   'Cosmetología',
   'Masajes',
-  'Manicuría',
-  'Pestañas & Cejas',
-  'Depilación',
-  'Consultorio & Salud',
+  'Manicuría & Pestañas',
   'Otro',
 ];
 
@@ -84,7 +81,7 @@ export function ServiceModal({ serviceToEdit, onClose, onSaved }: ServiceModalPr
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
         <div className="bg-gradient-to-r from-blue-700 to-sky-600 p-5 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-xs">
@@ -209,7 +206,7 @@ export function ServiceModal({ serviceToEdit, onClose, onSaved }: ServiceModalPr
             </label>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t-2 border-slate-200">
+          <div className="sticky bottom-0 bg-white p-4 border-t z-10 flex items-center justify-end gap-3 -mx-6 -mb-6">
             <button
               type="button"
               onClick={onClose}
