@@ -16,9 +16,9 @@ import {
   Clock,
   Building2,
   CheckCircle2,
-  Filter,
   Download,
-  Receipt
+  Receipt,
+  Layers
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { formatCurrency, formatDateSpanishLong } from '../../utils/formatters';
@@ -34,10 +34,9 @@ export function CashView() {
     deleteCashMovement,
     selectedBranch,
     setSelectedBranch,
-    branches,
   } = useApp();
 
-  // Date filters
+  // Date and branch states
   const [selectedDate, setSelectedDate] = useState(() => getTodayDateString());
   const [viewScope, setViewScope] = useState<'dia' | 'todos'>('dia');
   const [activeTab, setActiveTab] = useState<'todos' | 'ingresos' | 'gastos'>('todos');
@@ -52,19 +51,19 @@ export function CashView() {
     setIsModalOpen(true);
   };
 
-  // 1. Filter by branch (all or specific)
+  // 1. Filter movements by selected branch (all or specific)
   const branchMovements = useMemo(() => {
     if (branchFilter === 'todas') return allCashMovements;
     return allCashMovements.filter((m) => (m.branchId || 'sucursal_1') === branchFilter);
   }, [allCashMovements, branchFilter]);
 
-  // 2. Filter by date scope
+  // 2. Filter movements by date scope
   const scopedMovements = useMemo(() => {
     if (viewScope === 'todos') return branchMovements;
     return branchMovements.filter((m) => m.date === selectedDate);
   }, [branchMovements, viewScope, selectedDate]);
 
-  // 3. Filter by type (todos / ingresos / gastos)
+  // 3. Tab filter: todos / ingresos / gastos
   const filteredMovements = useMemo(() => {
     if (activeTab === 'todos') return scopedMovements;
     if (activeTab === 'ingresos') return scopedMovements.filter((m) => m.type === 'ingreso');
@@ -117,7 +116,7 @@ export function CashView() {
     return breakdown;
   }, [scopedMovements]);
 
-  // Date handlers
+  // Date navigation handlers
   const handleShiftDate = (days: number) => {
     setViewScope('dia');
     const [y, m, d] = selectedDate.split('-').map(Number);
@@ -168,10 +167,13 @@ export function CashView() {
   const isTodayActive = viewScope === 'dia' && selectedDate === getTodayDateString();
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
-      {/* 1. Header Principal y Controles de Sucursal y Fecha */}
-      <div className="bg-white p-5 sm:p-6 rounded-2xl border-2 border-slate-300 shadow-sm space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div className="space-y-6 max-w-7xl mx-auto pb-16">
+      {/* ============================================================== */}
+      {/* 1. CONTENEDOR SUPERIOR: HEADER, ACCIONES, FILTROS Y TARJETAS */}
+      {/* ============================================================== */}
+      <div className="bg-white p-5 sm:p-6 rounded-2xl border-2 border-slate-300 shadow-sm space-y-6">
+        {/* Fila 1: Título y Botón Principal + REGISTRAR MOVIMIENTO */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex flex-wrap items-center gap-2.5">
               <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight">
@@ -191,50 +193,31 @@ export function CashView() {
             </p>
           </div>
 
-          {/* Quick Action Buttons Header */}
-          <div className="flex flex-wrap items-center gap-2">
+          {/* Botón Destacado + REGISTRAR MOVIMIENTO */}
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             <button
               type="button"
               onClick={() => openMovementModal('ingreso')}
-              className="px-3.5 py-2.5 bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white rounded-xl text-xs font-black flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+              className="px-5 py-3 bg-[#1E3A8A] hover:bg-[#172554] active:scale-95 text-white rounded-xl text-sm font-black flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+              title="Registrar un nuevo movimiento de caja (Ingreso o Gasto)"
             >
-              <ArrowDownLeft className="w-4 h-4" />
-              <span>+ Registrar Ingreso</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => openMovementModal('gasto')}
-              className="px-3.5 py-2.5 bg-rose-700 hover:bg-rose-800 active:scale-95 text-white rounded-xl text-xs font-black flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
-            >
-              <ArrowUpRight className="w-4 h-4" />
-              <span>- Registrar Gasto</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => openMovementModal('ingreso')}
-              className="px-4 py-2.5 bg-[#1E3A8A] hover:bg-[#172554] active:scale-95 text-white rounded-xl text-xs font-black flex items-center gap-1.5 shadow-md transition-all cursor-pointer"
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>REGISTRAR MOVIMIENTO</span>
+              <Plus className="w-5 h-5 stroke-[3]" />
+              <span>+ REGISTRAR MOVIMIENTO</span>
             </button>
           </div>
         </div>
 
-        {/* Filters Bar: Sucursal Filter + Date Navigator */}
-        <div className="pt-3 border-t border-slate-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-          {/* Branch Filter Selector */}
+        {/* Fila 2: Selectores de Sucursal y Selector de Fecha con HOY y Calendario */}
+        <div className="pt-4 border-t border-slate-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          {/* Selectores de Sucursal (Todas / Sucursal 1 / Sucursal 2) */}
           <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-300">
             <span className="text-[11px] font-black text-slate-700 uppercase px-2 hidden sm:inline">
               Sucursal:
             </span>
             <button
               type="button"
-              onClick={() => {
-                setBranchFilter('todas');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+              onClick={() => setBranchFilter('todas')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
                 branchFilter === 'todas'
                   ? 'bg-white text-black shadow-xs border border-slate-300'
                   : 'text-slate-700 hover:text-black'
@@ -248,7 +231,7 @@ export function CashView() {
                 setBranchFilter('sucursal_1');
                 setSelectedBranch('sucursal_1');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
                 branchFilter === 'sucursal_1'
                   ? 'bg-white text-black shadow-xs border border-slate-300'
                   : 'text-slate-700 hover:text-black'
@@ -262,7 +245,7 @@ export function CashView() {
                 setBranchFilter('sucursal_2');
                 setSelectedBranch('sucursal_2');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
                 branchFilter === 'sucursal_2'
                   ? 'bg-white text-black shadow-xs border border-slate-300'
                   : 'text-slate-700 hover:text-black'
@@ -272,7 +255,7 @@ export function CashView() {
             </button>
           </div>
 
-          {/* Date Selector and Dynamic HOY Filter */}
+          {/* Selector de Fecha con HOY y Calendario */}
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-300">
               <button
@@ -287,7 +270,7 @@ export function CashView() {
               <button
                 type="button"
                 onClick={handleSetToday}
-                className={`px-3 py-1 text-xs font-black rounded-lg transition-all cursor-pointer ${
+                className={`px-3.5 py-1 text-xs font-black rounded-lg transition-all cursor-pointer ${
                   isTodayActive
                     ? 'bg-[#1E3A8A] text-white shadow-xs'
                     : 'text-slate-900 bg-white hover:bg-slate-200 border border-slate-300'
@@ -316,6 +299,7 @@ export function CashView() {
                   setViewScope('dia');
                 }}
                 className="text-xs p-2 rounded-xl border-2 border-slate-300 bg-white font-black text-black outline-none focus:border-black"
+                title="Seleccionar fecha específica en el calendario"
               />
             </div>
 
@@ -332,150 +316,154 @@ export function CashView() {
             </button>
           </div>
         </div>
+
+        {/* ============================================================== */}
+        {/* TARJETAS DE RESUMEN (ARRIBA): LOS 3 BLOQUES PRINCIPALES       */}
+        {/* ============================================================== */}
+        <div className="pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* 1. GASTOS DEL DÍA */}
+            <div className="bg-rose-50/60 p-5 rounded-2xl border-2 border-rose-200 shadow-xs flex items-center justify-between">
+              <div>
+                <span className="text-xs font-black text-rose-800 uppercase tracking-wider block mb-1">
+                  Gastos del Día
+                </span>
+                <div className="text-2xl sm:text-3xl font-black text-rose-900 tracking-tight">
+                  {formatCurrency(totalExpenses, business?.currency)}
+                </div>
+                <span className="text-xs text-rose-700 font-bold mt-1 block">
+                  (Insumos y servicios)
+                </span>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-white text-rose-600 border border-rose-300 flex items-center justify-center shrink-0 shadow-xs">
+                <ArrowUpRight className="w-6 h-6 stroke-[2.5]" />
+              </div>
+            </div>
+
+            {/* 2. SALDOS POR COBRAR */}
+            <div className="bg-amber-50/60 p-5 rounded-2xl border-2 border-amber-200 shadow-xs flex items-center justify-between">
+              <div>
+                <span className="text-xs font-black text-amber-900 uppercase tracking-wider block mb-1">
+                  Saldos Por Cobrar
+                </span>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                  {formatCurrency(pendingBalances, business?.currency)}
+                </div>
+                <span className="text-xs text-amber-800 font-bold mt-1 block">
+                  (De turnos de este día)
+                </span>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-white text-amber-600 border border-amber-300 flex items-center justify-center shrink-0 shadow-xs">
+                <Clock className="w-6 h-6 stroke-[2.5]" />
+              </div>
+            </div>
+
+            {/* 3. INGRESOS DEL DÍA */}
+            <div className="bg-emerald-50/60 p-5 rounded-2xl border-2 border-emerald-200 shadow-xs flex items-center justify-between">
+              <div>
+                <span className="text-xs font-black text-emerald-800 uppercase tracking-wider block mb-1">
+                  Ingresos del Día
+                </span>
+                <div className="text-2xl sm:text-3xl font-black text-emerald-900 tracking-tight">
+                  {formatCurrency(totalIncome, business?.currency)}
+                </div>
+                <span className="text-xs text-emerald-700 font-bold mt-1 block">
+                  (Cobros de turnos + señas)
+                </span>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-white text-emerald-600 border border-emerald-300 flex items-center justify-center shrink-0 shadow-xs">
+                <ArrowDownLeft className="w-6 h-6 stroke-[2.5]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Balance Neto & Atajos adicionales */}
+          <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-blue-100 text-[#1E3A8A]">
+                <Wallet className="w-5 h-5 stroke-[2.5]" />
+              </div>
+              <div>
+                <span className="text-[11px] font-black text-slate-600 uppercase tracking-wider block">
+                  Balance Neto (Ingresos menos Gastos)
+                </span>
+                <div className={`text-xl font-black ${netBalance >= 0 ? 'text-[#1E3A8A]' : 'text-rose-700'}`}>
+                  {formatCurrency(netBalance, business?.currency)}
+                </div>
+              </div>
+            </div>
+
+            {/* Atajos de registro rápido */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => openMovementModal('ingreso')}
+                className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-black transition-colors cursor-pointer"
+              >
+                + Ingreso Rápido
+              </button>
+              <button
+                type="button"
+                onClick={() => openMovementModal('gasto')}
+                className="px-3 py-1.5 bg-rose-700 hover:bg-rose-800 text-white rounded-lg text-xs font-black transition-colors cursor-pointer"
+              >
+                - Gasto Rápido
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Desglose de Medios de Pago */}
+        <div className="pt-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <span className="text-[11px] text-slate-700 block font-bold">Efectivo</span>
+              <span className="font-black text-slate-900 text-sm">
+                {formatCurrency(incomeByMethod.efectivo || 0, business?.currency)}
+              </span>
+            </div>
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <span className="text-[11px] text-slate-700 block font-bold">Transferencia</span>
+              <span className="font-black text-slate-900 text-sm">
+                {formatCurrency(incomeByMethod.transferencia || 0, business?.currency)}
+              </span>
+            </div>
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <span className="text-[11px] text-slate-700 block font-bold">Mercado Pago</span>
+              <span className="font-black text-slate-900 text-sm">
+                {formatCurrency(incomeByMethod.mercadopago || 0, business?.currency)}
+              </span>
+            </div>
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <span className="text-[11px] text-slate-700 block font-bold">Tarjeta</span>
+              <span className="font-black text-slate-900 text-sm">
+                {formatCurrency(incomeByMethod.tarjeta || 0, business?.currency)}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Date badge info */}
-      <div className="flex items-center justify-between text-xs text-slate-700 px-1 font-bold">
-        <span className="capitalize">
-          {viewScope === 'dia'
-            ? `Mostrando arqueo para: ${formatDateSpanishLong(selectedDate)}`
-            : 'Mostrando todo el historial de movimientos de caja'}
-        </span>
-        <span>
-          {scopedMovements.length} movimientos ({scopedMovements.filter((m) => m.type === 'ingreso').length} ingresos /{' '}
-          {scopedMovements.filter((m) => m.type === 'gasto').length} gastos)
-        </span>
-      </div>
-
-      {/* 2. KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Ingresos */}
-        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-black text-emerald-800 uppercase tracking-wider block mb-1">
-              Ingresos del Día
-            </span>
-            <div className="text-2xl sm:text-3xl font-black text-emerald-900 tracking-tight">
-              {formatCurrency(totalIncome, business?.currency)}
-            </div>
-            <span className="text-[11px] text-slate-600 font-bold mt-1 block">
-              Cobros de turnos + señas + extras
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-300 flex items-center justify-center shrink-0 shadow-xs">
-            <ArrowDownLeft className="w-6 h-6 stroke-[2.5]" />
-          </div>
-        </div>
-
-        {/* Total Gastos */}
-        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-black text-rose-800 uppercase tracking-wider block mb-1">
-              Gastos del Día
-            </span>
-            <div className="text-2xl sm:text-3xl font-black text-rose-900 tracking-tight">
-              {formatCurrency(totalExpenses, business?.currency)}
-            </div>
-            <span className="text-[11px] text-slate-600 font-bold mt-1 block">
-              Insumos, alquiler y servicios
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-700 border border-rose-300 flex items-center justify-center shrink-0 shadow-xs">
-            <ArrowUpRight className="w-6 h-6 stroke-[2.5]" />
-          </div>
-        </div>
-
-        {/* Balance Neto */}
-        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-black text-slate-900 uppercase tracking-wider block mb-1">
-              Balance Neto
-            </span>
-            <div
-              className={`text-2xl sm:text-3xl font-black tracking-tight ${
-                netBalance >= 0 ? 'text-[#1E3A8A]' : 'text-rose-700'
-              }`}
-            >
-              {formatCurrency(netBalance, business?.currency)}
-            </div>
-            <span className="text-[11px] text-slate-600 font-bold mt-1 block">
-              Ingresos menos gastos
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#1E3A8A] border border-blue-200 flex items-center justify-center shrink-0 shadow-xs">
-            <Wallet className="w-6 h-6 stroke-[2.5]" />
-          </div>
-        </div>
-
-        {/* Saldos pendientes por cobrar */}
-        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-black text-slate-900 uppercase tracking-wider block mb-1">
-              Saldos por Cobrar
-            </span>
-            <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              {formatCurrency(pendingBalances, business?.currency)}
-            </div>
-            <span className="text-[11px] text-slate-600 font-bold mt-1 block">
-              Restante turnos {viewScope === 'dia' ? 'de este día' : 'activos'}
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-900 border border-slate-300 flex items-center justify-center shrink-0 shadow-xs">
-            <Clock className="w-6 h-6 stroke-[2.5]" />
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Desglose por Medio de Pago */}
-      <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs space-y-3">
-        <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-2">
-          <CreditCard className="w-4 h-4 text-[#1E3A8A]" />
-          <span>Desglose de Ingresos por Medio de Pago</span>
-        </h4>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span className="text-[11px] text-slate-700 block font-bold">Efectivo</span>
-            <span className="font-black text-slate-900 text-sm">
-              {formatCurrency(incomeByMethod.efectivo || 0, business?.currency)}
-            </span>
-          </div>
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span className="text-[11px] text-slate-700 block font-bold">Transferencia</span>
-            <span className="font-black text-slate-900 text-sm">
-              {formatCurrency(incomeByMethod.transferencia || 0, business?.currency)}
-            </span>
-          </div>
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span className="text-[11px] text-slate-700 block font-bold">Mercado Pago</span>
-            <span className="font-black text-slate-900 text-sm">
-              {formatCurrency(incomeByMethod.mercadopago || 0, business?.currency)}
-            </span>
-          </div>
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span className="text-[11px] text-slate-700 block font-bold">Tarjeta</span>
-            <span className="font-black text-slate-900 text-sm">
-              {formatCurrency(incomeByMethod.tarjeta || 0, business?.currency)}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 4. Módulo de Resumen de Caja Diaria & Tabla de Movimientos */}
+      {/* ============================================================== */}
+      {/* 2. SECCIÓN INFERIOR DE TABLA: "Mostrando Arqueo Para: [Fecha]" */}
+      {/* ============================================================== */}
       <div className="bg-white rounded-2xl border-2 border-slate-300 shadow-xs overflow-hidden">
-        {/* Table Header Bar with Tabs and Explicit Action Buttons */}
+        {/* Cabecera de la Tabla */}
         <div className="p-4 sm:p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-50/70">
           <div>
-            <h3 className="text-base font-black text-slate-900 tracking-tight flex items-center gap-2">
+            <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
               <Receipt className="w-5 h-5 text-[#1E3A8A]" />
-              <span>Resumen de Caja del Día</span>
+              <span>
+                Mostrando Arqueo Para: {viewScope === 'dia' ? formatDateSpanishLong(selectedDate) : 'Historial Completo'}
+              </span>
             </h3>
             <p className="text-xs text-slate-600 font-semibold mt-0.5">
-              Registro detallado de movimientos (Fecha, Detalle, Importe, Medio de Pago, Estado y Sucursal)
+              Desglose detallado de los movimientos (Fecha, Detalle, Importe, Medio de Pago, Estado y Sucursal)
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {/* Type Filter Buttons */}
+            {/* Pestañas de filtrado: Todos / Ingresos / Gastos */}
             <div className="flex items-center bg-white p-1 rounded-xl border border-slate-300">
               <button
                 type="button"
@@ -506,7 +494,7 @@ export function CashView() {
               </button>
             </div>
 
-            {/* Direct Action: Exportar CSV */}
+            {/* Descargar CSV / Excel */}
             <button
               type="button"
               onClick={handleExportCSV}
@@ -515,20 +503,10 @@ export function CashView() {
             >
               <Download className="w-4 h-4" />
             </button>
-
-            {/* Direct Action: Registrar Movimiento */}
-            <button
-              type="button"
-              onClick={() => openMovementModal('ingreso')}
-              className="px-3 py-1.5 bg-[#1E3A8A] hover:bg-[#172554] active:scale-95 text-white rounded-xl text-xs font-black flex items-center gap-1 shadow-sm transition-all cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5 stroke-[3]" />
-              <span>Registrar Movimiento</span>
-            </button>
           </div>
         </div>
 
-        {/* Table Content */}
+        {/* Contenido de la Tabla */}
         {filteredMovements.length === 0 ? (
           <div className="text-center py-12 p-6 space-y-3">
             <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center">
@@ -536,10 +514,10 @@ export function CashView() {
             </div>
             <div>
               <p className="text-sm font-bold text-slate-800">
-                No hay movimientos registrados para este criterio
+                No hay movimientos registrados para este día / filtro
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Utiliza los botones a continuación para asentar un ingreso o gasto en la sucursal seleccionada.
+                Utiliza el botón "+ REGISTRAR MOVIMIENTO" para asentar ingresos o gastos.
               </p>
             </div>
             <div className="flex items-center justify-center gap-3 pt-2">
@@ -561,14 +539,14 @@ export function CashView() {
           </div>
         ) : (
           <>
-            {/* Desktop Full Table */}
+            {/* Tabla para Desktop */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-100/70 text-[11px] font-black text-slate-800 uppercase tracking-wider">
                     <th className="py-3 px-4">Fecha</th>
                     <th className="py-3 px-4">Tipo</th>
-                    <th className="py-3 px-4">Detalle / Concepto</th>
+                    <th className="py-3 px-4">Detalle</th>
                     <th className="py-3 px-4">Importe</th>
                     <th className="py-3 px-4">Medio de Pago</th>
                     <th className="py-3 px-4">Sucursal</th>
@@ -663,7 +641,7 @@ export function CashView() {
               </table>
             </div>
 
-            {/* Mobile Card Layout */}
+            {/* Tarjetas para Pantallas Móviles */}
             <div className="md:hidden divide-y divide-slate-200">
               {filteredMovements.map((mov) => {
                 const isIncome = mov.type === 'ingreso';
