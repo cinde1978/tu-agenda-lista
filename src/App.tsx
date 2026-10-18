@@ -69,7 +69,7 @@ function MainAppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex text-[#0F172A] font-sans antialiased">
+    <div className="min-h-screen bg-[#0B0F17] flex text-slate-100 font-sans antialiased">
       {/* Desktop Sidebar */}
       <Sidebar
         currentTab={currentTab}
@@ -207,22 +207,22 @@ function MainAppContent() {
         </main>
 
         {/* Footer (Professional Whitelabel SaaS - Fixed & Protected Iris Quiroz Credits) */}
-        <footer className="no-print mt-auto border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-500">
+        <footer className="no-print mt-auto border-t border-slate-800/80 bg-[#0E1420] py-4 px-6 text-center text-xs text-slate-400">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-              <strong className="text-slate-900 font-bold">{business?.name || 'Tu Agenda Lista'}</strong>
-              <span className="text-slate-300">© {new Date().getFullYear()}</span>
-              <span className="text-slate-400 hidden sm:inline">·</span>
-              <span className="text-slate-700 font-medium">
-                Desarrollado por <strong className="text-slate-900 font-extrabold tracking-tight">Iris Quiroz</strong>
+              <strong className="text-slate-100 font-bold">{business?.name || 'Tu Agenda Lista'}</strong>
+              <span className="text-slate-600">© {new Date().getFullYear()}</span>
+              <span className="text-slate-600 hidden sm:inline">·</span>
+              <span className="text-slate-400 font-medium">
+                Desarrollado por <strong className="text-slate-200 font-extrabold tracking-tight">Iris Quiroz</strong>
               </span>
             </div>
             <div className="flex items-center gap-2 text-slate-400 justify-center sm:justify-end">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-300 shadow-2xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-400 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-800 shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Período de Prueba Activo (7 Días Gratis) · $45.000 / mes</span>
               </span>
-              <span className="hidden md:inline text-[11px]">Software SaaS</span>
+              <span className="hidden md:inline text-[11px] text-slate-500">Software SaaS</span>
             </div>
           </div>
         </footer>
