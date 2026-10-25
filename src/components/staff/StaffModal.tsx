@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 export function AgendaStaffView() {
-  // Estado para la sucursal activa (Sucursal 1 o Sucursal 2) de forma independiente
   const [sucursalActiva, setSucursalActiva] = useState<'sucursal-1' | 'sucursal-2'>('sucursal-1');
 
   const [profesionalesStaff, setProfesionalesStaff] = useState<Array<{ id: string; nombre: string; avatar: string }>>(() => {
@@ -48,7 +47,6 @@ export function AgendaStaffView() {
     '19:00', '19:15', '19:30', '19:45'
   ];
 
-  // Citas independientes por sucursal
   const [citasPorSucursal, setCitasPorSucursal] = useState<{ [sucursal: string]: { [key: string]: { cliente: string; servicio: string; duracionMin: number; esInicio: boolean } } }>(() => {
     try {
       const guardadas = localStorage.getItem('soham_citas_por_sucursal_v1');
@@ -85,7 +83,7 @@ export function AgendaStaffView() {
     const clave = `${profId}-${hora}`;
     const citaActual = citas[clave];
 
-    const actualizaCitasSucursal = (nuevosDatos: { [key: string]: any }) => {
+    const actualizaCitasSucursal = (nuevosDatos: Record<string, any>) => {
       setCitasPorSucursal(prev => ({
         ...prev,
         [sucursalActiva]: nuevosDatos
@@ -229,8 +227,18 @@ export function AgendaStaffView() {
 }
 
 export default AgendaStaffView;
+  
 
 
+   
+   
+  
+   
+
+     
+       
+          
+   
 
    
  
@@ -252,4 +260,3 @@ export default AgendaStaffView;
             
 
          
-}
